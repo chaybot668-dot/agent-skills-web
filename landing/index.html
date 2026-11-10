@@ -24,8 +24,6 @@
 <meta name="twitter:image" content="img/og-image.jpg">
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2308090A'/%3E%3Crect x='1.5' y='1.5' width='61' height='61' rx='12.5' fill='none' stroke='%23C6A66B' stroke-opacity='.5' stroke-width='3'/%3E%3Cpath d='M21 15h9v27h15v9H21z' fill='%23C6A66B' fill-rule='evenodd'/%3E%3C/svg%3E">
-<link rel="preload" as="image" href="img/bg-hero.webp" media="(min-width:768px)" fetchpriority="high">
-<link rel="preload" as="image" href="img/bg-hero-m.webp" media="(max-width:767px)" fetchpriority="high">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="img/icon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -79,12 +77,6 @@ var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='light
 
 <!-- ============ 02 HERO ============ -->
 <section class="hero" id="home">
-  <div class="hero-bg" aria-hidden="true">
-    <div class="hero-photo" data-parallax="0.08"></div>
-    <div class="orb orb-a" data-parallax="0.14"></div>
-    <div class="orb orb-b" data-parallax="-0.06"></div>
-    <div class="hero-grid"></div>
-  </div>
   <div class="container hero-in">
     <div class="hero-copy">
       <p class="eyebrow reveal" data-i18n data-vi="Nhà giao dịch Futures &amp; CFD chuyên nghiệp">Professional Futures &amp; CFD Trader</p>
@@ -101,25 +93,23 @@ var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='light
     </div>
 
     <div class="hero-visual reveal">
-      <div class="portrait-glow" aria-hidden="true"></div>
-      <div class="hero-globe" aria-hidden="true"></div>
+      
       <figure class="portrait reveal-img" id="portrait">
         <div class="portrait-in">
           <svg class="monogram" viewBox="0 0 64 64" aria-hidden="true"><path d="M21 15h9v27h15v9H21z" fill="currentColor" fill-rule="evenodd"/></svg>
           <span class="mono-t">Lucius Capital</span>
         </div>
       </figure>
-      <div class="chip chip-a glass" data-parallax="-0.05"><small data-i18n data-vi="Thị trường">Markets</small><b>Futures · CFDs</b></div>
-      <div class="chip chip-b glass" data-parallax="-0.09"><small data-i18n data-vi="Đã ghi nhận">On record</small><b data-i18n data-vi="4 prop firm">4 prop firms</b></div>
+      <div class="chip chip-a glass"><small data-i18n data-vi="Thị trường">Markets</small><b>Futures · CFDs</b></div>
+      <div class="chip chip-b glass"><small data-i18n data-vi="Đã ghi nhận">On record</small><b data-i18n data-vi="4 prop firm">4 prop firms</b></div>
     </div>
   </div>
-  <a href="#about" class="scroll-cue" aria-label="Scroll to next section"><span></span></a>
+  
 </section>
 
 <!-- ============ 03 TRADING PROFILE ============ -->
 <section class="section" id="about">
   <div class="amb amb-r" aria-hidden="true"></div>
-  <div class="ab-city" aria-hidden="true"></div>
   <div class="container">
     <header class="sec-head reveal">
       <p class="eyebrow" data-i18n data-vi="Hồ sơ giao dịch">Trading Profile</p>
@@ -165,7 +155,6 @@ var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='light
 <!-- ============ 04 ACHIEVEMENTS ============ -->
 <section class="section alt" id="achievements">
   <div class="amb amb-l" aria-hidden="true"></div>
-  <div class="ach-bar" aria-hidden="true" data-parallax="0.05"></div>
   <div class="container">
     <header class="sec-head reveal">
       <p class="eyebrow" data-i18n data-vi="Thành tựu &amp; Cột mốc">Achievements &amp; Milestones</p>
@@ -232,7 +221,6 @@ var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='light
 <!-- ============ 05 MY TRADING JOURNEY ============ -->
 <section class="section" id="journey">
   <div class="amb amb-r" aria-hidden="true"></div>
-  <div class="jr-bg" data-parallax="0.05" aria-hidden="true"></div>
   <div class="container">
     <header class="sec-head reveal">
       <p class="eyebrow" data-i18n data-vi="Hành trình giao dịch">My Trading Journey</p>
@@ -270,8 +258,6 @@ var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='light
 
 <!-- ============ 06 TRADING PHILOSOPHY ============ -->
 <section class="section philosophy" id="philosophy">
-  <div class="phil-bg" data-parallax="0.06" aria-hidden="true"></div>
-  <div class="phil-queen" data-parallax="0.04" aria-hidden="true"></div>
   <div class="container">
     <p class="eyebrow center-t reveal" data-i18n data-vi="Triết lý giao dịch">Trading Philosophy</p>
     <blockquote class="big-quote reveal" data-i18n data-vi="Tập trung vào hệ thống giao dịch, <em>không phải lợi nhuận hay tỷ lệ thắng.</em>">Focus on the Trading System, <em>Not the Profit or Win Rate.</em></blockquote>
@@ -297,7 +283,6 @@ var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='light
 <!-- ============ 07 MY APPROACH TO THE MARKET ============ -->
 <section class="section alt" id="approach">
   <div class="amb amb-l" aria-hidden="true"></div>
-  <div class="ap-road" aria-hidden="true"></div>
   <div class="container approach">
     <div class="ap-media reveal-img">
       <img src="img/ap-chart.webp" alt="Bitcoin coin in front of a candlestick chart" width="640" height="800" loading="lazy" decoding="async">
@@ -323,8 +308,6 @@ var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='light
 
 <!-- ============ 08 CONNECT ============ -->
 <section class="section connect" id="connect">
-  <div class="connect-bg" data-parallax="0.05" aria-hidden="true"></div>
-  <div class="cn-nugget" data-parallax="0.05" aria-hidden="true"></div>
   <div class="container connect-in">
     <div class="cn-copy">
       <p class="eyebrow reveal" data-i18n data-vi="Kết nối">Connect</p>

@@ -311,15 +311,7 @@ if (hoverOk && !reduce) {
     builders.push(() => {
       track.innerHTML = "";
       const g = document.createElement("div"); g.className = "achv-group"; track.appendChild(g);
-      let guard = 0;
-      do { g.insertAdjacentHTML("beforeend", items); } while (g.scrollWidth < innerWidth * 1.2 && ++guard < 12);
-      const w = g.getBoundingClientRect().width;
-      const g2 = g.cloneNode(true);
-      g2.setAttribute("aria-hidden", "true");
-      $$("button", g2).forEach(b => { b.tabIndex = -1; });
-      track.appendChild(g2);
-      track.style.setProperty("--w", w + "px");
-      track.style.setProperty("--dur", Math.max(w / 55, 20) + "s");
+      g.insertAdjacentHTML("beforeend", items);
     });
   });
   builders.forEach(b => b());
@@ -385,22 +377,6 @@ if (hoverOk && !reduce) {
   paint();
 })();
 
-
-/* ---------- ảnh nền trang trí: tải khi sắp tới màn hình, bỏ qua ở Light Mode ---------- */
-(function lazyBackgrounds() {
-  const els = $$(".ach-bar,.jr-bg,.ap-road,.ab-city,.phil-bg,.phil-queen,.connect-bg,.cn-nugget");
-  const dark = () => document.documentElement.getAttribute("data-theme") !== "light";
-  const pending = new Set(els);
-  const io = "IntersectionObserver" in window ? new IntersectionObserver(es => es.forEach(e => {
-    if (!e.isIntersecting || !dark()) return;
-    e.target.classList.add("bg-ready"); pending.delete(e.target); io.unobserve(e.target);
-  }), { rootMargin: "800px 0px" }) : null;
-  if (!io) { els.forEach(e => e.classList.add("bg-ready")); return; }
-  els.forEach(e => io.observe(e));
-  // đổi sang Dark sau khi đang ở Light: quan sát lại
-  new MutationObserver(() => { if (dark()) pending.forEach(e => { io.unobserve(e); io.observe(e); }); })
-    .observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-})();
 
 /* ---------- PWA: chỉ đăng ký khi chạy qua https/localhost; trang vẫn dùng bình thường nếu không có ---------- */
 if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {

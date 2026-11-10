@@ -277,8 +277,6 @@ html[lang=en] .lang [data-l=en],html[lang=vi] .lang [data-l=vi]{opacity:1;color:
 /* ---------- hero ---------- */
 .hero{position:relative;min-height:100svh;display:flex;align-items:center;padding:calc(var(--nav-h) + 40px) 0 90px;overflow:hidden;isolation:isolate;background:var(--hero-bg)}
 .hero-bg{position:absolute;inset:0;z-index:-1;pointer-events:none}
-.hero-photo{position:absolute;inset:-6% 0;background:url(img/bg-hero.webp) center/cover no-repeat;opacity:var(--photo-op);mix-blend-mode:var(--photo-blend);
-  -webkit-mask-image:linear-gradient(90deg,transparent 12%,#000 70%);mask-image:linear-gradient(90deg,transparent 12%,#000 70%)}
 .orb{position:absolute;border-radius:50%;filter:blur(60px);opacity:var(--deco)}
 .orb-a{width:560px;height:560px;right:-120px;top:4%;background:var(--orb-a);opacity:1}
 .orb-b{width:520px;height:520px;left:-180px;bottom:-12%;background:var(--orb-b)}
@@ -293,8 +291,6 @@ html[lang=en] .lang [data-l=en],html[lang=vi] .lang [data-l=vi]{opacity:1;color:
 
 .hero-visual{position:relative;display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;align-items:center;width:100%;padding:20px}
 .portrait-glow{position:absolute;inset:6% 2%;border-radius:50%;background:var(--portrait-glow);filter:blur(46px)}
-.hero-globe{position:absolute;right:-30%;top:-24%;width:60%;aspect-ratio:1;background:url(img/emblem-globe.webp) center/contain no-repeat;mix-blend-mode:screen;opacity:calc(var(--deco) * .55);pointer-events:none;animation:globeFloat 14s ease-in-out infinite;
-  -webkit-mask-image:radial-gradient(circle,#000 55%,transparent 72%);mask-image:radial-gradient(circle,#000 55%,transparent 72%)}
 @keyframes globeFloat{50%{transform:translateY(14px) rotate(3deg)}}
 .portrait{position:relative;width:100%;max-width:430px;aspect-ratio:4/5;border-radius:var(--r-lg);padding:1px;
   background:linear-gradient(150deg,#DFCB9F 0%,rgba(198,166,107,.3) 34%,rgba(37,40,43,.55) 62%,#C6A66B 100%);box-shadow:var(--portrait-shadow)}
@@ -331,14 +327,6 @@ html[lang=en] .lang [data-l=en],html[lang=vi] .lang [data-l=vi]{opacity:1;color:
 .sec-cta{display:flex;justify-content:center;margin-top:clamp(40px,5vw,64px)}
 
 /* decorative photo layers (opacity × --deco: ẩn ở Light) */
-.ach-bar{position:absolute;top:-2%;right:-6%;width:min(640px,62%);height:62%;z-index:-1;pointer-events:none;background:var(--u,none) 50% 38%/cover no-repeat;opacity:calc(var(--deco) * .34);filter:blur(1.6px) saturate(.85);
-  -webkit-mask-image:radial-gradient(ellipse at 58% 42%,#000 8%,transparent 68%);mask-image:radial-gradient(ellipse at 58% 42%,#000 8%,transparent 68%)}
-.jr-bg{position:absolute;inset:-6% 0;z-index:-1;pointer-events:none;background:var(--u,none) center 35%/cover no-repeat;opacity:calc(var(--deco) * .3);
-  -webkit-mask-image:radial-gradient(ellipse at 50% 30%,#000 10%,transparent 70%);mask-image:radial-gradient(ellipse at 50% 30%,#000 10%,transparent 70%)}
-.ap-road{position:absolute;inset:0;z-index:-1;pointer-events:none;background:var(--u,none) center/cover no-repeat;opacity:calc(var(--deco) * .16);
-  -webkit-mask-image:linear-gradient(180deg,transparent,#000 30%,#000 70%,transparent);mask-image:linear-gradient(180deg,transparent,#000 30%,#000 70%,transparent)}
-.ab-city{position:absolute;left:0;right:0;bottom:0;height:55%;z-index:-1;pointer-events:none;background:var(--u,none) center bottom/cover no-repeat;opacity:calc(var(--deco) * .26);
-  -webkit-mask-image:linear-gradient(0deg,#000,transparent 85%);mask-image:linear-gradient(0deg,#000,transparent 85%)}
 
 /* ---------- trading profile ---------- */
 .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
@@ -410,10 +398,6 @@ html[lang=en] .lang [data-l=en],html[lang=vi] .lang [data-l=vi]{opacity:1;color:
 
 /* ---------- philosophy ---------- */
 .philosophy{background:var(--phil-bg)}
-.phil-bg{position:absolute;inset:-8% 0;z-index:-1;background:var(--u,none) center/cover no-repeat;opacity:calc(var(--deco) * .28);
-  -webkit-mask-image:radial-gradient(ellipse at 50% 42%,#000 10%,transparent 72%);mask-image:radial-gradient(ellipse at 50% 42%,#000 10%,transparent 72%)}
-.phil-queen{position:absolute;inset:-6% 0;z-index:-1;pointer-events:none;background:var(--u,none) 100% 50%/auto 100% no-repeat;opacity:calc(var(--deco) * .46);
-  -webkit-mask-image:linear-gradient(270deg,#000 4%,transparent 60%);mask-image:linear-gradient(270deg,#000 4%,transparent 60%)}
 .philosophy::after{content:"";position:absolute;inset:0;z-index:-1;background:var(--phil-glow)}
 .big-quote{font-size:clamp(2.1rem,5.2vw,4.5rem);line-height:1.12;text-align:center;max-width:1000px;margin:14px auto clamp(56px,7vw,92px);font-weight:500;color:var(--heading)}
 .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:0 56px}
@@ -437,10 +421,6 @@ html[lang=en] .lang [data-l=en],html[lang=vi] .lang [data-l=vi]{opacity:1;color:
 
 /* ---------- connect ---------- */
 .connect{background:var(--connect-bg)}
-.connect-bg{position:absolute;inset:-8% 0;z-index:-1;background:var(--u,none) center 60%/cover no-repeat;opacity:calc(var(--deco) * .28);
-  -webkit-mask-image:radial-gradient(ellipse at 50% 55%,#000 15%,transparent 72%);mask-image:radial-gradient(ellipse at 50% 55%,#000 15%,transparent 72%)}
-.cn-nugget{position:absolute;left:-5%;bottom:-14%;height:78%;aspect-ratio:2/3;z-index:-1;pointer-events:none;background:var(--u,none) center/cover no-repeat;opacity:calc(var(--deco) * .55);
-  -webkit-mask-image:radial-gradient(ellipse at 45% 45%,#000 18%,transparent 66%);mask-image:radial-gradient(ellipse at 45% 45%,#000 18%,transparent 66%)}
 .connect::after{content:"";position:absolute;inset:0;z-index:-1;background:var(--connect-glow)}
 .connect-in{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(36px,6vw,80px);align-items:center}
 .cn-h{font-size:clamp(2.1rem,4.6vw,3.8rem);margin-bottom:22px}
@@ -552,8 +532,6 @@ html.theme-anim,html.theme-anim *,html.theme-anim *::before,html.theme-anim *::a
   .hero-copy .lead{max-width:46ch}
   .hero-visual{padding:10px}
   .chip-a{left:-6%}.chip-b{right:-4%}
-  .phil-queen{background-position:50% 50%;opacity:calc(var(--deco) * .28);-webkit-mask-image:radial-gradient(ellipse at 50% 50%,#000 10%,transparent 68%);mask-image:radial-gradient(ellipse at 50% 50%,#000 10%,transparent 68%)}
-  .cn-nugget{left:50%;bottom:-6%;height:56%;transform:translateX(-50%);opacity:calc(var(--deco) * .3)}
   .sec-head,.big-quote{max-width:620px}
 }
 
@@ -570,7 +548,6 @@ html.theme-anim,html.theme-anim *,html.theme-anim *::before,html.theme-anim *::a
   .hero-in{grid-template-columns:1fr;gap:34px}
   .hero{align-items:flex-start;padding-top:calc(var(--nav-h) + 26px)}
   .hero-visual{max-width:360px;margin:6px auto 0}
-  .hero-globe{right:-24%;width:70%}
   .cta-row .btn{width:100%}
   .chip{padding:9px 14px}
   .chip-a{left:0;top:0}.chip-b{right:0;bottom:0}
@@ -584,7 +561,6 @@ html.theme-anim,html.theme-anim *,html.theme-anim *::before,html.theme-anim *::a
   .tl-d,.tl:nth-child(even) .tl-d{order:0;text-align:left;font-size:.95rem}
   .tl:nth-child(even) .tl-c{order:0}
   .achv-card img{height:230px}
-  .ach-bar{width:90%;opacity:calc(var(--deco) * .26)}
   .to-top{width:46px;height:46px}
   .tip{display:none}
   .footer{padding-bottom:calc(90px + env(safe-area-inset-bottom))}
@@ -593,7 +569,6 @@ html.theme-anim,html.theme-anim *,html.theme-anim *::before,html.theme-anim *::a
   .nav.scrolled{-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
   .orb,.hero-globe{display:none}
   .amb{filter:none}
-  .hero-photo{background-image:url(img/bg-hero-m.webp)}
 }
 
 /* Mobile 375–479: dùng toàn bộ chiều ngang hợp lý */
@@ -662,14 +637,6 @@ html.theme-anim,html.theme-anim *,html.theme-anim *::before,html.theme-anim *::a
 @media(max-width:767px){.to-top{right:calc(16px + env(safe-area-inset-right));bottom:calc(16px + env(safe-area-inset-bottom))}}
 
 /* ảnh nền trang trí tải theo nhu cầu */
-.ach-bar.bg-ready{--u:url(img/bg-bar.webp)}
-.jr-bg.bg-ready{--u:url(img/bg-journey.webp)}
-.ap-road.bg-ready{--u:url(img/bg-road.webp)}
-.ab-city.bg-ready{--u:url(img/bg-city.webp)}
-.phil-bg.bg-ready{--u:url(img/bg-philosophy.webp)}
-.phil-queen.bg-ready{--u:url(img/bg-queen.webp)}
-.connect-bg.bg-ready{--u:url(img/bg-connect.webp)}
-.cn-nugget.bg-ready{--u:url(img/bg-nugget.webp)}
 .text-link{min-height:44px}
 .foot-nav a,.social a{min-width:44px;justify-content:center}
 .foot-nav a{justify-content:flex-start}
@@ -710,3 +677,122 @@ html.theme-anim,html.theme-anim *,html.theme-anim *::before,html.theme-anim *::a
 [data-theme="dark"]{--line:rgba(191,195,198,.14);--line-soft:rgba(191,195,198,.16);--chip-line:rgba(191,195,198,.24)}
 /* Light: giấy ngà, chữ than chì, vàng champagne */
 [data-theme="light"] .btn-primary{color:#17191B}
+
+
+/* =====================================================================
+   QUIET LUXURY REFINEMENT
+   Ít trang trí, nhiều tỷ lệ và khoảng trống. Nền đen + than chì chiếm phần lớn,
+   vàng chỉ ở nhãn nhỏ và từ nhấn, bạc cho chi tiết, ngà cho nội dung.
+   ===================================================================== */
+[data-theme="dark"]{
+  --surface:#121416; --line-hi:rgba(191,195,198,.28);
+  --body-bg:radial-gradient(900px 520px at 92% -6%,rgba(191,195,198,.05),transparent 65%),#08090A;
+  --hero-bg:radial-gradient(760px 480px at 88% 6%,rgba(191,195,198,.07),transparent 70%),#08090A;
+  --alt-bg:transparent; --phil-bg:transparent; --connect-bg:transparent; --phil-glow:none; --connect-glow:none;
+  --text:#EAE7DF; --heading:#F5F4F0;
+}
+[data-theme="light"]{
+  --surface:#FFFFFF; --line-hi:rgba(23,25,27,.26);
+  --body-bg:#F4F1E9; --hero-bg:#F4F1E9; --alt-bg:transparent; --phil-bg:transparent; --connect-bg:transparent; --phil-glow:none; --connect-glow:none;
+}
+.amb,.hero-grid,.orb,.portrait-glow,.hero::before{display:none!important}
+body::after{opacity:calc(var(--grain) * .6)}
+
+/* chữ: không in hoa tiêu đề, trọng lượng vừa phải */
+html[lang=en] h1,html[lang=en] .cn-h{text-transform:none;letter-spacing:-.018em}
+h1{font-weight:500;font-size:clamp(2.4rem,5vw,4.3rem);line-height:1.08;letter-spacing:-.018em}
+h2{font-weight:500;letter-spacing:-.016em}
+em{background:none;-webkit-text-fill-color:currentColor;color:var(--accent);animation:none;transition:none}
+h1:hover em,h2:hover em,.big-quote:hover em{background-position:0 0}
+.eyebrow{letter-spacing:.2em;color:var(--label)}
+.eyebrow::before{background:var(--accent);width:22px}
+.section{padding:clamp(96px,11vw,170px) 0}
+.sec-head{margin-bottom:clamp(52px,7vw,88px)}
+.section::before{left:8%;right:8%;background:var(--line)}
+
+/* hero: một điểm tập trung, nền gần như đơn sắc */
+.hero{background:var(--hero-bg)}
+.hero::after{background:linear-gradient(transparent,var(--bg))}
+.hero-copy .lead{margin:28px 0 38px;max-width:52ch}
+.portrait{background:var(--line-hi);padding:1px;box-shadow:0 40px 80px -40px rgba(0,0,0,.7)}
+.portrait::before{display:none}
+.portrait-in{background:linear-gradient(160deg,#1b1d1f,#101112)}
+.portrait-in::before{background:none}
+.monogram{filter:none;color:var(--accent)}
+.mono-t{color:var(--label)}
+.tags li{background:none;border-color:var(--line)}
+.scroll-cue{display:none}
+
+/* bề mặt phẳng, bỏ kính, bỏ vệt sáng, bỏ viền phát sáng theo con trỏ */
+.glass{background:var(--surface);-webkit-backdrop-filter:none;backdrop-filter:none;border:1px solid var(--line);box-shadow:0 24px 48px -36px rgba(0,0,0,.6)}
+[data-theme="light"] .glass{box-shadow:0 18px 40px -30px rgba(23,25,27,.22)}
+.glass::before,.glass::after{display:none!important}
+@media(hover:hover){
+  .glass:hover{transform:translateY(-2px);border-color:var(--line-hi);box-shadow:0 28px 52px -34px rgba(0,0,0,.7)}
+  [data-theme="light"] .glass:hover{box-shadow:0 22px 46px -30px rgba(23,25,27,.28)}
+}
+.glass.chip{background:var(--surface)}
+.card h3::after{display:none}
+.card h3{padding-bottom:0}
+.ico{background:none;border:1px solid var(--line);box-shadow:none;color:var(--label)}
+.card:hover .ico{color:var(--accent);border-color:var(--line-hi)}
+
+/* nút: phẳng, không phát sáng, không quét sáng */
+.btn::after{display:none}
+.btn-primary{background:#EAE7DF;background-image:none;color:#08090A;border:1px solid #EAE7DF;box-shadow:none}
+.btn-primary:hover{background:#F5F4F0;background-image:none;color:#08090A;border-color:#F5F4F0;box-shadow:none;transform:translateY(-1px)}
+[data-theme="light"] .btn-primary{background:#17191B;border-color:#17191B;color:#F5F4F0}
+[data-theme="light"] .btn-primary:hover{background:#2a2d30;border-color:#2a2d30;color:#F5F4F0}
+.btn-ghost{background:none;color:var(--heading);border-color:var(--line-hi);box-shadow:none}
+.btn-ghost:hover{background:rgba(191,195,198,.06);border-color:var(--label);color:var(--heading);box-shadow:none;transform:translateY(-1px)}
+[data-theme="light"] .btn-ghost:hover{background:rgba(23,25,27,.04)}
+.theme-toggle{background:none;color:var(--label);border-color:var(--line)}
+.theme-toggle:hover{border-color:var(--line-hi);color:var(--heading);box-shadow:none}
+.lang{background:none}
+.progress{background:var(--accent);box-shadow:none;height:1.5px}
+
+/* số liệu: ngà phẳng, đơn vị vàng cổ */
+.stat,.cred{--hl:191,195,198;background:var(--surface);border-color:var(--line);box-shadow:0 24px 48px -36px rgba(0,0,0,.6)}
+.stat:nth-child(1){box-shadow:0 24px 48px -36px rgba(0,0,0,.6)}
+.num,.stat:nth-child(1) .num{background:none;-webkit-text-fill-color:currentColor;color:var(--heading)}
+.cur,.stat:nth-child(1) .cur{color:var(--accent);-webkit-text-fill-color:var(--accent)}
+.cred-firm{background:none;background-image:none;box-shadow:none;color:var(--accent);border:1px solid var(--line-hi)}
+.stat-k{color:var(--label)}
+
+/* dãy chứng nhận: không chạy tự động, tự cuộn tay */
+.achv{overflow-x:auto;-webkit-mask-image:none;mask-image:none;scroll-snap-type:x proximity;scrollbar-width:thin;scrollbar-color:var(--line-hi) transparent;padding:20px 24px 26px}
+.achv-track{animation:none;transform:none!important;margin:0 auto}
+.achv-group{padding-right:0}
+.achv-card{scroll-snap-align:start}
+.achv-card img{box-shadow:0 24px 44px -30px rgba(0,0,0,.8)}
+.achv-card:hover img{box-shadow:0 28px 48px -28px rgba(0,0,0,.85)}
+.achv-cap{background:none;color:var(--label)}
+.achv-cap b,.achv-cap a{color:var(--heading)}
+.proof-h{color:var(--label)}
+
+/* timeline: đường mảnh, mốc ngà */
+.timeline::after{background:var(--accent);box-shadow:none}
+.tl.lit::before{background:var(--heading);border-color:var(--heading);box-shadow:none}
+.tl:nth-child(3) .tl-c,.tl:nth-child(6) .tl-c{border-color:var(--line);background:var(--surface)}
+.tl:nth-child(3).lit::before,.tl:nth-child(6).lit::before{background:var(--accent);border-color:var(--accent);box-shadow:none}
+
+/* philosophy & approach */
+.pillars li:hover{transform:none;border-top-color:var(--label)}
+.pillars span{color:var(--accent)}
+.ph-fig{border-color:var(--line);box-shadow:none}
+.ph-fig figcaption{color:var(--heading)}
+.ph-fig::after{background:linear-gradient(180deg,transparent 55%,rgba(8,9,10,.8))}
+.ap-media{border-color:var(--line);box-shadow:0 40px 80px -50px rgba(0,0,0,.8)}
+.ap-shade{background:linear-gradient(180deg,transparent 40%,rgba(8,9,10,.5))}
+.steps li:hover{transform:none;border-color:var(--line-hi)}
+.steps b{color:var(--accent)}
+
+/* footer & nút nổi */
+.social a:hover{background:none;color:var(--heading);border-color:var(--line-hi)}
+.footer{border-top-color:var(--line)}
+.risk{border-left-color:var(--line-hi)}
+.to-top{background:var(--surface);border-color:var(--line-hi);color:var(--label);box-shadow:0 14px 30px -14px rgba(0,0,0,.7)}
+.to-top:hover,.to-top:focus-visible{background:var(--surface);border-color:var(--label);color:var(--heading);box-shadow:0 14px 30px -14px rgba(0,0,0,.7)}
+.to-top:hover svg{transform:translateY(-2px)}
+.cn-form{border-color:var(--line)}
+.cn-form input:focus,.cn-form textarea:focus{border-color:var(--label);box-shadow:0 0 0 3px rgba(191,195,198,.12)}
