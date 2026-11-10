@@ -802,3 +802,11 @@ h1:hover em,h2:hover em,.big-quote:hover em{background-position:0 0}
 .ap-media img.ap-img.is-on{opacity:1}
 .steps li.dim{opacity:.55}
 @media(prefers-reduced-motion:reduce){.ap-media img.ap-img{transition:none}}
+
+/* nền kiến trúc tối giản: các đường vàng mảnh trên mặt phẳng đen. Chỉ ở Dark; Light dùng nền ngà phẳng */
+.hero-art,.connect-art{position:absolute;z-index:-1;pointer-events:none;background-repeat:no-repeat;opacity:var(--deco)}
+.hero-art{inset:0;background-image:url(img/art-hero.webp);background-size:cover;background-position:right center;
+  -webkit-mask-image:linear-gradient(90deg,transparent 28%,#000 78%);mask-image:linear-gradient(90deg,transparent 28%,#000 78%);filter:opacity(.5)}
+.connect-art{inset:0;background-image:url(img/art-connect.webp);background-size:cover;background-position:center;
+  -webkit-mask-image:radial-gradient(ellipse at 50% 50%,#000 25%,transparent 75%);mask-image:radial-gradient(ellipse at 50% 50%,#000 25%,transparent 75%);filter:opacity(.38)}
+@media(max-width:767px){.hero-art{background-position:70% center;filter:opacity(.3);-webkit-mask-image:linear-gradient(180deg,transparent 30%,#000 90%);mask-image:linear-gradient(180deg,transparent 30%,#000 90%)}.connect-art{filter:opacity(.25)}}
