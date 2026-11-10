@@ -39,6 +39,8 @@
 
 <!-- HERO -->
 <section class="hero">
+  <div class="bg-photo bg-nebula" aria-hidden="true"></div>
+  <div class="stars" aria-hidden="true"></div>
   <canvas id="candles" aria-hidden="true"></canvas>
   <div class="hero-glow"></div>
   <div class="container hero-inner">
@@ -59,7 +61,20 @@
     <small class="note reveal">* Số liệu minh hoạ — thay bằng số liệu thật của bạn.</small>
    </div>
    <div class="hero-visual reveal" aria-hidden="true">
-    <div class="orb orb1"></div><div class="orb orb2"></div>
+    <div class="coin" data-depth="26"><svg viewBox="0 0 200 200" width="100%" height="100%">
+      <defs>
+        <radialGradient id="cg" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#fff2b8"/><stop offset=".35" stop-color="#ffc533"/><stop offset=".75" stop-color="#e06a00"/><stop offset="1" stop-color="#6b2a00"/></radialGradient>
+        <linearGradient id="cr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff6c9"/><stop offset=".5" stop-color="#d98200"/><stop offset="1" stop-color="#ffe27a"/></linearGradient>
+        <linearGradient id="cb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3b0"/><stop offset="1" stop-color="#b85a00"/></linearGradient>
+      </defs>
+      <circle cx="100" cy="100" r="96" fill="url(#cr)"/>
+      <circle cx="100" cy="100" r="88" fill="url(#cg)"/>
+      <circle cx="100" cy="100" r="76" fill="none" stroke="rgba(90,35,0,.55)" stroke-width="3"/>
+      <circle cx="100" cy="100" r="72" fill="none" stroke="rgba(255,240,170,.55)" stroke-width="1.5" stroke-dasharray="2 6"/>
+      <g fill="#7a3200" opacity=".5" transform="translate(2,3)"><path fill-rule="evenodd" d="M82 52h30a22 22 0 0 1 4 43 24 24 0 0 1-6 48H82z M96 66v22h14a11 11 0 0 0 0-22z M96 104v26h16a13 13 0 0 0 0-26z"/><rect x="92" y="40" width="7" height="14"/><rect x="108" y="40" width="7" height="14"/><rect x="92" y="142" width="7" height="14"/><rect x="108" y="142" width="7" height="14"/></g>
+      <g fill="url(#cb)"><path fill-rule="evenodd" d="M82 52h30a22 22 0 0 1 4 43 24 24 0 0 1-6 48H82z M96 66v22h14a11 11 0 0 0 0-22z M96 104v26h16a13 13 0 0 0 0-26z"/><rect x="92" y="40" width="7" height="14"/><rect x="108" y="40" width="7" height="14"/><rect x="92" y="142" width="7" height="14"/><rect x="108" y="142" width="7" height="14"/></g>
+      <path d="M30 70a76 76 0 0 1 90-48" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="4" stroke-linecap="round"/>
+    </svg><i class="spark s1"></i><i class="spark s2"></i></div><div class="orb orb2"></div>
     <div class="terminal" data-depth="8">
       <div class="term-bar"><i></i><i></i><i></i><span>XAU/USD · 1H · Minh hoạ</span><b class="live">● LIVE</b></div>
       <svg viewBox="0 0 480 250" class="chart" preserveAspectRatio="none">
@@ -115,7 +130,8 @@
 </section>
 
 <!-- MARKETS -->
-<section id="thi-truong" class="section alt">
+<section id="thi-truong" class="section alt has-photo">
+  <div class="bg-photo bg-night" aria-hidden="true"></div>
   <div class="container">
     <header class="section-head reveal">
       <p class="eyebrow">Thị trường chuyên môn</p>
@@ -334,6 +350,7 @@
 
 <!-- FINAL CTA -->
 <section class="final">
+  <div class="bg-photo bg-orbit" aria-hidden="true"></div>
   <div class="container center reveal">
     <h2>Sẵn sàng giao dịch <em>nghiêm túc</em>?</h2>
     <p>Mỗi ngày trì hoãn là thêm một ngày giao dịch không có hệ thống.</p>
@@ -357,6 +374,7 @@
     <div class="risk">
       <b>⚠ Cảnh báo rủi ro:</b> Giao dịch Futures và CFDs sử dụng đòn bẩy, có rủi ro cao và có thể gây mất toàn bộ vốn, thậm chí vượt số vốn ban đầu. Không phù hợp với mọi nhà đầu tư. Nội dung trên website chỉ mang tính chia sẻ kiến thức, giáo dục, <u>không phải lời khuyên đầu tư</u> và không cam kết lợi nhuận. Hiệu suất trong quá khứ không đảm bảo kết quả tương lai. Hãy chỉ giao dịch với số tiền bạn có thể chấp nhận mất.
     </div>
+    <p class="credit">Ảnh không gian: NASA, ESA, CSA, STScI (kính James Webb) &amp; NASA ISS — nguồn công cộng. Biểu tượng Bitcoin vẽ riêng.</p>
     <p class="copy">© <span id="year"></span> TÊN BẠN. Bảo lưu mọi quyền. · <a href="#">Chính sách bảo mật</a> · <a href="#">Điều khoản</a></p>
   </div>
 </footer>

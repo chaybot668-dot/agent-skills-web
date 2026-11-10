@@ -225,3 +225,15 @@ addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
     term.style.transform = "";
   });
 })();
+
+/* ===== thị sai nhẹ cho ảnh nền ===== */
+(function photoParallax() {
+  if (reduce) return;
+  const photos = $$(".bg-photo");
+  const run = () => photos.forEach(p => {
+    const r = p.parentElement.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > innerHeight) return;
+    p.style.transform = `translate3d(0,${(r.top + r.height / 2 - innerHeight / 2) * -.09}px,0)`;
+  });
+  addEventListener("scroll", run, { passive: true }); run();
+})();

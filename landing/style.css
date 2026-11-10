@@ -384,3 +384,33 @@ em{white-space:nowrap}
 .chip3{bottom:-4%}
 @media(max-width:640px){.chip2{bottom:26%;right:0}.hero-inner h1 em{white-space:normal}}
 .chip2{bottom:-5%;right:2%;top:auto}@media(max-width:640px){.chip2{bottom:-6%;right:0}}
+
+/* ===== ẢNH VŨ TRỤ & CRYPTO ===== */
+.bg-photo{position:absolute;inset:-8% 0;background-size:cover;background-position:center;pointer-events:none;z-index:0;will-change:transform}
+.bg-nebula{background-image:url(img/nebula.webp);opacity:.55;
+  -webkit-mask-image:linear-gradient(90deg,transparent 15%,#000 65%);mask-image:linear-gradient(90deg,transparent 15%,#000 65%);
+  filter:saturate(1.15) contrast(1.05)}
+.hero .stars{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.7;
+  background-image:radial-gradient(1.5px 1.5px at 20px 30px,#fff,transparent),radial-gradient(1px 1px at 90px 140px,#ffe9a8,transparent),radial-gradient(1.5px 1.5px at 170px 60px,#fff,transparent),radial-gradient(1px 1px at 240px 200px,#ffd34d,transparent);
+  background-size:260px 240px;animation:twinkle 5s ease-in-out infinite;
+  -webkit-mask-image:linear-gradient(180deg,#000,transparent 80%);mask-image:linear-gradient(180deg,#000,transparent 80%)}
+@keyframes twinkle{50%{opacity:.25}}
+.has-photo{overflow:hidden}
+.bg-night{background-image:url(img/night-lights.webp);opacity:.32;mix-blend-mode:screen;
+  -webkit-mask-image:radial-gradient(ellipse at 50% 55%,#000 20%,transparent 75%);mask-image:radial-gradient(ellipse at 50% 55%,#000 20%,transparent 75%)}
+.bg-orbit{background-image:url(img/orbit.webp);background-position:center 70%;opacity:.5;
+  -webkit-mask-image:radial-gradient(ellipse at 50% 60%,#000 25%,transparent 78%);mask-image:radial-gradient(ellipse at 50% 60%,#000 25%,transparent 78%)}
+.final .container{z-index:2}
+.final::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--bg2),rgba(5,5,5,.2) 35%,rgba(5,5,5,.75));z-index:1;pointer-events:none}
+.credit{margin-top:22px;font-size:.72rem;color:#6a6558;text-align:center}
+
+/* đồng xu Bitcoin 3D */
+.coin{position:absolute;z-index:4;right:-2%;top:-9%;width:min(46%,210px);aspect-ratio:1;filter:drop-shadow(0 30px 40px rgba(0,0,0,.7)) drop-shadow(0 0 50px rgba(255,150,0,.55));animation:coin 7s ease-in-out infinite}
+.coin svg{display:block}
+@keyframes coin{0%,100%{transform:translateY(0) rotateY(-24deg) rotateZ(-6deg)}50%{transform:translateY(-16px) rotateY(24deg) rotateZ(5deg)}}
+.spark{position:absolute;width:16px;height:16px;background:radial-gradient(circle,#fff,transparent 70%);border-radius:50%;animation:spk 2.4s infinite}
+.spark.s1{left:14%;top:10%}.spark.s2{right:8%;bottom:20%;animation-delay:1.2s}
+@keyframes spk{0%,100%{transform:scale(0);opacity:0}50%{transform:scale(2.4);opacity:1}}
+@media(max-width:640px){.coin{width:120px;right:0;top:-6%}}
+@media(prefers-reduced-motion:reduce){.coin{animation:none;transform:rotateZ(-6deg)}}
+.bg-orbit{filter:sepia(.85) saturate(1.7) hue-rotate(-14deg) brightness(.95)}.bg-night{filter:sepia(.4) saturate(1.3)}
