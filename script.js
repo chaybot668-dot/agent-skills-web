@@ -310,7 +310,17 @@ if (hoverOk && !reduce) {
     builders.push(() => {
       track.innerHTML = "";
       const g = document.createElement("div"); g.className = "achv-group"; track.appendChild(g);
-      g.insertAdjacentHTML("beforeend", items);
+      let guard = 0;
+      do { g.insertAdjacentHTML("beforeend", items); } while (g.scrollWidth < innerWidth * 1.2 && ++guard < 12);
+      if (reduce) return;
+      const w = g.getBoundingClientRect().width;
+      const g2 = g.cloneNode(true);
+      g2.setAttribute("aria-hidden", "true");
+      $$("button", g2).forEach(b => { b.tabIndex = -1; });
+      track.appendChild(g2);
+      track.style.setProperty("--w", w + "px");
+      track.style.setProperty("--dur", Math.max(w / 45, 24) + "s");
+      track.classList.add("run");
     });
   });
   builders.forEach(b => b());
@@ -809,4 +819,12 @@ if ("serviceWorker" in navigator && (location.protocol === "https:" || location.
   }
   // không cho bấm khi chưa có link
   document.addEventListener("click", e => { const d = e.target.closest?.('.soc[aria-disabled="true"]'); if (d) e.preventDefault(); });
+})();
+
+
+/* dừng dải chứng nhận khi ngoài màn hình (tiết kiệm pin) */
+(function achvIdle() {
+  if (!("IntersectionObserver" in window)) return;
+  const io = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle("off", !e.isIntersecting)));
+  $$(".achv").forEach(a => io.observe(a));
 })();
