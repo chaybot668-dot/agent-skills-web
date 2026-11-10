@@ -335,3 +335,46 @@ if (hoverOk && !reduce) {
   $("#lbClose").addEventListener("click", close);
   addEventListener("keydown", e => { if (e.key === "Escape") close(); });
 })();
+
+
+/* ---------- THEME: Light / Dark ----------
+   Thứ tự ưu tiên: lựa chọn thủ công (localStorage) > cài đặt hệ điều hành.
+   Script khởi tạo trong <head> đã áp theme trước khi vẽ để tránh nháy. */
+(function theme() {
+  const root = document.documentElement;
+  const metaTheme = $('meta[name="theme-color"]');
+  const L = {
+    en: { dark: "Dark Mode", light: "Light Mode", aria: t => `Theme: ${t === "dark" ? "Dark" : "Light"} mode. Switch to ${t === "dark" ? "light" : "dark"} mode` },
+    vi: { dark: "Chế độ tối", light: "Chế độ sáng", aria: t => `Giao diện: chế độ ${t === "dark" ? "tối" : "sáng"}. Chuyển sang chế độ ${t === "dark" ? "sáng" : "tối"}` },
+  };
+  const get = () => root.getAttribute("data-theme") === "light" ? "light" : "dark";
+  const paint = () => {
+    const t = get(), l = L[I18N.lang] || L.en;
+    $$("[data-theme-toggle]").forEach(b => {
+      b.setAttribute("aria-pressed", String(t === "dark"));
+      b.setAttribute("aria-label", l.aria(t));
+      b.title = l[t];
+      const lab = $(".th-label", b); if (lab) lab.textContent = l[t];
+    });
+    root.style.colorScheme = t;
+    if (metaTheme) metaTheme.content = t === "light" ? "#F4F1E9" : "#080B09";
+  };
+  const apply = (t, persist) => {
+    if (t === get()) { if (persist) store.set("theme", t); return; }
+    if (!reduce) {
+      root.classList.add("theme-anim");
+      clearTimeout(apply.t); apply.t = setTimeout(() => root.classList.remove("theme-anim"), 380);
+    }
+    root.setAttribute("data-theme", t);
+    if (persist) store.set("theme", t);
+    paint();
+  };
+  $$("[data-theme-toggle]").forEach(b => b.addEventListener("click", () => apply(get() === "dark" ? "light" : "dark", true)));
+  // theo hệ điều hành khi người dùng chưa chọn thủ công
+  const mq = matchMedia("(prefers-color-scheme: light)");
+  const follow = e => { const saved = store.get("theme"); if (saved !== "light" && saved !== "dark") apply(e.matches ? "light" : "dark", false); };
+  mq.addEventListener ? mq.addEventListener("change", follow) : mq.addListener(follow);
+  // cập nhật nhãn khi đổi ngôn ngữ
+  new MutationObserver(paint).observe(root, { attributes: true, attributeFilter: ["lang"] });
+  paint();
+})();
