@@ -179,3 +179,49 @@ addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
   }
   resize(); addEventListener("resize", resize); requestAnimationFrame(draw);
 })();
+
+/* ===== POLISH: tiến trình cuộn, đèn rọi, ánh sáng thẻ, thị sai ===== */
+(function polish() {
+  const prog = $("#progress"), hero = $(".hero");
+  const upd = () => {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    prog.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
+    if (!reduce) hero.style.setProperty("--py", scrollY);
+  };
+  addEventListener("scroll", upd, { passive: true }); upd();
+
+  if (reduce || !matchMedia("(hover:hover)").matches) return;
+
+  const spot = $("#spot");
+  addEventListener("mousemove", e => {
+    spot.classList.add("on");
+    spot.style.transform = `translate(${e.clientX}px,${e.clientY}px)`;
+  }, { passive: true });
+  document.addEventListener("mouseleave", () => spot.classList.remove("on"));
+
+  // ánh sáng bám con trỏ trên từng thẻ
+  document.addEventListener("mousemove", e => {
+    const t = e.target.closest?.(".card,.plan,.rung,.steps li");
+    if (!t) return;
+    const r = t.getBoundingClientRect();
+    t.style.setProperty("--mx", e.clientX - r.left + "px");
+    t.style.setProperty("--my", e.clientY - r.top + "px");
+  }, { passive: true });
+
+  // thị sai nhiều lớp trong hero
+  const vis = $(".hero-visual"), layers = $$("[data-depth]", vis);
+  const term = $(".terminal");
+  hero.addEventListener("mousemove", e => {
+    const x = e.clientX / innerWidth - .5, y = e.clientY / innerHeight - .5;
+    layers.forEach(l => {
+      if (l === term) return;
+      const d = +l.dataset.depth;
+      l.style.translate = `${-x * d}px ${-y * d}px`;
+    });
+    term.style.transform = `rotateY(${-10 + x * 8}deg) rotateX(${5 - y * 8}deg)`;
+  });
+  hero.addEventListener("mouseleave", () => {
+    layers.forEach(l => l.style.translate = "");
+    term.style.transform = "";
+  });
+})();
