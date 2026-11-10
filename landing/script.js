@@ -1,301 +1,322 @@
+/* =====================================================================
+   DOMINIK TRADING — site script
+   Không dùng thư viện ngoài. Mọi cấu hình nằm trong SITE bên dưới.
+   ===================================================================== */
+
 /* ============ CẤU HÌNH — chỉnh tại đây ============ */
-const CONFIG = {
-  // Hạn ưu đãi (ISO). Chỉ nên dùng hạn THẬT, đừng reset giả để tạo áp lực.
-  offerDeadline: "2026-12-31T23:59:59+07:00",
-  // Địa chỉ nhận lead (Google Apps Script, Formspree, Make/Zapier webhook, CRM...).
-  // Để trống = chỉ lưu tạm trên trình duyệt (chế độ demo).
+const SITE = {
+  // Ảnh chân dung (bỏ file vào landing/img/ rồi điền đường dẫn). Để trống = hiển thị monogram.
+  portrait: "",
+
+  // Kênh liên hệ THẬT. Chỉ kênh nào có giá trị mới hiện ra; để trống thì nút/biểu tượng tự ẩn.
+  // Không điền link giả.
+  links: {
+    email: "",       // vd: "you@domain.com"
+    community: "",   // vd: link nhóm Telegram/Zalo/Discord  -> nút "Join The Community"
+    website: "",     // vd: trang thương hiệu               -> nút "Explore Dominik Trading"
+    facebook: "", youtube: "", instagram: "", telegram: "", zalo: "", tiktok: "",
+  },
+
+  // Địa chỉ nhận tin nhắn từ form (Formspree, Google Apps Script, webhook CRM...).
   formEndpoint: "",
-  // Link chuyển hướng sau khi đăng ký (Zalo/Telegram group...). Để trống = hiện thông báo.
-  thankYouUrl: "",
-  // ---- DÃY CHỨNG NHẬN CHẠY NGANG ----
-  // Thêm ảnh: bỏ file vào landing/img/ rồi thêm 1 dòng vào đúng danh sách.
-  // Trường: src, w, h (kích thước ảnh), firm (tên quỹ), title (tiêu đề), verify (link xác thực, tuỳ chọn).
-  // Danh sách để trống thì khu vực đó tự ẩn.
-  // 1) Thành tích CÁ NHÂN của chủ trang (Loc Nguyen Tan):
-  myCertificates: [
-    // { src: "img/my-ftmo-profit.webp", w: 1080, h: 1080, firm: "FTMO", title: "Profit Split", verify: "" },
-  ],
-  // 2) Thành tựu của HỌC VIÊN:
-  studentCertificates: [
-    { src: "img/cert-payout.webp", w: 594, h: 572, firm: "The5ers", title: "Total Payouts", owner: "Học viên" },
-    { src: "img/cert-funded.webp", w: 600, h: 580, firm: "The5ers", title: "Funded Certificate", owner: "Học viên" },
-    { src: "img/cert-qt.webp", w: 709, h: 628, firm: "QT Funded", title: "Phase Pass $5,000", owner: "Học viên" },
-  ],
+
+  // Dãy chứng nhận chạy ngang. Thêm ảnh: bỏ file vào landing/img/ rồi thêm 1 dòng.
+  // Trường: src, w, h (kích thước ảnh), firm, title, verify (link xác thực của quỹ, tuỳ chọn).
+  // Danh sách trống thì khu vực đó tự ẩn.
+  certificates: {
+    mine: [
+      // { src: "img/my-ftmo-profit.webp", w: 1080, h: 1080, firm: "FTMO", title: "Profit Split", verify: "" },
+    ],
+    students: [
+      { src: "img/cert-payout.webp", w: 594, h: 572, firm: "The5ers", title: "Total Payouts" },
+      { src: "img/cert-funded.webp", w: 600, h: 580, firm: "The5ers", title: "Funded Certificate" },
+      { src: "img/cert-qt.webp", w: 709, h: 628, firm: "QT Funded", title: "Phase Pass $5,000" },
+    ],
+  },
 };
 /* ================================================= */
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const hoverOk = matchMedia("(hover: hover)").matches;
+const store = {
+  get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch { /* bỏ qua */ } },
+};
+
+/* ---------- i18n (EN / VI) ---------- */
+const I18N = {
+  msg: {
+    en: { fill: "Please complete the highlighted fields.", ok: "Thank you — your message has been sent.", fail: "Could not send. Please try again.", sending: "Sending…" },
+    vi: { fill: "Vui lòng điền đầy đủ các trường được đánh dấu.", ok: "Cảm ơn bạn — tin nhắn đã được gửi.", fail: "Chưa gửi được. Vui lòng thử lại.", sending: "Đang gửi…" },
+  },
+  lang: "en",
+};
+(function i18n() {
+  const els = $$("[data-i18n]");
+  els.forEach(el => { el.dataset.en = el.innerHTML; });
+  const set = l => {
+    I18N.lang = l;
+    document.documentElement.lang = l;
+    els.forEach(el => { el.innerHTML = l === "vi" ? el.dataset.vi : el.dataset.en; });
+    $("#toTop").setAttribute("aria-label", l === "vi" ? "Lên đầu trang" : "Back to Top");
+    $("#burger").setAttribute("aria-label", l === "vi" ? "Mở menu" : "Open menu");
+    store.set("lang", l);
+  };
+  const saved = store.get("lang");
+  set(saved || (/^vi/i.test(navigator.language || "") ? "vi" : "en"));
+  $("#lang").addEventListener("click", () => set(I18N.lang === "en" ? "vi" : "en"));
+})();
 
 $("#year").textContent = new Date().getFullYear();
 
-/* --- Mobile menu --- */
-const burger = $("#burger"), menu = $("#menu");
-burger.addEventListener("click", () => {
-  const open = menu.classList.toggle("open");
-  burger.setAttribute("aria-expanded", open);
-});
-$$("#menu a").forEach(a => a.addEventListener("click", () => {
-  menu.classList.remove("open");
-  burger.setAttribute("aria-expanded", false);
-}));
+/* ---------- navigation ---------- */
+(function nav() {
+  const header = $("#nav"), menu = $("#menu"), burger = $("#burger");
+  const setOpen = open => {
+    menu.classList.toggle("open", open);
+    burger.setAttribute("aria-expanded", String(open));
+  };
+  burger.addEventListener("click", () => setOpen(!menu.classList.contains("open")));
+  $$("a", menu).forEach(a => a.addEventListener("click", () => setOpen(false)));
+  addEventListener("keydown", e => { if (e.key === "Escape") setOpen(false); });
 
-/* --- Scroll: nav, back-to-top, sticky CTA --- */
-const nav = $("#nav"), toTop = $("#toTop"), sticky = $("#stickyCta");
-const onScroll = () => {
-  const y = scrollY;
-  nav.classList.toggle("scrolled", y > 40);
-  toTop.classList.toggle("show", y > 600);
-  sticky.classList.toggle("show", y > 700 && !inView($("#dang-ky")));
-};
-const inView = el => { const r = el.getBoundingClientRect(); return r.top < innerHeight && r.bottom > 0; };
-addEventListener("scroll", onScroll, { passive: true });
-onScroll();
-toTop.addEventListener("click", () => scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" }));
+  // đánh dấu mục menu theo section đang xem
+  const links = new Map($$("a", menu).map(a => [a.getAttribute("href").slice(1), a]));
+  const secs = ["home", "about", "achievements", "journey", "philosophy", "approach", "connect"].map(id => document.getElementById(id)).filter(Boolean);
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    links.forEach(a => a.classList.remove("active"));
+    const a = links.get(e.target.id);
+    if (a) a.classList.add("active");
+  }), { rootMargin: "-45% 0px -50% 0px" });
+  secs.forEach(s => io.observe(s));
 
-/* --- Reveal on scroll --- */
-const io = new IntersectionObserver(es => es.forEach(e => {
-  if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
-}), { threshold: .12 });
-$$(".reveal").forEach((el, i) => { el.style.transitionDelay = (i % 4) * 90 + "ms"; io.observe(el); });
-
-/* --- Counters --- */
-const counters = new IntersectionObserver(es => es.forEach(e => {
-  if (!e.isIntersecting) return;
-  counters.unobserve(e.target);
-  const el = e.target, to = +el.dataset.count, suf = el.dataset.suffix || "";
-  if (reduce) { el.textContent = to.toLocaleString("vi-VN") + suf; return; }
-  const t0 = performance.now(), dur = 1600;
-  (function tick(t) {
-    const p = Math.min((t - t0) / dur, 1), v = Math.round(to * (1 - Math.pow(1 - p, 3)));
-    el.textContent = v.toLocaleString("vi-VN") + suf;
-    if (p < 1) requestAnimationFrame(tick);
-  })(t0);
-}), { threshold: .6 });
-$$("[data-count]").forEach(el => counters.observe(el));
-
-/* --- Countdown --- */
-const cd = $("#countdown"), end = new Date(CONFIG.offerDeadline).getTime();
-const pad = n => String(n).padStart(2, "0");
-function tickCd() {
-  const d = end - Date.now();
-  if (isNaN(end) || d <= 0) { $("#topbar").style.display = "none"; return; }
-  const s = Math.floor(d / 1000);
-  cd.textContent = `${pad(Math.floor(s / 86400))}n ${pad(Math.floor(s % 86400 / 3600))}:${pad(Math.floor(s % 3600 / 60))}:${pad(s % 60)}`;
-}
-tickCd(); setInterval(tickCd, 1000);
-
-/* --- Preselect plan from CTA --- */
-$$("[data-plan]").forEach(a => a.addEventListener("click", () => {
-  const plan = a.dataset.plan, sel = $("#planSelect");
-  if (!plan) return;
-  const opt = [...sel.options].find(o => o.text.startsWith(plan));
-  if (opt) sel.value = opt.value;
-}));
-
-/* --- Tilt cards --- */
-if (!reduce && matchMedia("(hover:hover)").matches) {
-  $$(".tilt").forEach(c => {
-    c.addEventListener("mousemove", e => {
-      const r = c.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
-      c.style.transform = `perspective(900px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) translateY(-4px)`;
-    });
-    c.addEventListener("mouseleave", () => c.style.transform = "");
-  });
-}
-
-/* --- Lead form --- */
-const form = $("#leadForm"), msg = $("#formMsg");
-form.addEventListener("submit", async e => {
-  e.preventDefault();
-  $$(".err", form).forEach(x => x.classList.remove("err"));
-  msg.className = "form-msg";
-  const f = new FormData(form), data = Object.fromEntries(f);
-  const bad = [];
-  if (!data.name?.trim()) bad.push("name");
-  if (!/^(\+?84|0)\d{8,10}$/.test((data.phone || "").replace(/[\s.\-]/g, ""))) bad.push("phone");
-  if (!/^\S+@\S+\.\S+$/.test(data.email || "")) bad.push("email");
-  if (!data.level) bad.push("level");
-  bad.forEach(n => form.elements[n].classList.add("err"));
-  if (bad.length || !form.elements.agree.checked) {
-    msg.textContent = bad.length ? "Vui lòng kiểm tra các trường được đánh dấu đỏ." : "Vui lòng xác nhận đã đọc cảnh báo rủi ro.";
-    msg.classList.add("bad"); return;
-  }
-  data.source = location.href;
-  data.time = new Date().toISOString();
-  const btn = form.querySelector("button"); btn.disabled = true; btn.textContent = "Đang gửi...";
-  try {
-    if (CONFIG.formEndpoint) {
-      const r = await fetch(CONFIG.formEndpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
-      if (!r.ok) throw new Error(r.status);
-    } else {
-      const k = "leads_demo", arr = JSON.parse(localStorage.getItem(k) || "[]");
-      arr.push(data); localStorage.setItem(k, JSON.stringify(arr));
-    }
-    msg.textContent = "✅ Đăng ký thành công! Tôi sẽ liên hệ bạn trong 24 giờ.";
-    msg.classList.add("ok"); form.reset();
-    try { sessionStorage.setItem("registered", "1"); } catch {}
-    if (CONFIG.thankYouUrl) setTimeout(() => location.href = CONFIG.thankYouUrl, 1200);
-  } catch {
-    msg.textContent = "Gửi chưa thành công, vui lòng thử lại.";
-    msg.classList.add("bad");
-  } finally { btn.disabled = false; btn.textContent = "Đăng ký ngay"; }
-});
-
-/* --- Exit-intent popup (1 lần / phiên, bỏ qua nếu đã đăng ký) --- */
-const modal = $("#exitModal");
-const seen = () => { try { return sessionStorage.getItem("exitSeen") || sessionStorage.getItem("registered"); } catch { return true; } };
-const showModal = () => {
-  if (seen()) return;
-  try { sessionStorage.setItem("exitSeen", "1"); } catch {}
-  modal.hidden = false;
-};
-document.addEventListener("mouseleave", e => { if (e.clientY <= 0 && scrollY > 800) showModal(); });
-const closeModal = () => modal.hidden = true;
-$("#exitClose").addEventListener("click", closeModal);
-$("#exitCta").addEventListener("click", closeModal);
-modal.addEventListener("click", e => { if (e.target === modal) closeModal(); });
-addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
-
-/* --- Hero candlestick canvas --- */
-(function candles() {
-  const cv = $("#candles"); if (!cv || reduce) return;
-  const ctx = cv.getContext("2d"); let W, H, bars = [];
-  const GAP = 26, BW = 10;
-  function resize() {
-    const dpr = Math.min(devicePixelRatio || 1, 2);
-    W = cv.clientWidth; H = cv.clientHeight;
-    cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    const n = Math.ceil(W / GAP) + 2; bars = [];
-    let p = H * .6;
-    for (let i = 0; i < n; i++) { const b = next(p); bars.push(b); p = b.c; }
-  }
-  function next(p) {
-    const o = p, c = Math.max(H * .15, Math.min(H * .85, o + (Math.random() - .48) * 46));
-    return { o, c, h: Math.min(o, c) - Math.random() * 26, l: Math.max(o, c) + Math.random() * 26 };
-  }
-  let off = 0, last = 0;
-  function draw(t) {
-    const dt = Math.min(t - last, 50); last = t; off += dt * .02;
-    if (off >= GAP) { off -= GAP; bars.shift(); const lb = bars[bars.length - 1]; bars.push(next(lb.c)); }
-    ctx.clearRect(0, 0, W, H);
-    bars.forEach((b, i) => {
-      const x = i * GAP - off, up = b.c < b.o;
-      const col = up ? "16,217,138" : "239,83,80";
-      ctx.strokeStyle = `rgba(${col},.55)`; ctx.fillStyle = `rgba(${col},${up ? .5 : .22})`;
-      ctx.beginPath(); ctx.moveTo(x + BW / 2, b.h); ctx.lineTo(x + BW / 2, b.l); ctx.stroke();
-      const top = Math.min(b.o, b.c), hgt = Math.max(Math.abs(b.o - b.c), 2);
-      ctx.fillRect(x, top, BW, hgt); ctx.strokeRect(x, top, BW, hgt);
-    });
-    if (!document.hidden) requestAnimationFrame(draw); else document.addEventListener("visibilitychange", () => requestAnimationFrame(draw), { once: true });
-  }
-  resize(); addEventListener("resize", resize); requestAnimationFrame(draw);
-})();
-
-/* ===== POLISH: tiến trình cuộn, đèn rọi, ánh sáng thẻ, thị sai ===== */
-(function polish() {
-  const prog = $("#progress"), hero = $(".hero");
-  const upd = () => {
+  const toTop = $("#toTop"), prog = $("#progress");
+  let ticking = false;
+  const onScroll = () => {
+    const y = scrollY;
+    header.classList.toggle("scrolled", y > 30);
+    toTop.classList.toggle("show", y > 640);
     const max = document.documentElement.scrollHeight - innerHeight;
-    prog.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
-    if (!reduce) hero.style.setProperty("--py", scrollY);
+    prog.style.transform = `scaleX(${max > 0 ? Math.min(y / max, 1) : 0})`;
+    ticking = false;
   };
-  addEventListener("scroll", upd, { passive: true }); upd();
+  addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+  onScroll();
+  toTop.addEventListener("click", () => scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" }));
+})();
 
-  if (reduce || !matchMedia("(hover:hover)").matches) return;
+/* ---------- reveal on scroll ---------- */
+(function reveal() {
+  const items = $$(".reveal, .reveal-img");
+  // so le nhẹ cho các phần tử cùng cha
+  const seen = new Map();
+  items.forEach(el => {
+    const n = seen.get(el.parentElement) || 0;
+    seen.set(el.parentElement, n + 1);
+    el.style.setProperty("--d", Math.min(n, 5) * 0.08 + "s");
+  });
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+  }), { threshold: .12, rootMargin: "0px 0px -5% 0px" });
+  items.forEach(el => io.observe(el));
+})();
 
-  const spot = $("#spot");
-  addEventListener("mousemove", e => {
-    spot.classList.add("on");
-    spot.style.transform = `translate(${e.clientX}px,${e.clientY}px)`;
-  }, { passive: true });
-  document.addEventListener("mouseleave", () => spot.classList.remove("on"));
+/* ---------- count-up ---------- */
+(function countUp() {
+  const els = $$("[data-count]");
+  const fmt = (v, d) => v.toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
+  const run = el => {
+    const to = parseFloat(el.dataset.count), d = +el.dataset.dec || 0;
+    if (reduce) { el.textContent = fmt(to, d); return; }
+    const t0 = performance.now(), dur = 1500;
+    (function tick(t) {
+      const p = Math.min((t - t0) / dur, 1), e = 1 - Math.pow(1 - p, 3);
+      el.textContent = fmt(to * e, d);
+      if (p < 1) requestAnimationFrame(tick); else el.textContent = fmt(to, d);
+    })(t0);
+  };
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { io.unobserve(e.target); run(e.target); }
+  }), { threshold: .6 });
+  els.forEach(el => { if (!reduce) el.textContent = fmt(0, +el.dataset.dec || 0); io.observe(el); });
+})();
 
-  // ánh sáng bám con trỏ trên từng thẻ
-  document.addEventListener("mousemove", e => {
-    const t = e.target.closest?.(".card,.plan,.rung,.steps li");
-    if (!t) return;
-    const r = t.getBoundingClientRect();
-    t.style.setProperty("--mx", e.clientX - r.left + "px");
-    t.style.setProperty("--my", e.clientY - r.top + "px");
-  }, { passive: true });
-
-  // thị sai nhiều lớp trong hero
-  const vis = $(".hero-visual"), layers = $$("[data-depth]", vis);
-  const term = $(".terminal");
-  hero.addEventListener("mousemove", e => {
-    const x = e.clientX / innerWidth - .5, y = e.clientY / innerHeight - .5;
-    layers.forEach(l => {
-      if (l === term) return;
-      const d = +l.dataset.depth;
-      l.style.translate = `${-x * d}px ${-y * d}px`;
+/* ---------- timeline progress ---------- */
+(function timeline() {
+  const tl = $("#timeline"); if (!tl) return;
+  const items = $$(".tl", tl);
+  let ticking = false;
+  const upd = () => {
+    const r = tl.getBoundingClientRect(), vh = innerHeight;
+    const p = Math.max(0, Math.min(1, (vh * .62 - r.top) / r.height));
+    tl.style.setProperty("--p", reduce ? 1 : p.toFixed(4));
+    items.forEach(li => {
+      const b = li.getBoundingClientRect();
+      li.classList.toggle("lit", reduce || b.top + b.height / 2 < vh * .66);
     });
-    term.style.transform = `rotateY(${-10 + x * 8}deg) rotateX(${5 - y * 8}deg)`;
-  });
-  hero.addEventListener("mouseleave", () => {
-    layers.forEach(l => l.style.translate = "");
-    term.style.transform = "";
-  });
-})();
-
-/* ===== thị sai nhẹ cho ảnh nền ===== */
-(function photoParallax() {
-  if (reduce) return;
-  const photos = $$(".bg-photo");
-  const run = () => photos.forEach(p => {
-    const r = p.parentElement.getBoundingClientRect();
-    if (r.bottom < 0 || r.top > innerHeight) return;
-    p.style.transform = `translate3d(0,${(r.top + r.height / 2 - innerHeight / 2) * -.09}px,0)`;
-  });
-  addEventListener("scroll", run, { passive: true }); run();
-})();
-
-/* ===== nạp ảnh nền theo nhu cầu (tiết kiệm băng thông) ===== */
-(function lazyBg() {
-  const els = $$(".bg-photo[data-bg]");
-  const load = el => { el.style.backgroundImage = `url(${el.dataset.bg})`; };
-  if (!("IntersectionObserver" in window)) { els.forEach(load); return; }
-  const o = new IntersectionObserver(es => es.forEach(e => {
-    if (e.isIntersecting) { load(e.target); o.unobserve(e.target); }
-  }), { rootMargin: "700px 0px" });
-  els.forEach(el => o.observe(el));
-})();
-
-/* ===== Dãy chứng nhận chạy liên tục + lightbox ===== */
-(function achievements() {
-  const esc = t => String(t ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-  const cardHtml = c => {
-    const alt = `Chứng nhận ${c.title} của ${c.firm}`;
-    const ver = c.verify ? ` · <a href="${esc(c.verify)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Xác thực</a>` : "";
-    return `<button class="achv-card" type="button"><img src="${esc(c.src)}" alt="${esc(alt)}" width="${+c.w}" height="${+c.h}" loading="lazy"><span class="achv-cap"><b>${esc(c.firm)}</b> · ${esc(c.title)}${ver}</span></button>`;
+    ticking = false;
   };
-  const lists = { mine: CONFIG.myCertificates, students: CONFIG.studentCertificates };
-  const builders = [];
+  addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(upd); } }, { passive: true });
+  addEventListener("resize", upd);
+  upd();
+})();
 
+/* ---------- parallax tinh tế ---------- */
+(function parallax() {
+  if (reduce) return;
+  const els = $$("[data-parallax]");
+  let ticking = false;
+  const upd = () => {
+    ticking = false;
+    if (innerWidth < 720) { els.forEach(el => { el.style.translate = ""; }); return; }
+    const vh = innerHeight;
+    els.forEach(el => {
+      const r = el.parentElement.getBoundingClientRect();
+      if (r.bottom < -200 || r.top > vh + 200) return;
+      const k = parseFloat(el.dataset.parallax) || 0;
+      el.style.translate = `0 ${((r.top + r.height / 2) - vh / 2) * k * -1}px`;
+    });
+  };
+  addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(upd); } }, { passive: true });
+  addEventListener("resize", upd);
+  upd();
+})();
+
+/* ---------- ánh sáng viền theo con trỏ ---------- */
+if (hoverOk && !reduce) {
+  document.addEventListener("pointermove", e => {
+    const g = e.target.closest?.(".glass");
+    if (!g) return;
+    const r = g.getBoundingClientRect();
+    g.style.setProperty("--mx", e.clientX - r.left + "px");
+    g.style.setProperty("--my", e.clientY - r.top + "px");
+  }, { passive: true });
+}
+
+/* ---------- chân dung ---------- */
+(function portrait() {
+  if (!SITE.portrait) return;
+  const fig = $("#portrait");
+  const img = new Image();
+  img.alt = "Portrait";
+  img.decoding = "async";
+  img.onload = () => fig.insertBefore(img, fig.firstChild);
+  img.src = SITE.portrait;
+})();
+
+/* ---------- liên hệ, mạng xã hội, CTA (chỉ hiện khi có dữ liệu thật) ---------- */
+(function contact() {
+  const L = SITE.links;
+  const val = v => (v || "").trim();
+
+  $$("[data-link]").forEach(a => {
+    const url = val(L[a.dataset.link]);
+    if (url) { a.href = url; a.hidden = false; }
+  });
+
+  const names = { facebook: "Facebook", youtube: "YouTube", instagram: "Instagram", telegram: "Telegram", zalo: "Zalo", tiktok: "TikTok" };
+  const ul = $("#social");
+  Object.keys(names).forEach(k => {
+    const url = val(L[k]);
+    if (!url) return;
+    const li = document.createElement("li");
+    const a = document.createElement("a");
+    a.href = url; a.target = "_blank"; a.rel = "noopener noreferrer"; a.textContent = names[k];
+    li.appendChild(a); ul.appendChild(li);
+  });
+  if (!ul.children.length) ul.hidden = true;
+
+  const email = val(L.email);
+  if (email) {
+    const p = $("#footContact");
+    const a = document.createElement("a");
+    a.href = "mailto:" + email; a.textContent = email;
+    p.appendChild(a); p.hidden = false;
+  }
+
+  // form: chỉ hiện khi có nơi nhận thật; môi trường thử nghiệm (file/localhost) hiện chế độ demo
+  const box = $("#contact-form"), contactBtn = $("#ctaContact");
+  const endpoint = val(SITE.formEndpoint);
+  const canSend = !!(endpoint || email);
+  const dev = location.protocol === "file:" || ["", "localhost", "127.0.0.1"].includes(location.hostname);
+  if (canSend || dev) {
+    box.hidden = false;
+    $("#demoNote").hidden = canSend;
+  } else if (email) {
+    contactBtn.href = "mailto:" + email;
+  } else {
+    contactBtn.hidden = true;
+  }
+  const cta = $("#ctaLinks");
+  if (!$$("a", cta).some(a => !a.hidden)) cta.hidden = true;
+
+  const form = $("#leadForm"), msg = $("#formMsg");
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    const m = I18N.msg[I18N.lang];
+    $$(".err", form).forEach(x => x.classList.remove("err"));
+    msg.className = "form-msg";
+    const d = Object.fromEntries(new FormData(form));
+    const bad = [];
+    if (!d.name?.trim()) bad.push("name");
+    if (!/^\S+@\S+\.\S+$/.test(d.email || "")) bad.push("email");
+    if (!d.message?.trim()) bad.push("message");
+    bad.forEach(n => form.elements[n].classList.add("err"));
+    if (bad.length) { msg.textContent = m.fill; msg.classList.add("bad"); return; }
+
+    const btn = form.querySelector("button[type=submit]");
+    btn.disabled = true; msg.textContent = m.sending;
+    try {
+      if (endpoint) {
+        const r = await fetch(endpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...d, source: location.href, time: new Date().toISOString() }) });
+        if (!r.ok) throw new Error(r.status);
+      } else if (email) {
+        location.href = `mailto:${email}?subject=${encodeURIComponent("Message from " + d.name)}&body=${encodeURIComponent(d.message + "\n\n" + d.name + " <" + d.email + ">")}`;
+      } else {
+        const arr = JSON.parse(store.get("contact_demo") || "[]");
+        arr.push({ ...d, time: new Date().toISOString() });
+        store.set("contact_demo", JSON.stringify(arr));
+      }
+      msg.textContent = m.ok; msg.classList.add("ok"); form.reset();
+    } catch {
+      msg.textContent = m.fail; msg.classList.add("bad");
+    } finally { btn.disabled = false; }
+  });
+})();
+
+/* ---------- dãy chứng nhận chạy liên tục + lightbox ---------- */
+(function certificates() {
+  const esc = t => String(t ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const card = c => {
+    const alt = `Certificate: ${c.title} — ${c.firm}`;
+    const ver = c.verify ? ` · <a href="${esc(c.verify)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Verify</a>` : "";
+    return `<button class="achv-card" type="button"><img src="${esc(c.src)}" alt="${esc(alt)}" width="${+c.w}" height="${+c.h}" loading="lazy" decoding="async"><span class="achv-cap"><b>${esc(c.firm)}</b> · ${esc(c.title)}${ver}</span></button>`;
+  };
+  const builders = [];
   $$(".achv-track[data-certs]").forEach(track => {
-    const list = lists[track.dataset.certs] || [];
-    const section = track.closest("section");
-    if (!list.length) { section.hidden = true; return; }
-    const items = list.map(cardHtml);
-    const mk = () => { const d = document.createElement("div"); d.className = "achv-group"; return d; };
+    const list = SITE.certificates[track.dataset.certs] || [];
+    const wrap = track.closest("[data-proof]");
+    if (!list.length) { wrap.hidden = true; return; }
+    wrap.hidden = false;
+    const items = list.map(card).join("");
     builders.push(() => {
       track.innerHTML = "";
-      const g = mk(); track.appendChild(g);
+      const g = document.createElement("div"); g.className = "achv-group"; track.appendChild(g);
       let guard = 0;
-      do { g.insertAdjacentHTML("beforeend", items.join("")); } while (g.scrollWidth < innerWidth * 1.2 && ++guard < 12);
+      do { g.insertAdjacentHTML("beforeend", items); } while (g.scrollWidth < innerWidth * 1.2 && ++guard < 12);
       const w = g.getBoundingClientRect().width;
       const g2 = g.cloneNode(true);
       g2.setAttribute("aria-hidden", "true");
-      $$("button", g2).forEach(b => b.tabIndex = -1);
+      $$("button", g2).forEach(b => { b.tabIndex = -1; });
       track.appendChild(g2);
       track.style.setProperty("--w", w + "px");
       track.style.setProperty("--dur", Math.max(w / 55, 20) + "s");
     });
   });
   builders.forEach(b => b());
-
   let t, lastW = innerWidth;
   addEventListener("resize", () => {
     clearTimeout(t);
@@ -305,12 +326,10 @@ addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
   const lb = $("#lightbox"), img = $("#lbImg");
   const close = () => { lb.hidden = true; };
   document.addEventListener("click", e => {
-    const card = e.target.closest(".achv-track .achv-card");
-    if (!card) return;
-    const im = $("img", card);
-    img.src = im.currentSrc || im.src;
-    img.alt = im.alt;
-    lb.hidden = false;
+    const c = e.target.closest(".achv-track .achv-card");
+    if (!c) return;
+    const im = $("img", c);
+    img.src = im.currentSrc || im.src; img.alt = im.alt; lb.hidden = false;
   });
   lb.addEventListener("click", close);
   $("#lbClose").addEventListener("click", close);

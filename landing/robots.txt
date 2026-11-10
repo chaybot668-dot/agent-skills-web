@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Khi có tên miền chính thức, thêm dòng:
+# Sitemap: https://YOUR-DOMAIN/sitemap.xml

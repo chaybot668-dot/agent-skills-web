@@ -1,462 +1,368 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TÊN BẠN | Trader Futures & CFDs</title>
-<meta name="description" content="Trader chuyên giao dịch quỹ Futures và CFDs. Phương pháp rõ ràng, quản trị vốn kỷ luật. Đăng ký nhận lộ trình và cộng đồng giao dịch.">
-<meta name="theme-color" content="#050505">
+<title>Dominik Trading | Professional Futures &amp; CFD Trader</title>
+<meta name="description" content="Dominik Trading is the personal brand of a professional Futures and CFD trader working with proprietary trading firms, focused on trading systems, risk management and discipline.">
+<meta name="keywords" content="professional trader, futures trader, CFD trader, prop firm trader, trading risk management, Dominik Trading">
+<meta name="author" content="Dominik Trading">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#080B09">
+<meta name="color-scheme" content="dark">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Dominik Trading">
+<meta property="og:title" content="Dominik Trading | Professional Futures &amp; CFD Trader">
+<meta property="og:description" content="Focus on the trading system, not the profit or win rate. A professional Futures and CFD trader working with proprietary trading firms.">
+<meta property="og:image" content="img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Dominik Trading | Professional Futures &amp; CFD Trader">
+<meta name="twitter:description" content="Focus on the trading system, not the profit or win rate.">
+<meta name="twitter:image" content="img/og-image.jpg">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23080B09'/%3E%3Crect x='1.5' y='1.5' width='61' height='61' rx='12.5' fill='none' stroke='%23A3D977' stroke-opacity='.5' stroke-width='3'/%3E%3Cpath d='M20 16h13c10 0 15 6 15 16s-5 16-15 16H20z M27 23v18h6c5 0 8-3 8-9s-3-9-8-9z' fill='%23A3D977' fill-rule='evenodd'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js')</script>
 <link rel="stylesheet" href="style.css">
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"Dominik Trading","description":"Personal brand of a professional Futures and CFD trader focused on trading systems, risk management and discipline.","knowsAbout":["Futures trading","CFD trading","Proprietary trading","Risk management","Trading psychology"]}
+</script>
 </head>
 <body>
-<div class="progress" id="progress"></div>
-<div class="spot" id="spot" aria-hidden="true"></div>
+<a class="skip" href="#main" data-i18n data-vi="Bỏ qua điều hướng">Skip to content</a>
+<div class="progress" id="progress" aria-hidden="true"></div>
 
-<div class="topbar" id="topbar">
-  <span>🔥 Ưu đãi khai mạc: giảm <b>30%</b> cho 50 học viên đầu tiên — kết thúc sau</span>
-  <span class="countdown" id="countdown" aria-live="off">00:00:00:00</span>
-  <a href="#dang-ky" class="topbar-link" data-plan="">Giữ chỗ →</a>
-</div>
-
+<!-- ============ 01 NAVIGATION ============ -->
 <header class="nav" id="nav">
-  <a href="#top" class="logo">TÊN<span>BẠN</span><i>TRADER</i></a>
-  <nav class="menu" id="menu">
-    <a href="#gioi-thieu">Giới thiệu</a>
-    <a href="#thi-truong">Thị trường</a>
-    <a href="#phuong-phap">Phương pháp</a>
-    <a href="#lo-trinh">Lộ trình</a>
-    <a href="#thanh-tuu">Thành tựu</a>
-    <a href="#bang-gia">Gói dịch vụ</a>
-    <a href="#faq">FAQ</a>
-  </nav>
-  <a href="#dang-ky" class="btn btn-sm">Đăng ký ngay</a>
-  <button class="burger" id="burger" aria-label="Mở menu" aria-expanded="false"><span></span><span></span></button>
+  <div class="nav-in">
+    <a href="#home" class="brand" aria-label="Dominik Trading — Home">
+      <svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="currentColor" stroke-opacity=".55" stroke-width="2.5"/><path d="M20 16h13c10 0 15 6 15 16s-5 16-15 16H20z M27 23v18h6c5 0 8-3 8-9s-3-9-8-9z" fill="currentColor" fill-rule="evenodd"/></svg>
+      <span class="brand-t"><b>Dominik</b><i>Trading</i></span>
+    </a>
+    <nav class="menu" id="menu" aria-label="Primary">
+      <a href="#home" data-i18n data-vi="Trang chủ">Home</a>
+      <a href="#about" data-i18n data-vi="Giới thiệu">About Me</a>
+      <a href="#journey" data-i18n data-vi="Hành trình">Trading Journey</a>
+      <a href="#achievements" data-i18n data-vi="Thành tựu">Achievements</a>
+      <a href="#philosophy" data-i18n data-vi="Triết lý">Philosophy</a>
+      <a href="#connect" data-i18n data-vi="Liên hệ">Contact</a>
+    </nav>
+    <div class="nav-end">
+      <button class="lang" id="lang" type="button" aria-label="Switch language"><span data-l="en">EN</span><span class="sep">/</span><span data-l="vi">VI</span></button>
+      <a href="#connect" class="btn btn-primary btn-sm nav-cta" data-i18n data-vi="Kết nối">Let’s Connect</a>
+      <button class="burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
+    </div>
+  </div>
 </header>
 
-<main id="top">
+<main id="main">
 
-<!-- HERO -->
-<section class="hero">
-  <div class="bg-photo bg-nebula" aria-hidden="true"></div>
-  <div class="stars" aria-hidden="true"></div>
-  <canvas id="candles" aria-hidden="true"></canvas>
-  <div class="hero-glow"></div>
-  <div class="container hero-inner">
-   <div class="hero-copy">
-    <p class="eyebrow reveal">Professional Trader · Futures · CFDs</p>
-    <h1 class="reveal">Giao dịch bằng <em>kỷ luật</em>,<br>không bằng cảm xúc.</h1>
-    <p class="lead reveal">Tôi là <b>TÊN BẠN</b> — trader giao dịch quỹ <b>Futures</b> và <b>CFDs</b> với hệ thống quản trị vốn chặt chẽ. Tôi chia sẻ phương pháp, kế hoạch lệnh và đồng hành cùng bạn xây dựng nền tảng giao dịch bền vững.</p>
-    <div class="cta-row reveal">
-      <a href="#dang-ky" class="btn btn-lg pulse">Đăng ký ngay</a>
-      <a href="#lo-trinh" class="btn btn-ghost btn-lg">Xem lộ trình</a>
-    </div>
-    <ul class="trust reveal">
-      <li><b data-count="5" data-suffix="+">0</b><span>Năm kinh nghiệm</span></li>
-      <li><b data-count="1200" data-suffix="+">0</b><span>Thành viên cộng đồng</span></li>
-      <li><b data-count="2" data-suffix="">0</b><span>Thị trường chuyên sâu</span></li>
-      <li><b data-count="24" data-suffix="/5">0</b><span>Hỗ trợ trong phiên</span></li>
-    </ul>
-    <small class="note reveal">* Số liệu minh họa — thay bằng số liệu thật của bạn.</small>
-   </div>
-   <div class="hero-visual reveal" aria-hidden="true">
-    <div class="coin" data-depth="26"><svg viewBox="0 0 200 200" width="100%" height="100%">
-      <defs>
-        <radialGradient id="cg" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#fff2b8"/><stop offset=".35" stop-color="#ffc533"/><stop offset=".75" stop-color="#e06a00"/><stop offset="1" stop-color="#6b2a00"/></radialGradient>
-        <linearGradient id="cr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff6c9"/><stop offset=".5" stop-color="#d98200"/><stop offset="1" stop-color="#ffe27a"/></linearGradient>
-        <linearGradient id="cb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3b0"/><stop offset="1" stop-color="#b85a00"/></linearGradient>
-      </defs>
-      <circle cx="100" cy="100" r="96" fill="url(#cr)"/>
-      <circle cx="100" cy="100" r="88" fill="url(#cg)"/>
-      <circle cx="100" cy="100" r="76" fill="none" stroke="rgba(90,35,0,.55)" stroke-width="3"/>
-      <circle cx="100" cy="100" r="72" fill="none" stroke="rgba(255,240,170,.55)" stroke-width="1.5" stroke-dasharray="2 6"/>
-      <g fill="#7a3200" opacity=".5" transform="translate(2,3)"><path fill-rule="evenodd" d="M82 52h30a22 22 0 0 1 4 43 24 24 0 0 1-6 48H82z M96 66v22h14a11 11 0 0 0 0-22z M96 104v26h16a13 13 0 0 0 0-26z"/><rect x="92" y="40" width="7" height="14"/><rect x="108" y="40" width="7" height="14"/><rect x="92" y="142" width="7" height="14"/><rect x="108" y="142" width="7" height="14"/></g>
-      <g fill="url(#cb)"><path fill-rule="evenodd" d="M82 52h30a22 22 0 0 1 4 43 24 24 0 0 1-6 48H82z M96 66v22h14a11 11 0 0 0 0-22z M96 104v26h16a13 13 0 0 0 0-26z"/><rect x="92" y="40" width="7" height="14"/><rect x="108" y="40" width="7" height="14"/><rect x="92" y="142" width="7" height="14"/><rect x="108" y="142" width="7" height="14"/></g>
-      <path d="M30 70a76 76 0 0 1 90-48" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="4" stroke-linecap="round"/>
-    </svg><i class="spark s1"></i><i class="spark s2"></i></div><div class="orb orb2"></div>
-    <div class="terminal" data-depth="8">
-      <div class="term-bar"><i></i><i></i><i></i><span>XAU/USD · 1H · Minh họa</span><b class="live">● LIVE</b></div>
-      <svg viewBox="0 0 480 250" class="chart" preserveAspectRatio="none">
-        <defs>
-          <linearGradient id="ar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#10b981" stop-opacity=".35"/><stop offset="1" stop-color="#059669" stop-opacity="0"/></linearGradient>
-          <linearGradient id="ln" x1="0" x2="1"><stop offset="0" stop-color="#059669"/><stop offset="1" stop-color="#6ee7b7"/></linearGradient>
-        </defs>
-        <g stroke="rgba(16,217,138,.09)"><path d="M0 50H480M0 100H480M0 150H480M0 200H480M80 0V250M160 0V250M240 0V250M320 0V250M400 0V250"/></g>
-        <path class="area" d="M0 210 L40 190 L80 200 L120 160 L160 170 L200 120 L240 135 L280 90 L320 105 L360 60 L420 75 L480 30 V250 H0Z" fill="url(#ar)"/>
-        <path class="line" pathLength="1" d="M0 210 L40 190 L80 200 L120 160 L160 170 L200 120 L240 135 L280 90 L320 105 L360 60 L420 75 L480 30" fill="none" stroke="url(#ln)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
-        <circle class="dot" cx="480" cy="30" r="5" fill="#6ee7b7"/>
-      </svg>
-      <div class="term-foot"><div><small>Rủi ro / lệnh</small><b>1%</b></div><div><small>Tỷ lệ R:R</small><b>1 : 3</b></div><div><small>Kỷ luật</small><b>100%</b></div></div>
-    </div>
-    <div class="chip chip1" data-depth="22"><span class="dotg"></span>XAU/USD <b>LONG</b></div>
-    <div class="chip chip2" data-depth="34">Stoploss đặt trước <b>✓</b></div>
-    <div class="chip chip3" data-depth="16">BTC Futures <b>R:R 1:3</b></div>
-   </div>
+<!-- ============ 02 HERO ============ -->
+<section class="hero" id="home">
+  <div class="hero-bg" aria-hidden="true">
+    <div class="hero-photo" data-parallax="0.08"></div>
+    <div class="orb orb-a" data-parallax="0.14"></div>
+    <div class="orb orb-b" data-parallax="-0.06"></div>
+    <div class="hero-grid"></div>
   </div>
-</section>
-
-<!-- TICKER -->
-<div class="ticker" aria-hidden="true">
-  <div class="ticker-track">
-    <span>BTC/USDT</span><span>ETH/USDT</span><span>XAU/USD</span><span>EUR/USD</span><span>NAS100</span><span>US30</span><span>WTI OIL</span><span>GBP/USD</span><span>S&amp;P 500</span><span>USD/JPY</span>
-    <span>BTC/USDT</span><span>ETH/USDT</span><span>XAU/USD</span><span>EUR/USD</span><span>NAS100</span><span>US30</span><span>WTI OIL</span><span>GBP/USD</span><span>S&amp;P 500</span><span>USD/JPY</span>
-  </div>
-</div>
-
-<!-- SHOWCASE -->
-<section class="showcase">
-  <img class="show-img" src="img/btc-chart.webp" alt="Đồng Bitcoin vàng trước biểu đồ nến" loading="lazy" width="1199" height="800">
-  <div class="show-shade"></div>
-  <div class="container show-inner">
-    <p class="eyebrow reveal">Thị trường không bao giờ ngủ</p>
-    <h2 class="reveal">Khi thị trường biến động, <em>kỷ luật</em> là lợi thế của bạn</h2>
-    <p class="reveal">Futures và CFDs vận hành 24/5. Có kế hoạch, bạn giao dịch. Không có kế hoạch, bạn đứng ngoài.</p>
-    <a href="#dang-ky" class="btn btn-lg reveal">Đăng ký ngay</a>
-  </div>
-</section>
-
-<!-- ABOUT -->
-<section id="gioi-thieu" class="section">
-  <div class="container about">
-    <div class="about-photo reveal">
-      <div class="frame">
-        <!-- Thay ảnh: <img src="anh-cua-ban.jpg" alt="TÊN BẠN"> -->
-        <div class="photo-ph"><span>ẢNH CỦA BẠN</span></div>
+  <div class="container hero-in">
+    <div class="hero-copy">
+      <p class="eyebrow reveal" data-i18n data-vi="Nhà giao dịch Futures &amp; CFD chuyên nghiệp">Professional Futures &amp; CFD Trader</p>
+      <h1 class="reveal" data-i18n data-vi="Kỷ luật tạo nên lợi thế. <em>Sự nhất quán</em> định hình nhà giao dịch.">Discipline builds the edge. <em>Consistency</em> defines the trader.</h1>
+      <p class="lead reveal" data-i18n data-vi="Tôi giao dịch Futures và CFD cùng các quỹ prop firm. Công việc của tôi xoay quanh một hệ thống — rủi ro được xác định trước, thực thi kỷ luật và đánh giá trung thực — thay vì xoay quanh bất kỳ kết quả đơn lẻ nào.">I trade Futures and CFDs with proprietary trading firms. My work is built around a system — defined risk, disciplined execution and honest review — rather than around any single result.</p>
+      <div class="cta-row reveal">
+        <a href="#journey" class="btn btn-primary btn-lg"><span data-i18n data-vi="Khám phá hành trình">Explore My Journey</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a href="#achievements" class="btn btn-ghost btn-lg" data-i18n data-vi="Xem thành tựu">View Achievements</a>
       </div>
-      <div class="badge-float"><b>5+</b> năm<br>thực chiến</div>
-    </div>
-    <div class="about-text">
-      <p class="eyebrow reveal">Về tôi</p>
-      <h2 class="reveal">Từ người mới thua lỗ đến <em>trader có hệ thống</em></h2>
-      <p class="reveal">Tôi bắt đầu giao dịch với những sai lầm quen thuộc: vào lệnh theo cảm xúc, không có stoploss, dùng đòn bẩy quá mức. Sau nhiều năm trả giá bằng tiền thật, tôi xây dựng một quy trình: <b>phân tích — kế hoạch — quản trị rủi ro — thực thi — đánh giá</b>.</p>
-      <p class="reveal">Hiện tôi giao dịch quỹ Futures và CFDs trên nhiều nhóm tài sản (crypto, vàng, ngoại hối, chỉ số) và chia sẻ lại toàn bộ cách làm để bạn rút ngắn thời gian đi đường vòng.</p>
-      <ul class="ticks reveal">
-        <li>Ưu tiên bảo toàn vốn trước, lợi nhuận đến sau</li>
-        <li>Mọi lệnh đều có kế hoạch: điểm vào — cắt lỗ — chốt lời</li>
-        <li>Minh bạch: chia sẻ cả lệnh thắng và lệnh thua</li>
+      <a href="#connect" class="text-link reveal" data-i18n data-vi="Kết nối với tôi">Connect With Me</a>
+      <ul class="tags reveal" aria-label="Focus areas">
+        <li>Futures</li><li>CFDs</li><li>Prop Firm</li><li data-i18n data-vi="Quản trị rủi ro">Risk Management</li>
       </ul>
-      <a href="#dang-ky" class="btn reveal">Đồng hành cùng tôi</a>
+    </div>
+
+    <div class="hero-visual reveal">
+      <div class="portrait-glow" aria-hidden="true"></div>
+      <figure class="portrait reveal-img" id="portrait">
+        <div class="portrait-in">
+          <svg class="monogram" viewBox="0 0 64 64" aria-hidden="true"><path d="M20 16h13c10 0 15 6 15 16s-5 16-15 16H20z M27 23v18h6c5 0 8-3 8-9s-3-9-8-9z" fill="currentColor" fill-rule="evenodd"/></svg>
+          <span class="mono-t">Dominik Trading</span>
+        </div>
+      </figure>
+      <div class="chip chip-a glass" data-parallax="-0.05"><small data-i18n data-vi="Thị trường">Markets</small><b>Futures · CFDs</b></div>
+      <div class="chip chip-b glass" data-parallax="-0.09"><small data-i18n data-vi="Đã ghi nhận">On record</small><b data-i18n data-vi="4 prop firm">4 prop firms</b></div>
     </div>
   </div>
+  <a href="#about" class="scroll-cue" aria-label="Scroll to next section"><span></span></a>
 </section>
 
-<!-- MY ACHIEVEMENTS -->
-<section id="thanh-tich" class="section achv-section achv-mine">
+<!-- ============ 03 TRADING PROFILE ============ -->
+<section class="section" id="about">
+  <div class="amb amb-r" aria-hidden="true"></div>
   <div class="container">
-    <header class="section-head reveal">
-      <p class="eyebrow">Thành tích của tôi</p>
-      <h2>Kết quả giao dịch <em>của chính tôi</em></h2>
-      <p>Các chứng nhận và phiếu chi trả cá nhân từ những quỹ cấp vốn (prop firm). Bấm vào để xem rõ.</p>
+    <header class="sec-head reveal">
+      <p class="eyebrow" data-i18n data-vi="Hồ sơ giao dịch">Trading Profile</p>
+      <h2 data-i18n data-vi="Nhà giao dịch được xây dựng trên <em>quy trình</em>.">A trader built on <em>process</em>.</h2>
+      <p class="lead" data-i18n data-vi="Cách tôi giao dịch, những thị trường tôi làm việc và khung nguyên tắc đứng sau mọi quyết định.">How I trade, the markets I work in and the framework behind every decision.</p>
     </header>
-  </div>
-  <div class="achv rev reveal" aria-label="Chứng nhận của tôi">
-    <div class="achv-track" data-certs="mine"></div>
-  </div>
-  <div class="container center">
-    <p class="achv-note reveal">Kết quả cá nhân của tôi, không đại diện cho kết quả của mọi người. Thành tích trong quá khứ không đảm bảo lợi nhuận tương lai.</p>
-  </div>
-</section>
-
-<!-- MARKETS -->
-<section id="thi-truong" class="section alt has-photo">
-  <div class="bg-photo bg-night" aria-hidden="true"></div>
-  <div class="container">
-    <header class="section-head reveal">
-      <p class="eyebrow">Thị trường chuyên môn</p>
-      <h2>Hai sân chơi, <em>một hệ thống</em></h2>
-      <p>Hiểu bản chất từng loại hợp đồng để chọn đúng công cụ cho từng chiến lược.</p>
-    </header>
-    <div class="grid-2">
-      <article class="card tilt reveal">
-        <div class="card-img"><img src="img/btc-coins.webp" alt="Đồng Bitcoin vàng đặt trên tiền đô la" loading="lazy" width="959" height="639"></div>
-        <div class="icon">⚡</div>
-        <h3>Quỹ Futures</h3>
-        <p>Hợp đồng tương lai trên sàn tập trung, thanh khoản cao, giá minh bạch. Phù hợp chiến lược theo xu hướng và quản trị vị thế bài bản.</p>
-        <ul class="ticks">
-          <li>Thanh khoản sâu, trượt giá thấp</li>
-          <li>Đòn bẩy linh hoạt, kiểm soát ký quỹ</li>
-          <li>Dễ long/short hai chiều</li>
-        </ul>
+    <div class="grid-3">
+      <article class="card glass reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8M15 7h6v6"/></svg></div>
+        <h3 data-i18n data-vi="Giao dịch Futures">Futures Trading</h3>
+        <p data-i18n data-vi="Hợp đồng tương lai giao dịch trên sàn, tiếp cận bằng kế hoạch và mức rủi ro được xác định trước.">Exchange-traded futures contracts, approached with a defined plan and defined risk.</p>
       </article>
-      <article class="card tilt reveal">
-        <div class="card-img"><img src="img/globe.webp" alt="Quả cầu thủy tinh trên các tờ tiền thế giới" loading="lazy" width="1200" height="628"></div>
-        <div class="icon">📈</div>
-        <h3>Quỹ CFDs</h3>
-        <p>Hợp đồng chênh lệch giá trên đa tài sản: vàng, forex, chỉ số, hàng hóa. Linh hoạt khối lượng, phù hợp giao dịch ngắn và trung hạn.</p>
-        <ul class="ticks">
-          <li>Đa dạng tài sản trên một nền tảng</li>
-          <li>Khối lượng nhỏ, phù hợp vốn vừa và nhỏ</li>
-          <li>Giao dịch cả khi thị trường giảm</li>
-        </ul>
+      <article class="card glass reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5zM3 13l9 5 9-5"/></svg></div>
+        <h3 data-i18n data-vi="Giao dịch CFD">CFD Trading</h3>
+        <p data-i18n data-vi="Hợp đồng chênh lệch (CFD) trên nhiều công cụ, vận hành theo cùng một hệ thống và khung quản trị rủi ro.">Contracts for difference across multiple instruments, run through the same system and risk framework.</p>
+      </article>
+      <article class="card glass reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 9h18v11H3zM8 9V6a2 2 0 012-2h4a2 2 0 012 2v3M3 14h18"/></svg></div>
+        <h3 data-i18n data-vi="Giao dịch Prop Firm">Prop Firm Trading</h3>
+        <p data-i18n data-vi="Giao dịch bằng vốn của quỹ theo các tham số rủi ro nghiêm ngặt. Chứng nhận từ FTMO, Topstep, The5ers và MyForexFunds được ghi nhận trong mục Thành tựu.">Trading firm capital under strict risk parameters. Credentials from FTMO, Topstep, The5ers and MyForexFunds are documented in Achievements.</p>
+      </article>
+      <article class="card glass reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg></div>
+        <h3 data-i18n data-vi="Chiến lược giao dịch">Trading Strategy</h3>
+        <p data-i18n data-vi="Hệ thống đặt lên hàng đầu. Quyết định đến từ các quy tắc đặt ra từ trước, không đến từ kết quả của lệnh gần nhất.">System first. Decisions come from rules set in advance, not from the result of the last trade.</p>
+      </article>
+      <article class="card glass reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3zM9 12l2 2 4-4"/></svg></div>
+        <h3 data-i18n data-vi="Quản trị rủi ro">Risk Management</h3>
+        <p data-i18n data-vi="Rủi ro được xác định trước khi vào lệnh. Giới hạn sụt giảm vốn là ràng buộc cứng, không phải gợi ý.">Risk is defined before entry. Drawdown limits are treated as hard constraints, never as suggestions.</p>
+      </article>
+      <article class="card glass reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></div>
+        <h3 data-i18n data-vi="Kinh nghiệm thị trường">Market Experience</h3>
+        <p data-i18n data-vi="Kinh nghiệm thực tế trên thị trường Futures và CFD, được kiểm chứng qua các bài đánh giá và chương trình cấp vốn. Xem dòng thời gian.">Hands-on experience across Futures and CFD markets, validated through evaluations and funded programs. See the timeline.</p>
       </article>
     </div>
+    <div class="sec-cta reveal"><a href="#achievements" class="btn btn-ghost" data-i18n data-vi="Xem thành tựu">View Achievements</a></div>
   </div>
 </section>
 
-<!-- PROCESS -->
-<section id="phuong-phap" class="section has-photo">
-  <div class="bg-photo bg-map" data-bg="img/world-map.webp" aria-hidden="true"></div>
+<!-- ============ 04 ACHIEVEMENTS ============ -->
+<section class="section alt" id="achievements">
+  <div class="amb amb-l" aria-hidden="true"></div>
   <div class="container">
-    <header class="section-head reveal">
-      <p class="eyebrow">Phương pháp</p>
-      <h2>Quy trình giao dịch <em>5 bước</em></h2>
-      <p>Không đoán mò. Mỗi lệnh đi qua cùng một quy trình.</p>
+    <header class="sec-head reveal">
+      <p class="eyebrow" data-i18n data-vi="Thành tựu &amp; Cột mốc">Achievements &amp; Milestones</p>
+      <h2 data-i18n data-vi="Kết quả, <em>có hồ sơ</em>.">Results, <em>on record</em>.</h2>
+      <p class="lead" data-i18n data-vi="Các con số dưới đây được lấy trực tiếp từ chứng nhận do từng quỹ cấp.">The figures below are taken directly from the certificates issued by each firm.</p>
     </header>
-    <ol class="steps">
-      <li class="reveal"><span class="num">01</span><h3>Phân tích</h3><p>Đọc cấu trúc thị trường, xu hướng khung lớn, vùng thanh khoản và tin tức vĩ mô.</p></li>
-      <li class="reveal"><span class="num">02</span><h3>Kế hoạch</h3><p>Xác định điểm vào, cắt lỗ, chốt lời và tỷ lệ R:R trước khi nhấn nút.</p></li>
-      <li class="reveal"><span class="num">03</span><h3>Quản trị vốn</h3><p>Rủi ro cố định mỗi lệnh, giới hạn lỗ ngày, kiểm soát đòn bẩy.</p></li>
-      <li class="reveal"><span class="num">04</span><h3>Thực thi</h3><p>Vào lệnh đúng kế hoạch, không dời stoploss, không FOMO.</p></li>
-      <li class="reveal"><span class="num">05</span><h3>Đánh giá</h3><p>Ghi nhật ký, thống kê, rút kinh nghiệm để tối ưu hệ thống mỗi tuần.</p></li>
+
+    <div class="stats">
+      <article class="stat glass big reveal">
+        <small class="stat-k">FTMO · Overall Rewards</small>
+        <div class="num"><span class="cur">$</span><span data-count="20460.86" data-dec="2">20,460.86</span></div>
+        <p data-i18n data-vi="Hạng Gold · 05/06/2024">Gold tier · 5 Jun 2024</p>
+      </article>
+      <article class="stat glass reveal">
+        <small class="stat-k">The5ers · Total Payouts</small>
+        <div class="num"><span class="cur">$</span><span data-count="18871.8" data-dec="1">18,871.8</span></div>
+        <p data-i18n data-vi="Theo chứng nhận">As stated on certificate</p>
+      </article>
+      <article class="stat glass reveal">
+        <small class="stat-k">The5ers · Payout</small>
+        <div class="num"><span class="cur">$</span><span data-count="4373.88" data-dec="2">4,373.88</span></div>
+        <p data-i18n data-vi="27/07/2025">27 Jul 2025</p>
+      </article>
+      <article class="stat glass reveal">
+        <small class="stat-k">FTMO · Profit Split</small>
+        <div class="num"><span class="cur">$</span><span data-count="3301.78" data-dec="2">3,301.78</span></div>
+        <p data-i18n data-vi="27/02/2024">27 Feb 2024</p>
+      </article>
+      <article class="stat glass reveal">
+        <small class="stat-k" data-i18n data-vi="Prop firm đã ghi nhận">Prop firms on record</small>
+        <div class="num"><span data-count="4" data-dec="0">4</span></div>
+        <p>FTMO · Topstep · The5ers · MyForexFunds</p>
+      </article>
+    </div>
+
+    <div class="creds">
+      <article class="cred glass reveal">
+        <div class="cred-top"><span class="cred-firm">Topstep</span><time datetime="2026-10-23" data-i18n data-vi="23/10/2026">23 Oct 2026</time></div>
+        <h3>Certified Funded Trader</h3>
+        <p data-i18n data-vi="Đã vượt qua Trading Combine và trở thành Topstep Funded Trader.">Passed the Trading Combine and became a Topstep Funded Trader.</p>
+        <small data-i18n data-vi="Chứng nhận lưu niệm do Topstep phát hành, không phải chứng chỉ chuyên môn.">Commemorative certificate issued by Topstep; not a professional accreditation.</small>
+      </article>
+      <article class="cred glass reveal">
+        <div class="cred-top"><span class="cred-firm">MyForexFunds</span><time datetime="2023-06-12" data-i18n data-vi="12/06/2023">12 Jun 2023</time></div>
+        <h3>Certificate of Achievement</h3>
+        <p data-i18n data-vi="Đã vượt qua MyForexFunds Evaluation và được ghi nhận là MyForexFunds Professional Trader.">Passed the MyForexFunds Evaluation and recognised as a MyForexFunds Professional Trader.</p>
+      </article>
+    </div>
+    <p class="fine reveal" data-i18n data-vi="Thành tích trong quá khứ không đảm bảo kết quả trong tương lai.">Past performance does not guarantee future results.</p>
+
+    <!-- Dãy chứng nhận (cấu hình trong script.js) -->
+    <section class="proof" aria-labelledby="proof-mine" data-proof="mine" hidden>
+      <h3 class="proof-h reveal" id="proof-mine" data-i18n data-vi="Chứng nhận của tôi">My certificates</h3>
+      <div class="achv rev reveal"><div class="achv-track" data-certs="mine"></div></div>
+    </section>
+    <section class="proof" aria-labelledby="proof-stu" data-proof="students" hidden>
+      <h3 class="proof-h reveal" id="proof-stu" data-i18n data-vi="Thành tựu của học viên">Student achievements</h3>
+      <div class="achv reveal"><div class="achv-track" data-certs="students"></div></div>
+      <p class="fine reveal" data-i18n data-vi="Kết quả của từng cá nhân, không đại diện cho kết quả của mọi người.">Individual results; they do not represent the results of everyone.</p>
+    </section>
+  </div>
+</section>
+
+<!-- ============ 05 MY TRADING JOURNEY ============ -->
+<section class="section" id="journey">
+  <div class="amb amb-r" aria-hidden="true"></div>
+  <div class="container">
+    <header class="sec-head reveal">
+      <p class="eyebrow" data-i18n data-vi="Hành trình giao dịch">My Trading Journey</p>
+      <h2 data-i18n data-vi="Một hành trình được đo bằng <em>cột mốc</em>.">A path measured in <em>milestones</em>.</h2>
+      <p class="lead" data-i18n data-vi="Các cột mốc có hồ sơ qua những bài đánh giá, chương trình cấp vốn và các lần chi trả.">Documented milestones across evaluations, funded programs and payouts.</p>
+    </header>
+    <ol class="timeline" id="timeline">
+      <li class="tl reveal">
+        <time class="tl-d" datetime="2023-06" data-i18n data-vi="06/2023">Jun 2023</time>
+        <div class="tl-c glass"><span class="tl-f">MyForexFunds</span><h3 data-i18n data-vi="Vượt qua Evaluation">Passed the Evaluation</h3><p data-i18n data-vi="Nhận Certificate of Achievement, được ghi nhận là Professional Trader của MyForexFunds.">Awarded the Certificate of Achievement, recognised as a MyForexFunds Professional Trader.</p></div>
+      </li>
+      <li class="tl reveal">
+        <time class="tl-d" datetime="2024-02" data-i18n data-vi="02/2024">Feb 2024</time>
+        <div class="tl-c glass"><span class="tl-f">FTMO</span><h3>Profit Split</h3><p data-i18n data-vi="Nhận phần chia lợi nhuận FTMO trị giá $3,301.78.">FTMO profit split of $3,301.78.</p></div>
+      </li>
+      <li class="tl reveal">
+        <time class="tl-d" datetime="2024-06" data-i18n data-vi="06/2024">Jun 2024</time>
+        <div class="tl-c glass"><span class="tl-f">FTMO</span><h3>Overall Rewards · Gold</h3><p data-i18n data-vi="Tổng phần thưởng đạt $20,460.86 và hạng Gold.">Overall rewards reached $20,460.86 and the Gold tier.</p></div>
+      </li>
+      <li class="tl reveal">
+        <time class="tl-d" datetime="2025-07" data-i18n data-vi="07/2025">Jul 2025</time>
+        <div class="tl-c glass"><span class="tl-f">The5ers</span><h3>Payout</h3><p data-i18n data-vi="Nhận chi trả phần chia lợi nhuận $4,373.88.">Profit share of $4,373.88 paid out.</p></div>
+      </li>
+      <li class="tl reveal">
+        <time class="tl-d" datetime="2026-10" data-i18n data-vi="10/2026">Oct 2026</time>
+        <div class="tl-c glass"><span class="tl-f">Topstep</span><h3>Funded Trader</h3><p data-i18n data-vi="Vượt qua Trading Combine và chính thức trở thành Topstep Funded Trader.">Passed the Trading Combine and officially became a Topstep Funded Trader.</p></div>
+      </li>
     </ol>
   </div>
 </section>
 
-<!-- LADDER (UPSELL JOURNEY) -->
-<section id="lo-trinh" class="section alt has-photo">
-  <div class="bg-photo bg-pillars" data-bg="img/pillars.webp" aria-hidden="true"></div>
+<!-- ============ 06 TRADING PHILOSOPHY ============ -->
+<section class="section philosophy" id="philosophy">
+  <div class="phil-bg" data-parallax="0.06" aria-hidden="true"></div>
   <div class="container">
-    <header class="section-head reveal">
-      <p class="eyebrow">Lộ trình đồng hành</p>
-      <h2>Từ người mới đến <em>trader độc lập</em></h2>
-      <p>Bắt đầu miễn phí, nâng cấp khi bạn thấy giá trị. Không ép buộc.</p>
-    </header>
-    <div class="ladder">
-      <div class="rung reveal"><span class="tag">BƯỚC 1 · MIỄN PHÍ</span><h3>Cộng đồng &amp; Tài liệu</h3><p>Nhóm chat, nhận định thị trường hằng ngày, ebook nền tảng Futures/CFDs.</p></div>
-      <div class="rung reveal"><span class="tag">BƯỚC 2 · KHÓA HỌC</span><h3>Khóa nền tảng</h3><p>Học bài bản: cấu trúc giá, quản trị vốn, tâm lý, thực hành trên tài khoản demo.</p></div>
-      <div class="rung reveal"><span class="tag">BƯỚC 3 · VIP</span><h3>Nhóm VIP &amp; Kế hoạch lệnh</h3><p>Kế hoạch lệnh chi tiết, livestream phiên giao dịch, review lệnh hằng tuần.</p></div>
-      <div class="rung hot reveal"><span class="tag">BƯỚC 4 · ELITE</span><h3>Mentoring 1-1</h3><p>Kèm riêng theo vốn &amp; mục tiêu của bạn: xây hệ thống cá nhân, sửa lỗi trực tiếp.</p></div>
-    </div>
-    <div class="center"><a href="#dang-ky" class="btn btn-lg reveal">Bắt đầu từ Bước 1 — Miễn phí</a></div>
+    <p class="eyebrow center-t reveal" data-i18n data-vi="Triết lý giao dịch">Trading Philosophy</p>
+    <blockquote class="big-quote reveal" data-i18n data-vi="Tập trung vào hệ thống giao dịch, <em>không phải lợi nhuận hay tỷ lệ thắng.</em>">Focus on the Trading System, <em>Not the Profit or Win Rate.</em></blockquote>
+    <ul class="pillars">
+      <li class="reveal"><span>01</span><h3 data-i18n data-vi="Hệ thống giao dịch">Trading System</h3><p data-i18n data-vi="Quy tắc quyết định. Kết quả để đánh giá.">Rules decide. Results are for review.</p></li>
+      <li class="reveal"><span>02</span><h3 data-i18n data-vi="Quản trị rủi ro">Risk Management</h3><p data-i18n data-vi="Bảo vệ vốn trước tiên.">Protect capital first.</p></li>
+      <li class="reveal"><span>03</span><h3 data-i18n data-vi="Kỷ luật">Discipline</h3><p data-i18n data-vi="Thực thi kế hoạch, không theo cảm xúc.">Execute the plan, not the mood.</p></li>
+      <li class="reveal"><span>04</span><h3 data-i18n data-vi="Kiên nhẫn">Patience</h3><p data-i18n data-vi="Chờ đúng thiết lập phù hợp.">Wait for the setup that fits.</p></li>
+      <li class="reveal"><span>05</span><h3 data-i18n data-vi="Nhất quán">Consistency</h3><p data-i18n data-vi="Lặp lại quy trình, lệnh này nối tiếp lệnh khác.">Repeat the process, trade after trade.</p></li>
+      <li class="reveal"><span>06</span><h3 data-i18n data-vi="Tư duy dài hạn">Long-term Thinking</h3><p data-i18n data-vi="Đánh giá hệ thống qua nhiều lệnh, không phải một lệnh.">Judge the system over many trades, not one.</p></li>
+    </ul>
+    <div class="sec-cta reveal"><a href="#connect" class="btn btn-primary btn-lg" data-i18n data-vi="Kết nối với tôi">Connect With Me</a></div>
   </div>
 </section>
 
-<!-- PRICING -->
-<section id="bang-gia" class="section">
-  <div class="container">
-    <header class="section-head reveal">
-      <p class="eyebrow">Gói dịch vụ</p>
-      <h2>Chọn gói phù hợp <em>với bạn</em></h2>
-      <p>Giá minh họa — chỉnh sửa theo dịch vụ thực tế của bạn.</p>
-    </header>
-    <div class="pricing">
-      <article class="plan reveal">
-        <h3>Starter</h3>
-        <p class="price"><b>0đ</b></p>
-        <ul class="ticks">
-          <li>Vào nhóm cộng đồng</li>
-          <li>Nhận định thị trường mỗi ngày</li>
-          <li>Ebook “Futures &amp; CFDs căn bản”</li>
-        </ul>
-        <a href="#dang-ky" class="btn btn-ghost" data-plan="Starter">Tham gia miễn phí</a>
-      </article>
-      <article class="plan reveal">
-        <h3>Foundation</h3>
-        <p class="price"><s>3.900.000đ</s><b>2.730.000đ</b></p>
-        <ul class="ticks">
-          <li>Khóa học nền tảng trọn đời</li>
-          <li>Bài tập &amp; demo thực hành</li>
-          <li>Hỏi đáp qua nhóm học viên</li>
-          <li>Template nhật ký giao dịch</li>
-        </ul>
-        <a href="#dang-ky" class="btn btn-ghost" data-plan="Foundation">Đăng ký ngay</a>
-      </article>
-      <article class="plan featured reveal">
-        <span class="ribbon">Phổ biến nhất</span>
-        <h3>VIP Trader</h3>
-        <p class="price"><s>1.990.000đ</s><b>1.390.000đ</b><small>/tháng</small></p>
-        <ul class="ticks">
-          <li>Toàn bộ khóa Foundation</li>
-          <li>Kế hoạch lệnh Futures &amp; CFDs</li>
-          <li>Livestream phiên giao dịch</li>
-          <li>Review lệnh hằng tuần</li>
-          <li>Hỗ trợ ưu tiên</li>
-        </ul>
-        <a href="#dang-ky" class="btn pulse" data-plan="VIP Trader">Đăng ký ngay</a>
-      </article>
-      <article class="plan reveal">
-        <h3>Elite 1-1</h3>
-        <p class="price"><b>Liên hệ</b></p>
-        <ul class="ticks">
-          <li>Mentoring cá nhân hóa</li>
-          <li>Xây hệ thống theo vốn của bạn</li>
-          <li>Phiên review 1-1 hằng tuần</li>
-          <li>Số lượng giới hạn mỗi tháng</li>
-        </ul>
-        <a href="#dang-ky" class="btn btn-ghost" data-plan="Elite 1-1">Đặt lịch tư vấn</a>
-      </article>
+<!-- ============ 07 MY APPROACH TO THE MARKET ============ -->
+<section class="section alt" id="approach">
+  <div class="amb amb-l" aria-hidden="true"></div>
+  <div class="container approach">
+    <div class="ap-media reveal-img">
+      <img src="img/ap-chart.webp" alt="Bitcoin coin in front of a candlestick chart" width="640" height="800" loading="lazy" decoding="async">
+      <div class="ap-shade"></div>
     </div>
-    <p class="guarantee reveal">🛡 <b>Cam kết:</b> hoàn tiền trong 7 ngày nếu khóa học không đúng như mô tả. <i>(Chỉnh lại theo chính sách thật của bạn.)</i></p>
-  </div>
-</section>
-
-<!-- BONUS / LEAD MAGNET -->
-<section class="section alt has-photo">
-  <div class="bg-photo bg-orion" data-bg="img/orion.webp" aria-hidden="true"></div>
-  <div class="container bonus reveal">
-    <div>
-      <p class="eyebrow">Quà tặng khi đăng ký hôm nay</p>
-      <h2>Nhận <em>Bộ công cụ quản trị vốn</em> miễn phí</h2>
-      <ul class="ticks">
-        <li>File tính khối lượng &amp; rủi ro mỗi lệnh (Excel)</li>
-        <li>Mẫu nhật ký giao dịch chuyên nghiệp</li>
-        <li>Checklist 10 điểm trước khi vào lệnh</li>
-      </ul>
-    </div>
-    <a href="#dang-ky" class="btn btn-lg pulse">Nhận quà ngay</a>
-  </div>
-</section>
-
-<!-- ACHIEVEMENTS -->
-<section id="thanh-tuu" class="section alt achv-section">
-  <div class="container">
-    <header class="section-head reveal">
-      <p class="eyebrow">Thành tựu học viên</p>
-      <h2>Học viên của tôi <em>đạt được</em></h2>
-      <p>Chứng nhận và phiếu chi trả từ các quỹ cấp vốn (prop firm) mà học viên đã đạt được. Bấm vào để xem rõ.</p>
-    </header>
-  </div>
-  <div class="achv reveal" aria-label="Chứng nhận của học viên">
-    <div class="achv-track" data-certs="students">
-    </div>
-  </div>
-  <div class="container center">
-    <p class="achv-note reveal">Kết quả của từng cá nhân, không đại diện cho kết quả của mọi người. Thành tích trong quá khứ không đảm bảo lợi nhuận tương lai.</p>
-    <a href="#dang-ky" class="btn btn-lg reveal">Trở thành học viên tiếp theo</a>
-  </div>
-</section>
-
-<!-- PROOF -->
-<section id="phan-hoi" class="section">
-  <div class="container">
-    <header class="section-head reveal">
-      <p class="eyebrow">Phản hồi</p>
-      <h2>Học viên nói gì</h2>
-      <p class="note">* Nội dung mẫu — thay bằng phản hồi thật có sự đồng ý của học viên.</p>
-    </header>
-    <div class="grid-3">
-      <figure class="card quote reveal"><blockquote>“Điều tôi học được lớn nhất là biết cắt lỗ đúng lúc và không còn vào lệnh theo cảm xúc.”</blockquote><figcaption><b>Học viên A</b><span>Trader Futures</span></figcaption></figure>
-      <figure class="card quote reveal"><blockquote>“Quy trình 5 bước rõ ràng, dễ áp dụng. Nhật ký giao dịch giúp tôi thấy ngay lỗi lặp lại.”</blockquote><figcaption><b>Học viên B</b><span>Trader CFDs</span></figcaption></figure>
-      <figure class="card quote reveal"><blockquote>“Review lệnh hằng tuần rất giá trị. Tôi tự tin hơn khi quản lý vốn.”</blockquote><figcaption><b>Học viên C</b><span>Thành viên VIP</span></figcaption></figure>
+    <div class="ap-body">
+      <header class="sec-head left reveal">
+        <p class="eyebrow" data-i18n data-vi="Cách tôi tiếp cận thị trường">My Approach to the Market</p>
+        <h2 data-i18n data-vi="Sáu nguyên tắc, <em>một quy trình</em>.">Six disciplines, <em>one process</em>.</h2>
+        <p class="lead" data-i18n data-vi="Những lĩnh vực trọng tâm định hình mọi quyết định giao dịch.">The areas of focus that shape every trading decision.</p>
+      </header>
+      <ol class="steps">
+        <li class="reveal"><b>01</b><div><h3 data-i18n data-vi="Phân tích thị trường">Market Analysis</h3><p data-i18n data-vi="Xây dựng bối cảnh trước khi vào lệnh: xu hướng, phiên giao dịch và các sự kiện tác động đến thị trường.">Building context before any trade: trend, session and the events that move markets.</p></div></li>
+        <li class="reveal"><b>02</b><div><h3 data-i18n data-vi="Thanh khoản">Liquidity</h3><p data-i18n data-vi="Hiểu lệnh tập trung ở đâu và giá phản ứng thế nào với những vùng đó.">Understanding where orders rest and how price interacts with those areas.</p></div></li>
+        <li class="reveal"><b>03</b><div><h3 data-i18n data-vi="Cấu trúc thị trường">Market Structure</h3><p data-i18n data-vi="Đọc đỉnh, đáy và vùng giá để xác định hướng đi và điểm vô hiệu hóa.">Reading highs, lows and ranges to frame direction and invalidation.</p></div></li>
+        <li class="reveal"><b>04</b><div><h3 data-i18n data-vi="Thực thi lệnh">Trading Execution</h3><p data-i18n data-vi="Chỉ vào lệnh khi điều kiện khớp kế hoạch, rủi ro được đặt trước khi đặt lệnh.">Entering only when conditions meet the plan, with risk set before the order.</p></div></li>
+        <li class="reveal"><b>05</b><div><h3 data-i18n data-vi="Quản trị rủi ro">Risk Management</h3><p data-i18n data-vi="Xác định khối lượng và giới hạn mức rủi ro trong quy định của quỹ và quy tắc của chính tôi.">Sizing positions and limiting exposure inside the firm’s rules and my own.</p></div></li>
+        <li class="reveal"><b>06</b><div><h3 data-i18n data-vi="Đánh giá hiệu suất">Performance Review</h3><p data-i18n data-vi="Ghi nhật ký và xem lại lệnh để hoàn thiện hệ thống theo thời gian.">Journaling and reviewing trades to refine the system over time.</p></div></li>
+      </ol>
     </div>
   </div>
 </section>
 
-<!-- REGISTER FORM -->
-<section id="dang-ky" class="section register has-photo">
-  <div class="bg-photo bg-crab" data-bg="img/crab.webp" aria-hidden="true"></div>
-  <div class="container reg-wrap">
-    <div class="reg-copy reveal">
-      <p class="eyebrow">Đăng ký ngay</p>
-      <h2>Bước đầu tiên để giao dịch <em>có hệ thống</em></h2>
-      <p>Để lại thông tin, tôi sẽ liên hệ tư vấn lộ trình phù hợp và gửi quà tặng trong vòng 24 giờ.</p>
-      <ul class="ticks">
-        <li>Miễn phí, không ràng buộc</li>
-        <li>Tư vấn đúng nhu cầu &amp; mức vốn</li>
-        <li>Thông tin được bảo mật</li>
-      </ul>
+<!-- ============ 08 CONNECT ============ -->
+<section class="section connect" id="connect">
+  <div class="connect-bg" data-parallax="0.05" aria-hidden="true"></div>
+  <div class="container connect-in">
+    <div class="cn-copy">
+      <p class="eyebrow reveal" data-i18n data-vi="Kết nối">Connect</p>
+      <h2 class="cn-h reveal" data-i18n data-vi="Hãy cùng xây dựng điều <em>có ý nghĩa.</em>">Let’s build something <em>meaningful.</em></h2>
+      <p class="lead reveal" data-i18n data-vi="Dù bạn muốn trao đổi về giao dịch, về quy trình hay về cộng đồng, tôi rất sẵn lòng kết nối.">Whether you want to talk about trading, process or the community, I’d be glad to connect.</p>
+      <div class="cta-row reveal" id="ctaLinks">
+        <a href="#contact-form" class="btn btn-primary btn-lg" id="ctaContact" data-i18n data-vi="Liên hệ với tôi">Contact Me</a>
+        <a href="#" class="btn btn-ghost btn-lg" data-link="community" hidden target="_blank" rel="noopener noreferrer" data-i18n data-vi="Tham gia cộng đồng">Join The Community</a>
+        <a href="#" class="btn btn-ghost btn-lg" data-link="website" hidden target="_blank" rel="noopener noreferrer" data-i18n data-vi="Khám phá Dominik Trading">Explore Dominik Trading</a>
+      </div>
     </div>
-    <form class="form reveal" id="leadForm" novalidate>
-      <label>Họ và tên<input name="name" type="text" autocomplete="name" required placeholder="Nguyễn Văn A"></label>
-      <label>Số điện thọai / Zalo<input name="phone" type="tel" autocomplete="tel" required placeholder="09xx xxx xxx"></label>
-      <label>Email<input name="email" type="email" autocomplete="email" required placeholder="email@vidu.com"></label>
-      <label>Kinh nghiệm hiện tại
-        <select name="level" required>
-          <option value="">— Chọn —</option>
-          <option>Chưa từng giao dịch</option>
-          <option>Dưới 1 năm</option>
-          <option>1–3 năm</option>
-          <option>Trên 3 năm</option>
-        </select>
-      </label>
-      <label>Gói quan tâm
-        <select name="plan" id="planSelect">
-          <option>Starter (miễn phí)</option>
-          <option>Foundation</option>
-          <option>VIP Trader</option>
-          <option>Elite 1-1</option>
-        </select>
-      </label>
-      <label class="check"><input type="checkbox" name="agree" required> Tôi đã đọc và hiểu <a href="#rui-ro">cảnh báo rủi ro</a>.</label>
-      <button class="btn btn-lg pulse" type="submit">Đăng ký ngay</button>
-      <p class="form-msg" id="formMsg" role="status"></p>
-    </form>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section id="faq" class="section">
-  <div class="container narrow">
-    <header class="section-head reveal">
-      <p class="eyebrow">Câu hỏi thường gặp</p>
-      <h2>Giải đáp nhanh</h2>
-    </header>
-    <div class="faq reveal">
-      <details><summary>Tôi chưa biết gì về Futures/CFDs, có học được không?</summary><p>Được. Khóa Foundation đi từ khái niệm cơ bản, thực hành trên tài khoản demo trước khi dùng tiền thật.</p></details>
-      <details><summary>Cần bao nhiêu vốn để bắt đầu?</summary><p>Bạn có thể học và tập trên demo không cần vốn. Khi giao dịch thật, nên dùng số tiền bạn chấp nhận được rủi ro mất.</p></details>
-      <details><summary>Tôi có được cam kết lợi nhuận không?</summary><p>Không. Không ai có thể cam kết lợi nhuận trong giao dịch. Tôi chỉ chia sẻ phương pháp và cách quản trị rủi ro.</p></details>
-      <details><summary>Nhóm VIP có thể hủy bất cứ lúc nào không?</summary><p>Có. Gói tháng hủy bất cứ lúc nào, không phí phạt. <i>(Chỉnh theo chính sách thật.)</i></p></details>
-      <details><summary>Tôi có phải gửi tiền cho bạn quản lý không?</summary><p>Không. Tôi không nhận ủy thác hay quản lý vốn của khách. Bạn tự giao dịch trên tài khoản của chính mình.</p></details>
+    <div class="cn-form glass reveal" id="contact-form" hidden>
+      <form id="leadForm" novalidate>
+        <label><span data-i18n data-vi="Họ và tên">Name</span><input name="name" type="text" autocomplete="name" required></label>
+        <label><span>Email</span><input name="email" type="email" autocomplete="email" required></label>
+        <label><span data-i18n data-vi="Nội dung">Message</span><textarea name="message" rows="4" required></textarea></label>
+        <button class="btn btn-primary btn-lg" type="submit" data-i18n data-vi="Gửi tin nhắn">Send message</button>
+        <p class="form-msg" id="formMsg" role="status"></p>
+        <p class="demo-note" id="demoNote" hidden>Demo mode: set <code>formEndpoint</code> or <code>links.email</code> in script.js to receive messages.</p>
+      </form>
     </div>
-  </div>
-</section>
-
-<!-- FINAL CTA -->
-<section class="final">
-  <div class="bg-photo bg-orbit" aria-hidden="true"></div>
-  <div class="container center reveal">
-    <h2>Sẵn sàng giao dịch <em>nghiêm túc</em>?</h2>
-    <p>Mỗi ngày trì hoãn là thêm một ngày giao dịch không có hệ thống.</p>
-    <a href="#dang-ky" class="btn btn-lg pulse">Đăng ký ngay</a>
   </div>
 </section>
 
 </main>
 
-<footer class="footer" id="rui-ro">
+<!-- ============ 09 FOOTER ============ -->
+<footer class="footer">
   <div class="container">
-    <div class="foot-top">
-      <a href="#top" class="logo">TÊN<span>BẠN</span><i>TRADER</i></a>
-      <div class="social">
-        <a href="#" aria-label="Facebook">Facebook</a>
-        <a href="#" aria-label="YouTube">YouTube</a>
-        <a href="#" aria-label="Telegram">Telegram</a>
-        <a href="#" aria-label="Zalo">Zalo</a>
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="#home" class="brand">
+          <svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="currentColor" stroke-opacity=".55" stroke-width="2.5"/><path d="M20 16h13c10 0 15 6 15 16s-5 16-15 16H20z M27 23v18h6c5 0 8-3 8-9s-3-9-8-9z" fill="currentColor" fill-rule="evenodd"/></svg>
+          <span class="brand-t"><b>Dominik</b><i>Trading</i></span>
+        </a>
+        <p data-i18n data-vi="Thương hiệu giao dịch Futures &amp; CFD chuyên nghiệp, xây dựng trên hệ thống, kỷ luật và quản trị rủi ro.">A professional Futures &amp; CFD trading brand built on system, discipline and risk management.</p>
+        <ul class="social" id="social" aria-label="Social media"></ul>
+        <p class="foot-contact" id="footContact" hidden></p>
       </div>
+      <nav class="foot-nav" aria-label="Footer">
+        <h4 data-i18n data-vi="Điều hướng">Navigate</h4>
+        <a href="#home" data-i18n data-vi="Trang chủ">Home</a>
+        <a href="#about" data-i18n data-vi="Giới thiệu">About Me</a>
+        <a href="#achievements" data-i18n data-vi="Thành tựu">Achievements</a>
+        <a href="#journey" data-i18n data-vi="Hành trình">Trading Journey</a>
+        <a href="#philosophy" data-i18n data-vi="Triết lý">Philosophy</a>
+        <a href="#connect" data-i18n data-vi="Liên hệ">Contact</a>
+      </nav>
     </div>
-    <div class="risk">
-      <b>⚠ Cảnh báo rủi ro:</b> Giao dịch Futures và CFDs sử dụng đòn bẩy, có rủi ro cao và có thể gây mất toàn bộ vốn, thậm chí vượt số vốn ban đầu. Không phù hợp với mọi nhà đầu tư. Nội dung trên website chỉ mang tính chia sẻ kiến thức, giáo dục, <u>không phải lời khuyên đầu tư</u> và không cam kết lợi nhuận. Hiệu suất trong quá khứ không đảm bảo kết quả tương lai. Hãy chỉ giao dịch với số tiền bạn có thể chấp nhận mất.
+    <div class="risk" role="note">
+      <b data-i18n data-vi="Cảnh báo rủi ro">Risk disclaimer</b>
+      <p data-i18n data-vi="Giao dịch Futures và CFD có rủi ro thua lỗ đáng kể và không phù hợp với mọi nhà đầu tư. Đòn bẩy có thể khuếch đại cả lợi nhuận lẫn thua lỗ, và bạn có thể mất nhiều hơn số vốn ban đầu. Nội dung trên website chỉ nhằm cung cấp thông tin và giáo dục, không phải lời khuyên đầu tư. Thành tích trong quá khứ, bao gồm các chứng nhận và con số hiển thị tại đây, không đảm bảo kết quả trong tương lai. Không có cam kết hay đảm bảo lợi nhuận.">Trading Futures and CFDs involves substantial risk of loss and is not suitable for every investor. Leverage can magnify both gains and losses, and you may lose more than your initial capital. Content on this website is for information and education only and is not investment advice. Past performance, including the certificates and figures shown here, does not guarantee future results. No profit is promised or guaranteed.</p>
     </div>
-    <p class="credit">Ảnh không gian: NASA, ESA, CSA, STScI (James Webb, Hubble) &amp; NASA ISS — nguồn công cộng. Các ảnh còn lại do chủ trang cung cấp.</p>
-    <p class="copy">© <span id="year"></span> TÊN BẠN. Bảo lưu mọi quyền. · <a href="#">Chính sách bảo mật</a> · <a href="#">Điều khoản</a></p>
+    <div class="foot-bottom">
+      <p>© <span id="year"></span> Dominik Trading. <span data-i18n data-vi="Bảo lưu mọi quyền.">All rights reserved.</span></p>
+      <p class="credit" data-i18n data-vi="Ảnh không gian: NASA, ESA, CSA, STScI và NASA ISS (nguồn công cộng).">Space imagery: NASA, ESA, CSA, STScI and NASA ISS (public domain).</p>
+    </div>
   </div>
 </footer>
 
-<!-- Sticky mobile CTA -->
-<a href="#dang-ky" class="sticky-cta btn" id="stickyCta">Đăng ký ngay</a>
-
 <!-- Back to top -->
-<button class="to-top" id="toTop" aria-label="Lên đầu trang">
-  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+<button class="to-top" id="toTop" type="button" aria-label="Back to Top">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  <span class="tip" role="tooltip" data-i18n data-vi="Lên đầu trang">Back to Top</span>
 </button>
 
 <!-- Lightbox -->
-<div class="modal lightbox" id="lightbox" hidden>
-  <button class="modal-x" id="lbClose" aria-label="Đóng">×</button>
+<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Certificate preview">
+  <button class="lb-x" id="lbClose" type="button" aria-label="Close">×</button>
   <img id="lbImg" alt="">
-</div>
-
-<!-- Exit-intent popup -->
-<div class="modal" id="exitModal" hidden>
-  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="exitTitle">
-    <button class="modal-x" id="exitClose" aria-label="Đóng">×</button>
-    <p class="eyebrow">Khoan đã!</p>
-    <h3 id="exitTitle">Nhận <em>Bộ công cụ quản trị vốn</em> miễn phí</h3>
-    <p>Đừng rời đi tay không. Đăng ký ngay để nhận file tính rủi ro và nhật ký giao dịch.</p>
-    <a href="#dang-ky" class="btn btn-lg" id="exitCta">Nhận quà ngay</a>
-  </div>
 </div>
 
 <script src="script.js"></script>
