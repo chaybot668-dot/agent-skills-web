@@ -44,6 +44,7 @@ var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='light
 </script>
 </head>
 <body>
+<div class="veil" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M21 15h9v27h15v9H21z" fill="currentColor"/></svg></div>
 <a class="skip" href="#main" data-i18n data-vi="Bỏ qua điều hướng">Skip to content</a>
 <div class="progress" id="progress" aria-hidden="true"></div>
 
@@ -77,6 +78,9 @@ var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='light
 
 <!-- ============ 02 HERO ============ -->
 <section class="hero" id="home">
+  <div class="hero-light" aria-hidden="true"><i class="hero-pointer"></i></div>
+  <div class="hero-floor" aria-hidden="true"></div>
+  <canvas class="hero-dust" id="dustCv" aria-hidden="true"></canvas>
   <canvas class="hero-globe-cv" id="globeCv" aria-hidden="true"></canvas>
   <svg class="hero-chart" viewBox="0 0 1440 220" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 170 C80 160 120 120 200 130 S320 175 400 150 S520 80 620 100 S760 160 860 120 S1000 40 1120 70 S1300 110 1440 60"/></svg>
   <div class="container hero-in">

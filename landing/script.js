@@ -520,3 +520,149 @@ if ("serviceWorker" in navigator && (location.protocol === "https:" || location.
     else { size(); frame(performance.now()); start(); }
   }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 })();
+
+
+/* =====================================================================
+   MOTION ENGINE — tất cả dùng chung nhịp ở :root (--d1/--d2/--d3/--stagger)
+   ===================================================================== */
+(function motion() {
+  const root = document.documentElement;
+  const wide = matchMedia("(min-width: 768px)").matches;
+
+  /* --- 1. Chữ: hiện từng từ (h1 khi tải, h2/trích dẫn khi cuộn tới) --- */
+  const splitEl = el => {
+    let i = 0;
+    const walk = n => [...n.childNodes].forEach(c => {
+      if (c.nodeType === 3) {
+        const frag = document.createDocumentFragment();
+        c.textContent.split(/(\s+)/).forEach(p => {
+          if (!p) return;
+          if (/^\s+$/.test(p)) { frag.append(p); return; }
+          const w = document.createElement("span"), wi = document.createElement("span");
+          w.className = "w"; wi.className = "wi"; wi.style.setProperty("--i", i++); wi.textContent = p;
+          w.append(wi); frag.append(w);
+        });
+        c.replaceWith(frag);
+      } else if (c.nodeType === 1 && !c.classList.contains("w")) walk(c);
+    });
+    el.classList.add("split"); walk(el);
+  };
+  const targets = $$("h1, .sec-head h2, .big-quote, .cn-h");
+  if (!reduce) {
+    targets.forEach(splitEl);
+    const h1 = $("h1");
+    h1.style.setProperty("--base", ".5s");
+    requestAnimationFrame(() => requestAnimationFrame(() => h1.classList.add("go")));
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add("go"); io.unobserve(e.target); }
+    }), { threshold: .45 });
+    targets.filter(t => t !== h1).forEach(t => io.observe(t));
+    // đổi ngôn ngữ: tách lại từ, không chạy lại hiệu ứng
+    new MutationObserver(() => targets.forEach(t => { t.classList.remove("split"); splitEl(t); t.classList.add("instant", "go"); }))
+      .observe(root, { attributes: true, attributeFilter: ["lang"] });
+  }
+
+  /* --- 2. Đường kẻ section vẽ ra khi vào tầm nhìn --- */
+  const sio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("seen"); sio.unobserve(e.target); } }), { threshold: .08 });
+  $$(".section").forEach(s => sio.observe(s));
+
+  /* --- 3. Icon: chuẩn hoá độ dài nét để animate vẽ lại --- */
+  $$(".ico svg path, .ico svg circle").forEach(p => p.setAttribute("pathLength", "1"));
+
+  if (reduce || !wide) return;                           // phần còn lại chỉ cho desktop
+
+  /* --- 4. Parallax theo tiến trình cuộn (một biến CSS, chỉ trong màn hình đầu) --- */
+  const hero = $(".hero");
+  let ticking = false;
+  addEventListener("scroll", () => {
+    if (ticking || scrollY > 1100) return;
+    ticking = true;
+    requestAnimationFrame(() => { hero.style.setProperty("--sy", Math.min(scrollY, 1000)); ticking = false; });
+  }, { passive: true });
+
+  if (!hoverOk) return;
+
+  /* --- 5. Ánh sáng theo con trỏ trong hero --- */
+  const ptr = $(".hero-pointer");
+  hero.addEventListener("pointermove", e => {
+    const r = hero.getBoundingClientRect();
+    ptr.style.transform = `translate3d(${e.clientX - r.left}px,${e.clientY - r.top}px,0)`;
+    hero.classList.add("lit");
+  }, { passive: true });
+  hero.addEventListener("pointerleave", () => hero.classList.remove("lit"));
+
+  /* --- 6. Thẻ: nghiêng ≤2.2° --- */
+  const TILT = ".card, .stat, .cred, .tl-c";
+  $$(TILT).forEach(el => el.classList.add("tilt"));
+  let cur = null, raf = 0;
+  document.addEventListener("pointermove", e => {
+    const el = e.target.closest?.(TILT);
+    if (cur && cur !== el) { cur.style.setProperty("--rx", "0deg"); cur.style.setProperty("--ry", "0deg"); }
+    cur = el;
+    if (!el) return;
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(() => {
+      const r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      el.style.setProperty("--ry", (x * 4.4).toFixed(2) + "deg");
+      el.style.setProperty("--rx", (-y * 4.4).toFixed(2) + "deg");
+    });
+  }, { passive: true });
+  document.addEventListener("pointerleave", () => { if (cur) { cur.style.setProperty("--rx", "0deg"); cur.style.setProperty("--ry", "0deg"); cur = null; } });
+
+  /* --- 7. Nút: nam châm nhẹ + phản hồi khi nhấn --- */
+  $$(".btn-lg, .nav-cta").forEach(b => {
+    b.classList.add("mag");
+    let x = 0, y = 0;
+    const set = (sc) => { b.style.transform = `translate3d(${x}px,${y}px,0)${sc ? " scale(.97)" : ""}`; };
+    b.addEventListener("pointermove", e => {
+      const r = b.getBoundingClientRect();
+      x = Math.max(-6, Math.min(6, (e.clientX - r.left - r.width / 2) * .14));
+      y = Math.max(-5, Math.min(5, (e.clientY - r.top - r.height / 2) * .2));
+      set(false);
+    });
+    b.addEventListener("pointerleave", () => { x = y = 0; b.style.transform = ""; });
+    b.addEventListener("pointerdown", () => set(true));
+    b.addEventListener("pointerup", () => set(false));
+  });
+})();
+
+/* --- Bụi dữ liệu trong hero: ít hạt, trôi rất chậm, dừng khi ra khỏi màn hình --- */
+(function heroDust() {
+  const cv = $("#dustCv");
+  if (!cv || reduce || !matchMedia("(min-width: 768px)").matches) return;
+  if (document.documentElement.getAttribute("data-theme") === "light") return;
+  const ctx = cv.getContext("2d"); if (!ctx) return;
+  let W = 0, H = 0, raf = 0, last = 0, vis = true;
+  const N = 34, ps = [];
+  const size = () => { const d = Math.min(devicePixelRatio || 1, 1.5); W = cv.clientWidth; H = cv.clientHeight; cv.width = W * d; cv.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0); };
+  const mk = (fresh) => ({ x: Math.random() * W, y: fresh ? Math.random() * H : H + 10, v: 5 + Math.random() * 9, dx: (Math.random() - .5) * 3, r: .7 + Math.random() * .9, a: .1 + Math.random() * .16, ph: Math.random() * 6.28 });
+  size(); for (let i = 0; i < N; i++) ps.push(mk(true));
+  function tick(now) {
+    raf = requestAnimationFrame(tick);
+    if (now - last < 42) return;
+    const dt = Math.min((now - last) / 1000, .1) || .042; last = now;
+    ctx.clearRect(0, 0, W, H);
+    ps.forEach((p, i) => {
+      p.y -= p.v * dt; p.x += p.dx * dt;
+      if (p.y < -10) ps[i] = mk(false);
+      const tw = .65 + .35 * Math.sin(now / 2400 + p.ph), fade = Math.min(1, Math.max(0, (p.y / H) * 3), Math.max(0, (H - p.y) / 60));
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 7);
+      ctx.fillStyle = `rgba(191,195,198,${(p.a * tw * fade).toFixed(3)})`; ctx.fill();
+    });
+  }
+  const start = () => { if (!raf && vis && !document.hidden) raf = requestAnimationFrame(tick); };
+  const stop = () => { cancelAnimationFrame(raf); raf = 0; last = 0; };
+  new IntersectionObserver(es => { vis = es[0].isIntersecting; vis ? start() : stop(); }).observe(cv);
+  document.addEventListener("visibilitychange", () => document.hidden ? stop() : start());
+  addEventListener("resize", size);
+  new MutationObserver(() => document.documentElement.getAttribute("data-theme") === "light" ? stop() : start())
+    .observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  start();
+})();
+
+
+/* tạm dừng các hoạt ảnh CSS của hero khi không còn nhìn thấy */
+(function pauseHero() {
+  const hero = $(".hero"); if (!hero || !("IntersectionObserver" in window)) return;
+  new IntersectionObserver(es => hero.classList.toggle("paused", !es[0].isIntersecting)).observe(hero);
+})();

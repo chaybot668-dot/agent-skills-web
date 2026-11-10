@@ -823,3 +823,92 @@ h1:hover em,h2:hover em,.big-quote:hover em{background-position:0 0}
   .hero-chart{display:none}
 }
 @media(prefers-reduced-motion:reduce){.hero-chart path{animation:none;stroke-dashoffset:0}}
+
+
+/* =====================================================================
+   MOTION SYSTEM
+   Một nhịp thống nhất: --d1 phản hồi nhanh, --d2 chuyển cảnh, --d3 xuất hiện điện ảnh.
+   Chỉ dùng transform/opacity (GPU). Mobile giảm hiệu ứng. Tôn trọng prefers-reduced-motion.
+   ===================================================================== */
+:root{--d1:.3s;--d2:.6s;--d3:1s;--stagger:.07s}
+
+/* mở đầu: tấm phủ obsidian tan ra, không chặn thao tác */
+.veil{position:fixed;inset:0;z-index:500;display:grid;place-items:center;background:var(--bg);pointer-events:none;animation:veilOut .8s .3s var(--ease) forwards}
+.veil svg{width:40px;height:40px;color:var(--accent);opacity:0;animation:veilMark .9s .05s var(--ease) forwards}
+@keyframes veilMark{0%{opacity:0;transform:translateY(6px)}40%{opacity:1;transform:none}100%{opacity:0}}
+@keyframes veilOut{to{opacity:0;visibility:hidden}}
+
+/* chữ: hiện từng từ, che mặt nạ từ dưới lên */
+.split .w{display:inline-block;overflow:hidden;vertical-align:top;padding:.06em 0 .14em;margin:-.06em 0 -.14em}
+.split .wi{display:inline-block;transform:translateY(110%);transition:transform var(--d3) var(--ease);transition-delay:calc(var(--i,0) * var(--stagger) + var(--base,0s))}
+.split.go .wi{transform:none}
+.split.instant .wi{transition:none}
+
+/* reveal: thêm blur-to-focus nhẹ (tắt trên mobile) */
+@media(min-width:768px){
+  .js .reveal{filter:blur(5px);transition:opacity .8s var(--ease),transform .8s var(--ease),filter .8s var(--ease);transition-delay:var(--d,0s)}
+  .js .reveal.in{filter:none}
+}
+
+/* đường kẻ section vẽ ra khi vào tầm nhìn */
+.section::before{transform:scaleX(0);transform-origin:left;transition:transform 1.4s var(--ease)}
+.section.seen::before{transform:scaleX(1)}
+
+/* hero: ánh sáng môi trường, ánh sáng theo con trỏ, lưới phối cảnh, bụi dữ liệu */
+.hero-light{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden;opacity:var(--deco)}
+.hero-light::before{content:"";position:absolute;width:760px;height:760px;right:-6%;top:-34%;background:radial-gradient(circle,rgba(223,203,159,.075),transparent 62%);animation:lightDrift 36s ease-in-out infinite alternate;will-change:transform}
+@keyframes lightDrift{from{transform:translate3d(0,0,0)}to{transform:translate3d(-22vw,14vh,0)}}
+.hero-pointer{position:absolute;left:0;top:0;width:760px;height:760px;margin:-380px 0 0 -380px;border-radius:50%;background:radial-gradient(circle,rgba(191,195,198,.08),transparent 65%);opacity:0;transition:opacity .8s,transform .45s ease-out;will-change:transform}
+.hero.lit .hero-pointer{opacity:1}
+.hero-floor{position:absolute;left:-10%;right:-10%;bottom:0;height:36%;z-index:-1;overflow:hidden;perspective:520px;pointer-events:none;opacity:var(--deco);
+  -webkit-mask-image:linear-gradient(0deg,#000 5%,transparent 88%);mask-image:linear-gradient(0deg,#000 5%,transparent 88%)}
+.hero-floor::before{content:"";position:absolute;left:0;right:0;top:-120%;bottom:0;transform-origin:50% 100%;transform:rotateX(64deg);
+  background-image:linear-gradient(rgba(191,195,198,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(191,195,198,.1) 1px,transparent 1px);background-size:64px 64px;animation:gridMove 14s linear infinite}
+@keyframes gridMove{from{transform:rotateX(64deg) translateY(0)}to{transform:rotateX(64deg) translateY(64px)}}
+.hero-dust{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;opacity:var(--deco);
+  -webkit-mask-image:linear-gradient(90deg,transparent 4%,#000 36%);mask-image:linear-gradient(90deg,transparent 4%,#000 36%)}
+[data-theme="light"] .hero-floor,[data-theme="light"] .hero-dust,[data-theme="light"] .hero-pointer{display:none}
+
+/* parallax theo tiến trình cuộn (chỉ desktop) */
+@media(min-width:768px){
+  .hero-globe-cv{transform:translateY(calc(-50% + var(--sy,0) * .1px))}
+  .hero-chart{transform:translateY(calc(var(--sy,0) * .05px))}
+  .hero-in{transform:translateY(calc(var(--sy,0) * -.05px));opacity:calc(1 - var(--sy,0) / 1300)}
+}
+
+/* thẻ: nghiêng rất nhẹ + viền sáng theo con trỏ (desktop) */
+.tilt{transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(var(--ty,0px));transition:transform .35s var(--ease),border-color .4s,box-shadow .5s var(--ease)}
+.glass.tilt::before{display:block!important;background:radial-gradient(280px circle at var(--mx,50%) var(--my,0%),rgba(var(--accent-rgb),.5),rgba(191,195,198,.14) 42%,transparent 70%)}
+@media(hover:hover){.glass.tilt:hover{--ty:-3px;transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(-3px)}.glass.tilt:hover::before{opacity:1}}
+
+/* nút: ánh kim loại quét qua khi hover, nhấn có phản hồi, nam châm nhẹ (JS) */
+.btn{will-change:transform}
+.btn::after{display:block}
+.btn-primary::after{background:linear-gradient(112deg,transparent 38%,rgba(120,125,130,.3) 50%,transparent 62%)}
+[data-theme="light"] .btn-primary::after{background:linear-gradient(112deg,transparent 38%,rgba(255,255,255,.22) 50%,transparent 62%)}
+.btn-ghost::after{background:linear-gradient(112deg,transparent 38%,rgba(223,203,159,.14) 50%,transparent 62%)}
+.btn.mag{transition:transform .35s var(--ease),background-color .3s,border-color .3s,color .3s}
+
+/* icon: vẽ lại nét khi hover thẻ */
+.ico svg *{stroke-dasharray:1;stroke-dashoffset:0}
+@media(hover:hover){.card:hover .ico svg *{animation:icoDraw .9s var(--ease)}}
+@keyframes icoDraw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+
+/* mobile: bỏ hiệu ứng nặng */
+@media(max-width:767px){
+  .hero-floor::before{animation:none}
+  .hero-dust,.hero-pointer{display:none}
+  .hero-light::before{animation:none}
+}
+@media(prefers-reduced-motion:reduce){
+  .veil{display:none}
+  .split .wi{transform:none}
+  .section::before{transform:none}
+  .hero-floor::before,.hero-light::before{animation:none}
+}
+
+/* hiệu năng: hạt phim không dùng chế độ trộn (tránh phải hợp thành lại toàn màn hình mỗi khung) */
+body::after{mix-blend-mode:normal;opacity:calc(var(--grain) * .5)}
+[data-theme="light"] body::after{opacity:calc(var(--grain) * .35)}
+.hero.paused .hero-floor::before,.hero.paused .hero-light::before{animation-play-state:paused}
+.hero-floor::before{animation:none}
