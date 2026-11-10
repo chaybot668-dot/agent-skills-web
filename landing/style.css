@@ -587,3 +587,43 @@ html[lang=en] .lang [data-l=en],html[lang=vi] .lang [data-l=vi]{color:var(--soft
 /* ---------- tinh chỉnh sau kiểm tra ---------- */
 .glass{overflow:hidden}
 em{background-image:linear-gradient(100deg,#A9874F 0%,#C6A66B 30%,#EBDCB4 50%,#C6A66B 70%,#A9874F 100%)}
+
+/* =====================================================================
+   HÌNH ẢNH CHỦ ĐỀ: chiến lược (cờ vua), vàng, thị trường toàn cầu
+   Mọi lớp ảnh đều trang trí (aria-hidden), mờ và được che gradient để không ảnh hưởng đọc chữ.
+   ===================================================================== */
+/* Hero: biểu tượng quả cầu vàng sau chân dung (hoà vào nền bằng screen blend) */
+.hero-globe{position:absolute;right:-16%;top:-14%;width:62%;aspect-ratio:1;background:url(img/emblem-globe.webp) center/contain no-repeat;
+  mix-blend-mode:screen;opacity:.5;pointer-events:none;animation:globeFloat 14s ease-in-out infinite;
+  -webkit-mask-image:radial-gradient(circle,#000 55%,transparent 72%);mask-image:radial-gradient(circle,#000 55%,transparent 72%)}
+@keyframes globeFloat{50%{transform:translateY(14px) rotate(3deg)}}
+
+/* Achievements: thỏi vàng làm ánh sáng nền, làm mờ nhẹ để chỉ còn chất liệu */
+.ach-bar{position:absolute;top:-2%;right:-6%;width:min(640px,62%);height:62%;z-index:-1;pointer-events:none;
+  background:url(img/bg-bar.webp) 50% 38%/cover no-repeat;opacity:.34;filter:blur(1.6px) saturate(.85);
+  -webkit-mask-image:radial-gradient(ellipse at 58% 42%,#000 8%,transparent 68%);mask-image:radial-gradient(ellipse at 58% 42%,#000 8%,transparent 68%)}
+
+/* Philosophy: quân hậu phát sáng giữa bàn cờ tối — chiến lược, hệ thống */
+.phil-queen{position:absolute;inset:-6% 0;z-index:-1;pointer-events:none;
+  background:url(img/bg-queen.webp) 88% 50%/auto 100% no-repeat;opacity:.5;
+  -webkit-mask-image:linear-gradient(270deg,#000 4%,transparent 60%);mask-image:linear-gradient(270deg,#000 4%,transparent 60%)}
+
+/* Connect: vàng thô phía sau form kính */
+.cn-nugget{position:absolute;right:3%;top:4%;height:92%;aspect-ratio:2/3;z-index:-1;pointer-events:none;
+  background:url(img/bg-nugget.webp) center/cover no-repeat;opacity:.42;
+  -webkit-mask-image:radial-gradient(ellipse at 50% 50%,#000 20%,transparent 70%);mask-image:radial-gradient(ellipse at 50% 50%,#000 20%,transparent 70%)}
+
+@media(max-width:960px){
+  .phil-queen{background-position:50% 50%;opacity:.28;-webkit-mask-image:radial-gradient(ellipse at 50% 50%,#000 10%,transparent 68%);mask-image:radial-gradient(ellipse at 50% 50%,#000 10%,transparent 68%)}
+  .cn-nugget{right:50%;transform:translateX(50%);opacity:.26}
+  .hero-globe{right:-24%;width:70%}
+}
+@media(max-width:720px){.ach-bar{width:90%;opacity:.26}}
+
+/* chỉnh sau kiểm tra: quân hậu sát mép phải, quả cầu lộ rõ hơn */
+.phil-queen{background-position:100% 50%;opacity:.46}
+.hero-globe{right:-30%;top:-24%;width:60%;opacity:.55}
+
+.cn-nugget{right:auto;left:-5%;top:auto;bottom:-14%;height:78%;opacity:.55;
+  -webkit-mask-image:radial-gradient(ellipse at 45% 45%,#000 18%,transparent 66%);mask-image:radial-gradient(ellipse at 45% 45%,#000 18%,transparent 66%)}
+@media(max-width:960px){.cn-nugget{left:50%;right:auto;bottom:-6%;height:56%;transform:translateX(-50%);opacity:.3}}
