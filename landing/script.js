@@ -363,7 +363,7 @@ if (hoverOk && !reduce) {
       const lab = $(".th-label", b); if (lab) lab.textContent = l[t];
     });
     root.style.colorScheme = t;
-    if (metaTheme) metaTheme.content = t === "light" ? "#F4F1E9" : "#080B09";
+    if (metaTheme) metaTheme.content = t === "light" ? "#F4F1E9" : "#08090A";
   };
   const apply = (t, persist) => {
     if (t === get()) { if (persist) store.set("theme", t); return; }
