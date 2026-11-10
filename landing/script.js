@@ -1,5 +1,5 @@
 /* =====================================================================
-   DOMINIK TRADING — site script
+   LUCIUS CAPITAL — site script
    Không dùng thư viện ngoài. Mọi cấu hình nằm trong SITE bên dưới.
    ===================================================================== */
 
@@ -13,7 +13,7 @@ const SITE = {
   links: {
     email: "",       // vd: "you@domain.com"
     community: "",   // vd: link nhóm Telegram/Zalo/Discord  -> nút "Join The Community"
-    website: "",     // vd: trang thương hiệu               -> nút "Explore Dominik Trading"
+    website: "",     // vd: trang thương hiệu               -> nút "Explore Lucius Capital"
     facebook: "", youtube: "", instagram: "", telegram: "", zalo: "", tiktok: "",
   },
 
