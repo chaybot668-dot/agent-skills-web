@@ -912,3 +912,81 @@ body::after{mix-blend-mode:normal;opacity:calc(var(--grain) * .5)}
 [data-theme="light"] body::after{opacity:calc(var(--grain) * .35)}
 .hero.paused .hero-floor::before,.hero.paused .hero-light::before{animation-play-state:paused}
 .hero-floor::before{animation:none}
+
+
+/* =====================================================================
+   GRADIENT CHỮ CHẠY SÁNG + CHUYỂN CẢNH SECTION
+   ===================================================================== */
+[data-theme="dark"]{--sheen-base:#C6A66B;--sheen-hi:#F4E8CB;--num-base:#EAE7DF;--num-hi:#DFCB9F}
+[data-theme="light"]{--sheen-base:#8f6d34;--sheen-hi:#cfaa63;--num-base:#17191B;--num-hi:#8f6d34}
+
+/* vệt sáng quét qua chữ nhấn, lần lượt từng từ; nghỉ khoảng một nửa chu kỳ */
+em,em .wi{
+  background-image:linear-gradient(100deg,var(--sheen-base) 0%,var(--sheen-base) 40%,var(--sheen-hi) 50%,var(--sheen-base) 60%,var(--sheen-base) 100%);
+  background-size:260% 100%;background-position:0% 0;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+  animation:sheen 9s ease-in-out infinite}
+em .wi{animation-delay:calc(var(--i,0) * .18s)}
+@keyframes sheen{0%{background-position:0% 0}42%,100%{background-position:100% 0}}
+
+/* số liệu: vệt sáng champagne chạy chậm, ngà làm nền chữ */
+.num,.stat:nth-child(1) .num{
+  background-image:linear-gradient(100deg,var(--num-base) 0%,var(--num-base) 42%,var(--num-hi) 50%,var(--num-base) 58%,var(--num-base) 100%);
+  background-size:260% 100%;background-position:0% 0;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+  animation:sheen 11s ease-in-out infinite}
+.stat:nth-child(2) .num{animation-delay:1.2s}.stat:nth-child(3) .num{animation-delay:2.4s}.stat:nth-child(4) .num{animation-delay:3.6s}.stat:nth-child(5) .num{animation-delay:4.8s}
+.cur,.stat:nth-child(1) .cur{-webkit-text-fill-color:var(--accent);color:var(--accent);background:none;animation:none}
+
+/* dừng hoạt ảnh sáng khi section đang ngoài màn hình (JS thêm .idle) */
+.idle em,.idle em .wi,.idle .num{animation-play-state:paused}
+
+@media(prefers-reduced-motion:reduce){em,em .wi,.num{animation:none;background-position:0% 0}}
+
+/* chuyển cảnh: section cũ mờ và trượt nhẹ khi section mới tới (desktop) */
+@media(min-width:1024px) and (hover:hover) and (prefers-reduced-motion:no-preference){
+  html{scroll-snap-type:y proximity}
+  .hero,.section,.footer{scroll-snap-align:start}
+  .section>.container{opacity:calc(1 - var(--q,0) * .65);transform:translate3d(0,calc(var(--q,0) * -26px),0);will-change:opacity,transform}
+}
+
+
+/* =====================================================================
+   INTERACTIVE MOTION · CINEMATIC LIGHTING · DYNAMIC DATA · 3D SPATIAL DEPTH
+   ===================================================================== */
+
+/* --- Cinematic lighting: chùm sáng quét chậm + ánh bóng trên khung chân dung --- */
+.hero-beam{position:absolute;z-index:-1;pointer-events:none;top:-26%;right:8%;width:30%;height:150%;opacity:var(--deco);transform-origin:50% 0;transform:rotate(17deg);
+  background:linear-gradient(90deg,transparent,rgba(223,203,159,.055) 50%,transparent);
+  -webkit-mask-image:linear-gradient(180deg,#000,transparent 78%);mask-image:linear-gradient(180deg,#000,transparent 78%);
+  animation:beamSway 24s ease-in-out infinite alternate;will-change:transform}
+@keyframes beamSway{from{transform:rotate(13deg)}to{transform:rotate(25deg)}}
+.hero.paused .hero-beam{animation-play-state:paused}
+[data-theme="light"] .hero-beam{display:none}
+.portrait::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(420px circle at calc(50% + var(--px,0) * 46%) calc(46% + var(--py,0) * 46%),rgba(255,255,255,.075),transparent 62%)}
+
+/* --- 3D spatial depth: các lớp hero có độ sâu khác nhau, phản ứng với con trỏ (desktop) --- */
+@media(min-width:768px){
+  .hero-visual{perspective:1100px;transform-style:preserve-3d}
+  .portrait{transform:rotateY(calc(var(--px,0) * 6deg)) rotateX(calc(var(--py,0) * -5deg));transition:transform .7s var(--ease)}
+  .chip-a{transform:translate3d(calc(var(--px,0) * -18px),calc(var(--py,0) * -12px),70px);transition:transform .7s var(--ease)}
+  .chip-b{transform:translate3d(calc(var(--px,0) * -26px),calc(var(--py,0) * -16px),100px);transition:transform .7s var(--ease)}
+  .hero-globe-cv{transform:translate3d(calc(var(--px,0) * -14px),calc(-50% + var(--sy,0) * .1px + var(--py,0) * -10px),0);transition:transform .9s var(--ease)}
+}
+
+/* --- Dynamic data: sóng tín hiệu trừu tượng chảy liên tục (chỉ là hình, không có số hay trục) --- */
+.hero-chart{width:200%;right:auto;left:0}
+.hero-chart path{fill:none;stroke:var(--platinum);stroke-opacity:.15;stroke-width:1;vector-effect:non-scaling-stroke;stroke-dasharray:none;stroke-dashoffset:0;animation:none}
+.hero-chart path.b{stroke-opacity:.08}
+.hero-chart .wave{animation:waveFlow 90s linear infinite}
+@keyframes waveFlow{from{transform:translateX(0)}to{transform:translateX(-1440px)}}
+.hero.paused .hero-chart .wave{animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){.hero-chart .wave,.hero-beam{animation:none}}
+
+.hero-chart use{fill:none;stroke:var(--platinum);stroke-opacity:.15;stroke-width:1;vector-effect:non-scaling-stroke}
+.hero-chart use.b{stroke-opacity:.08}
+
+/* chế độ nhẹ: bỏ các lớp hero tốn tài nguyên, giữ địa cầu và nội dung */
+.lite .hero-dust,.lite .hero-floor{display:none}
+.lite .hero-beam,.lite .hero-light::before,.lite .hero-chart .wave{animation:none}
+.lite em,.lite em .wi,.lite .num{animation:none}

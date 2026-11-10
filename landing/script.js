@@ -407,6 +407,7 @@ if ("serviceWorker" in navigator && (location.protocol === "https:" || location.
   const mobile = matchMedia("(max-width: 767px)").matches;
   const still = reduce || mobile;                       // tĩnh trên mobile và khi giảm chuyển động
   const rad = d => d * Math.PI / 180;
+  let vel = 0;                                         // vận tốc xoay do người dùng kéo (rad/ms)
   // nút kết nối: [vĩ độ, kinh độ] trừu tượng
   const NODES = [[51, -1], [40, -74], [1, 104], [22, 114], [47, 8], [25, 55], [35, 139], [-34, 151], [-23, -46], [55, 37]];
   const ARCS = [[0, 1], [0, 3], [1, 8], [2, 3], [4, 5], [5, 2], [0, 4], [6, 3], [1, 9]];
@@ -494,9 +495,9 @@ if ("serviceWorker" in navigator && (location.protocol === "https:" || location.
   }
   function loop(now) {
     raf = requestAnimationFrame(loop);
-    if (now - last < 33) return;                         // ~30fps
+    if (now - last < (document.documentElement.classList.contains("lite") ? 66 : 33)) return;   // 30fps (15fps ở chế độ nhẹ)
     const dt = last ? Math.min(now - last, 100) : 33; last = now;
-    rot += dt * 0.000042;                                // ~1 vòng / 2 phút
+    rot += dt * 0.000042 + vel * dt; vel *= 0.93;                                // ~1 vòng / 2 phút
     frame(now);
   }
   function start() { if (!raf && visible && !document.hidden && !still) raf = requestAnimationFrame(loop); }
@@ -511,6 +512,19 @@ if ("serviceWorker" in navigator && (location.protocol === "https:" || location.
       const hero = $(".hero");
       hero.addEventListener("pointermove", e => { const r = cv.getBoundingClientRect(); mx = e.clientX - r.left; my = e.clientY - r.top; }, { passive: true });
       hero.addEventListener("pointerleave", () => { mx = my = null; });
+      // kéo ngang trong hero để xoay địa cầu
+      let dragging = false, lx = 0, lt = 0;
+      hero.addEventListener("pointerdown", e => {
+        if (e.button !== 0 || e.target.closest("a,button,input,textarea,select,.chip")) return;
+        dragging = true; lx = e.clientX; lt = performance.now(); hero.style.userSelect = "none";
+      });
+      addEventListener("pointermove", e => {
+        if (!dragging) return;
+        const now = performance.now(), dx = e.clientX - lx;
+        rot += dx * 0.0042; vel = Math.max(-0.004, Math.min(0.004, dx * 0.0042 / Math.max(now - lt, 8)));
+        lx = e.clientX; lt = now;
+      });
+      addEventListener("pointerup", () => { dragging = false; hero.style.userSelect = ""; });
     }
     start();
   }
@@ -639,6 +653,7 @@ if ("serviceWorker" in navigator && (location.protocol === "https:" || location.
   size(); for (let i = 0; i < N; i++) ps.push(mk(true));
   function tick(now) {
     raf = requestAnimationFrame(tick);
+    if (document.documentElement.classList.contains("lite")) { stop(); return; }
     if (now - last < 42) return;
     const dt = Math.min((now - last) / 1000, .1) || .042; last = now;
     ctx.clearRect(0, 0, W, H);
@@ -665,4 +680,68 @@ if ("serviceWorker" in navigator && (location.protocol === "https:" || location.
 (function pauseHero() {
   const hero = $(".hero"); if (!hero || !("IntersectionObserver" in window)) return;
   new IntersectionObserver(es => hero.classList.toggle("paused", !es[0].isIntersecting)).observe(hero);
+})();
+
+
+/* ---------- Chuyển cảnh section: section cũ mờ dần khi section kế tiếp tiến lên (desktop) ---------- */
+(function sectionTransitions() {
+  if (reduce || !matchMedia("(min-width: 1024px) and (hover: hover)").matches) return;
+  const secs = $$(".section");
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    const vh = innerHeight;
+    secs.forEach(s => {
+      const r = s.getBoundingClientRect();
+      if (r.bottom < -80 || r.top > vh) { return; }
+      // chỉ mờ ở 55% cuối cuộc đời section, khi đáy section đang rời khỏi màn hình
+      const q = r.bottom < vh * .55 ? Math.min(1, 1 - r.bottom / (vh * .55)) : 0;
+      s.style.setProperty("--q", q.toFixed(3));
+    });
+  };
+  addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  update();
+})();
+
+/* ---------- Dừng hoạt ảnh vệt sáng ở section không nhìn thấy ---------- */
+(function sheenIdle() {
+  if (!("IntersectionObserver" in window)) return;
+  const io = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle("idle", !e.isIntersecting)), { rootMargin: "100px" });
+  $$(".hero,.section").forEach(s => { s.classList.add("idle"); io.observe(s); });
+})();
+
+
+/* ---------- 3D spatial depth: con trỏ điều khiển độ nghiêng/độ sâu các lớp hero (desktop) ---------- */
+(function heroDepth() {
+  if (reduce || !hoverOk || !matchMedia("(min-width: 768px)").matches) return;
+  const hero = $(".hero"); if (!hero) return;
+  let raf = 0;
+  hero.addEventListener("pointermove", e => {
+    if (raf) return;
+    raf = requestAnimationFrame(() => {
+      raf = 0;
+      const r = hero.getBoundingClientRect();
+      hero.style.setProperty("--px", (((e.clientX - r.left) / r.width) * 2 - 1).toFixed(3));
+      hero.style.setProperty("--py", (((e.clientY - r.top) / r.height) * 2 - 1).toFixed(3));
+    });
+  }, { passive: true });
+  hero.addEventListener("pointerleave", () => { hero.style.setProperty("--px", 0); hero.style.setProperty("--py", 0); });
+})();
+
+
+/* ---------- Bộ điều tiết chất lượng thích ứng ----------
+   Đo tốc độ khung hình sau khi tải; nếu thiết bị chạy dưới 40fps thì chuyển sang chế độ nhẹ. */
+(function perfGovernor() {
+  if (reduce) return;
+  const root = document.documentElement;
+  const measure = () => {
+    if (document.hidden) { setTimeout(measure, 2000); return; }
+    let n = 0; const t0 = performance.now();
+    (function f() {
+      n++; const dt = performance.now() - t0;
+      if (dt < 1500) requestAnimationFrame(f);
+      else if (n / (dt / 1000) < 40) root.classList.add("lite");
+    })();
+  };
+  addEventListener("load", () => setTimeout(measure, 2800));
 })();
