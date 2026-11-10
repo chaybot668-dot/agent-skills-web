@@ -796,3 +796,9 @@ h1:hover em,h2:hover em,.big-quote:hover em{background-position:0 0}
 .to-top:hover svg{transform:translateY(-2px)}
 .cn-form{border-color:var(--line)}
 .cn-form input:focus,.cn-form textarea:focus{border-color:var(--label);box-shadow:0 0 0 3px rgba(191,195,198,.12)}
+
+/* approach: ảnh đổi theo bước đang đọc */
+.ap-media img.ap-img{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity .8s var(--ease)}
+.ap-media img.ap-img.is-on{opacity:1}
+.steps li.dim{opacity:.55}
+@media(prefers-reduced-motion:reduce){.ap-media img.ap-img{transition:none}}

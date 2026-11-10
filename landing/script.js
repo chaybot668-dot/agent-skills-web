@@ -382,3 +382,15 @@ if (hoverOk && !reduce) {
 if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
   addEventListener("load", () => { navigator.serviceWorker.register("sw.js").catch(() => {}); });
 }
+
+
+/* ---------- Approach: ảnh chuyển theo bước đang đọc ---------- */
+(function approachImages() {
+  const imgs = $$(".ap-img"), steps = $$("[data-ap-step]");
+  if (!imgs.length || !steps.length || !("IntersectionObserver" in window)) return;
+  const show = key => imgs.forEach(i => i.classList.toggle("is-on", i.dataset.ap === key));
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { show(e.target.dataset.apStep); steps.forEach(s => s.classList.toggle("dim", s !== e.target)); }
+  }), { rootMargin: "-40% 0px -45% 0px" });
+  steps.forEach(s => io.observe(s));
+})();
