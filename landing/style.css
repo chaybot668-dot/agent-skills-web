@@ -501,3 +501,7 @@ h1,h2{font-weight:700}
 .achv-cap{position:static}
 @media(max-width:640px){.achv-card img{height:230px}}
 a.achv-cap a,.achv-cap a{color:var(--gold);text-decoration:underline}.achv-cap i{font-style:normal;color:var(--muted)}
+
+/* khu thành tích cá nhân: chạy ngược chiều để phân biệt với học viên */
+.achv.rev .achv-track{animation-direction:reverse}
+.achv-mine{background:radial-gradient(ellipse at 50% 0%,rgba(255,150,0,.1),transparent 60%)}

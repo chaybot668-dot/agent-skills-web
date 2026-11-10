@@ -7,10 +7,16 @@ const CONFIG = {
   formEndpoint: "",
   // Link chuyển hướng sau khi đăng ký (Zalo/Telegram group...). Để trống = hiện thông báo.
   thankYouUrl: "",
-  // Dãy chứng nhận chạy ngang. Thêm ảnh: bỏ file vào landing/img/ rồi thêm 1 dòng ở đây.
-  // owner: ghi đúng "Học viên" hoặc "Của tôi" để nhãn không gây hiểu nhầm (để trống = không hiện).
-  // verify: (tuỳ chọn) link xác thực của quỹ — rất nên có để tăng độ tin cậy.
-  certificates: [
+  // ---- DÃY CHỨNG NHẬN CHẠY NGANG ----
+  // Thêm ảnh: bỏ file vào landing/img/ rồi thêm 1 dòng vào đúng danh sách.
+  // Trường: src, w, h (kích thước ảnh), firm (tên quỹ), title (tiêu đề), verify (link xác thực, tuỳ chọn).
+  // Danh sách để trống thì khu vực đó tự ẩn.
+  // 1) Thành tích CÁ NHÂN của chủ trang (Loc Nguyen Tan):
+  myCertificates: [
+    // { src: "img/my-ftmo-profit.webp", w: 1080, h: 1080, firm: "FTMO", title: "Profit Split", verify: "" },
+  ],
+  // 2) Thành tựu của HỌC VIÊN:
+  studentCertificates: [
     { src: "img/cert-payout.webp", w: 594, h: 572, firm: "The5ers", title: "Total Payouts", owner: "Học viên" },
     { src: "img/cert-funded.webp", w: 600, h: 580, firm: "The5ers", title: "Funded Certificate", owner: "Học viên" },
     { src: "img/cert-qt.webp", w: 709, h: 628, firm: "QT Funded", title: "Phase Pass $5,000", owner: "Học viên" },
@@ -259,43 +265,47 @@ addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
 
 /* ===== Dãy chứng nhận chạy liên tục + lightbox ===== */
 (function achievements() {
-  const track = $("#achvTrack");
-  if (!track) return;
   const esc = t => String(t ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-  const items = (CONFIG.certificates || []).map(c => {
+  const cardHtml = c => {
     const alt = `Chứng nhận ${c.title} của ${c.firm}`;
-    const owner = c.owner ? ` · <i>${esc(c.owner)}</i>` : "";
     const ver = c.verify ? ` · <a href="${esc(c.verify)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Xác thực</a>` : "";
-    return `<button class="achv-card" type="button"><img src="${esc(c.src)}" alt="${esc(alt)}" width="${+c.w}" height="${+c.h}" loading="lazy"><span class="achv-cap"><b>${esc(c.firm)}</b> · ${esc(c.title)}${owner}${ver}</span></button>`;
-  });
-  if (!items.length) { $("#thanh-tuu").hidden = true; return; }
-  const make = () => { const d = document.createElement("div"); d.className = "achv-group"; return d; };
+    return `<button class="achv-card" type="button"><img src="${esc(c.src)}" alt="${esc(alt)}" width="${+c.w}" height="${+c.h}" loading="lazy"><span class="achv-cap"><b>${esc(c.firm)}</b> · ${esc(c.title)}${ver}</span></button>`;
+  };
+  const lists = { mine: CONFIG.myCertificates, students: CONFIG.studentCertificates };
+  const builders = [];
 
-  function build() {
-    track.innerHTML = "";
-    const g = make();
-    track.appendChild(g);
-    let guard = 0;
-    do { g.insertAdjacentHTML("beforeend", items.join("")); } while (g.scrollWidth < innerWidth * 1.2 && ++guard < 12);
-    const w = g.getBoundingClientRect().width;
-    const g2 = g.cloneNode(true);
-    g2.setAttribute("aria-hidden", "true");
-    $$("button", g2).forEach(b => b.tabIndex = -1);
-    track.appendChild(g2);
-    track.style.setProperty("--w", w + "px");
-    track.style.setProperty("--dur", Math.max(w / 55, 20) + "s");
-  }
-  build();
-  let t; let lastW = innerWidth;
+  $$(".achv-track[data-certs]").forEach(track => {
+    const list = lists[track.dataset.certs] || [];
+    const section = track.closest("section");
+    if (!list.length) { section.hidden = true; return; }
+    const items = list.map(cardHtml);
+    const mk = () => { const d = document.createElement("div"); d.className = "achv-group"; return d; };
+    builders.push(() => {
+      track.innerHTML = "";
+      const g = mk(); track.appendChild(g);
+      let guard = 0;
+      do { g.insertAdjacentHTML("beforeend", items.join("")); } while (g.scrollWidth < innerWidth * 1.2 && ++guard < 12);
+      const w = g.getBoundingClientRect().width;
+      const g2 = g.cloneNode(true);
+      g2.setAttribute("aria-hidden", "true");
+      $$("button", g2).forEach(b => b.tabIndex = -1);
+      track.appendChild(g2);
+      track.style.setProperty("--w", w + "px");
+      track.style.setProperty("--dur", Math.max(w / 55, 20) + "s");
+    });
+  });
+  builders.forEach(b => b());
+
+  let t, lastW = innerWidth;
   addEventListener("resize", () => {
     clearTimeout(t);
-    t = setTimeout(() => { if (Math.abs(innerWidth - lastW) > 40) { lastW = innerWidth; build(); } }, 250);
+    t = setTimeout(() => { if (Math.abs(innerWidth - lastW) > 40) { lastW = innerWidth; builders.forEach(b => b()); } }, 250);
   });
 
   const lb = $("#lightbox"), img = $("#lbImg");
   const close = () => { lb.hidden = true; };
-  track.addEventListener("click", e => {
-    const card = e.target.closest(".achv-card");
+  document.addEventListener("click", e => {
+    const card = e.target.closest(".achv-track .achv-card");
     if (!card) return;
     const im = $("img", card);
     img.src = im.currentSrc || im.src;
