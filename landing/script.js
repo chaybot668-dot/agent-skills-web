@@ -394,3 +394,129 @@ if ("serviceWorker" in navigator && (location.protocol === "https:" || location.
   }), { rootMargin: "-40% 0px -45% 0px" });
   steps.forEach(s => io.observe(s));
 })();
+
+
+/* ---------- Hero: địa cầu kỹ thuật số (canvas thuần, không thư viện) ----------
+   Hiệu ứng chính: địa cầu wireframe xoay chậm. Phụ: xung dữ liệu chạy dọc vài cung nối. Còn lại tĩnh.
+   Các nút là điểm trừu tượng, không gắn tên địa danh và không thể hiện dữ liệu giao dịch. */
+(function heroGlobe() {
+  const cv = $("#globeCv");
+  if (!cv || document.documentElement.getAttribute("data-theme") === "light") return;
+  const ctx = cv.getContext && cv.getContext("2d");
+  if (!ctx) return;
+  const mobile = matchMedia("(max-width: 767px)").matches;
+  const still = reduce || mobile;                       // tĩnh trên mobile và khi giảm chuyển động
+  const rad = d => d * Math.PI / 180;
+  // nút kết nối: [vĩ độ, kinh độ] trừu tượng
+  const NODES = [[51, -1], [40, -74], [1, 104], [22, 114], [47, 8], [25, 55], [35, 139], [-34, 151], [-23, -46], [55, 37]];
+  const ARCS = [[0, 1], [0, 3], [1, 8], [2, 3], [4, 5], [5, 2], [0, 4], [6, 3], [1, 9]];
+  const PULSE = [0, 2, 4, 7];                           // chỉ vài cung có xung
+  const TILT = rad(-18);
+  let W = 0, H = 0, R = 0, dpr = 1, rot = rad(-40), raf = 0, last = 0, visible = true, mx = null, my = null;
+
+  function size() {
+    dpr = Math.min(devicePixelRatio || 1, mobile ? 1.5 : 2);
+    W = cv.clientWidth; H = cv.clientHeight;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    R = Math.min(W, H) * 0.36;
+  }
+  // lat/lon -> vector đơn vị, quay quanh trục Y rồi nghiêng quanh trục X
+  function vec(lat, lon, k) {
+    const la = rad(lat), lo = rad(lon) + rot, r = k || 1;
+    let x = Math.cos(la) * Math.sin(lo) * r, y = Math.sin(la) * r, z = Math.cos(la) * Math.cos(lo) * r;
+    const y2 = y * Math.cos(TILT) - z * Math.sin(TILT), z2 = y * Math.sin(TILT) + z * Math.cos(TILT);
+    return [x, y2, z2];
+  }
+  const P = v => [W / 2 + v[0] * R, H / 2 - v[1] * R];
+  const line = (pts, a) => {
+    ctx.beginPath();
+    pts.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]));
+    ctx.strokeStyle = `rgba(191,195,198,${a})`; ctx.stroke();
+  };
+  function curve(fn, n, aF, aB) {                        // vẽ đường cong, mặt trước đậm hơn mặt sau
+    let seg = [], front = null;
+    for (let i = 0; i <= n; i++) {
+      const v = fn(i / n), f = v[2] > 0;
+      if (front === null) front = f;
+      if (f !== front) { line(seg, front ? aF : aB); seg = [seg[seg.length - 1]]; front = f; }
+      seg.push(P(v));
+    }
+    line(seg, front ? aF : aB);
+  }
+  function arcPoint(a, b, t) {                           // cung tròn lớn nâng lên khỏi mặt cầu
+    const A = vec(NODES[a][0], NODES[a][1]), B = vec(NODES[b][0], NODES[b][1]);
+    const dot = Math.max(-1, Math.min(1, A[0] * B[0] + A[1] * B[1] + A[2] * B[2])), om = Math.acos(dot) || 1e-6;
+    const s1 = Math.sin((1 - t) * om) / Math.sin(om), s2 = Math.sin(t * om) / Math.sin(om);
+    const lift = 1 + 0.2 * Math.sin(Math.PI * t) * Math.min(1, om);
+    return [(A[0] * s1 + B[0] * s2) * lift, (A[1] * s1 + B[1] * s2) * lift, (A[2] * s1 + B[2] * s2) * lift];
+  }
+
+  function frame(now) {
+    ctx.clearRect(0, 0, W, H);
+    ctx.lineWidth = 0.8;
+    // quầng rất nhẹ
+    const g = ctx.createRadialGradient(W / 2, H / 2, R * 0.2, W / 2, H / 2, R * 1.25);
+    g.addColorStop(0, "rgba(191,195,198,.035)"); g.addColorStop(1, "rgba(191,195,198,0)");
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(W / 2, H / 2, R * 1.25, 0, 7); ctx.fill();
+    // vĩ tuyến & kinh tuyến
+    for (let lat = -60; lat <= 60; lat += 30) curve(t => vec(lat, t * 360 - 180), 72, 0.34, 0.1);
+    for (let lon = 0; lon < 360; lon += 30) curve(t => vec(t * 180 - 90, lon), 48, 0.34, 0.1);
+    // đường viền cầu
+    ctx.beginPath(); ctx.arc(W / 2, H / 2, R, 0, 7); ctx.strokeStyle = "rgba(191,195,198,.28)"; ctx.stroke();
+    // quỹ đạo mảnh + vệ tinh nhỏ
+    ctx.save(); ctx.translate(W / 2, H / 2); ctx.rotate(rad(-24));
+    ctx.beginPath(); ctx.ellipse(0, 0, R * 1.32, R * 0.36, 0, 0, 7); ctx.strokeStyle = "rgba(191,195,198,.2)"; ctx.stroke();
+    const oa = (now / 14000) % (Math.PI * 2);
+    ctx.beginPath(); ctx.arc(Math.cos(oa) * R * 1.32, Math.sin(oa) * R * 0.36, 2, 0, 7); ctx.fillStyle = "rgba(223,203,159,.55)"; ctx.fill();
+    ctx.restore();
+    // cung kết nối
+    ARCS.forEach(([a, b]) => curve(t => arcPoint(a, b, t), 40, 0.3, 0.07));
+    // xung dữ liệu chạy chậm
+    PULSE.forEach((idx, k) => {
+      const [a, b] = ARCS[idx], t = ((now / (7000 + k * 1700)) + k * 0.27) % 1, v = arcPoint(a, b, t);
+      if (v[2] < -0.05) return;
+      const p = P(v); ctx.beginPath(); ctx.arc(p[0], p[1], 2.1, 0, 7); ctx.fillStyle = "rgba(223,203,159,.75)"; ctx.fill();
+      for (let i = 1; i <= 6; i++) {                     // vệt mờ phía sau
+        const q = P(arcPoint(a, b, Math.max(0, t - i * 0.012)));
+        ctx.beginPath(); ctx.arc(q[0], q[1], 1.5, 0, 7); ctx.fillStyle = `rgba(223,203,159,${0.28 - i * 0.04})`; ctx.fill();
+      }
+    });
+    // nút: sáng nhẹ khi con trỏ tới gần (desktop)
+    NODES.forEach(([la, lo]) => {
+      const v = vec(la, lo); if (v[2] < 0) return;
+      const p = P(v); let near = 0;
+      if (mx !== null) near = Math.max(0, 1 - Math.hypot(p[0] - mx, p[1] - my) / 110);
+      ctx.beginPath(); ctx.arc(p[0], p[1], 2.8 + near * 2.2, 0, 7);
+      ctx.fillStyle = `rgba(198,166,107,${0.7 + near * 0.3})`; ctx.fill();
+      if (near > 0.05) { ctx.beginPath(); ctx.arc(p[0], p[1], 7 + near * 7, 0, 7); ctx.strokeStyle = `rgba(223,203,159,${near * 0.35})`; ctx.stroke(); }
+    });
+  }
+  function loop(now) {
+    raf = requestAnimationFrame(loop);
+    if (now - last < 33) return;                         // ~30fps
+    const dt = last ? Math.min(now - last, 100) : 33; last = now;
+    rot += dt * 0.000042;                                // ~1 vòng / 2 phút
+    frame(now);
+  }
+  function start() { if (!raf && visible && !document.hidden && !still) raf = requestAnimationFrame(loop); }
+  function stop() { cancelAnimationFrame(raf); raf = 0; last = 0; }
+
+  size(); frame(0);
+  addEventListener("resize", () => { size(); frame(performance.now()); });
+  if (!still) {
+    new IntersectionObserver(es => { visible = es[0].isIntersecting; visible ? start() : stop(); }, { threshold: 0 }).observe(cv);
+    document.addEventListener("visibilitychange", () => document.hidden ? stop() : start());
+    if (hoverOk) {
+      const hero = $(".hero");
+      hero.addEventListener("pointermove", e => { const r = cv.getBoundingClientRect(); mx = e.clientX - r.left; my = e.clientY - r.top; }, { passive: true });
+      hero.addEventListener("pointerleave", () => { mx = my = null; });
+    }
+    start();
+  }
+  // đổi sang Light: dừng; về Dark: chạy lại
+  new MutationObserver(() => {
+    if (document.documentElement.getAttribute("data-theme") === "light") stop();
+    else { size(); frame(performance.now()); start(); }
+  }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+})();

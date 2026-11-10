@@ -810,3 +810,16 @@ h1:hover em,h2:hover em,.big-quote:hover em{background-position:0 0}
 .connect-art{inset:0;background-image:url(img/art-connect.webp);background-size:cover;background-position:center;
   -webkit-mask-image:radial-gradient(ellipse at 50% 50%,#000 25%,transparent 75%);mask-image:radial-gradient(ellipse at 50% 50%,#000 25%,transparent 75%);filter:opacity(.38)}
 @media(max-width:767px){.hero-art{background-position:70% center;filter:opacity(.3);-webkit-mask-image:linear-gradient(180deg,transparent 30%,#000 90%);mask-image:linear-gradient(180deg,transparent 30%,#000 90%)}.connect-art{filter:opacity(.25)}}
+
+/* ---------- hero: global finance atmosphere (canvas địa cầu + một đường biểu đồ trừu tượng) ---------- */
+.hero-globe-cv{position:absolute;z-index:-1;pointer-events:none;right:-17%;top:46%;width:min(66vw,900px);aspect-ratio:1;transform:translateY(-50%);opacity:calc(var(--deco) * .9);
+  -webkit-mask-image:linear-gradient(90deg,transparent 6%,#000 42%);mask-image:linear-gradient(90deg,transparent 6%,#000 42%)}
+.hero-chart{position:absolute;z-index:-1;pointer-events:none;left:0;right:0;bottom:0;width:100%;height:clamp(110px,18vh,200px);opacity:calc(var(--deco) * .9)}
+.hero-chart path{fill:none;stroke:var(--platinum);stroke-opacity:.14;stroke-width:1;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:1;animation:chartDraw 4s .4s var(--ease) forwards}
+@keyframes chartDraw{to{stroke-dashoffset:0}}
+[data-theme="light"] .hero-globe-cv,[data-theme="light"] .hero-chart{display:none}
+@media(max-width:767px){
+  .hero-globe-cv{right:-38%;top:auto;bottom:-4%;transform:none;width:130vw;opacity:calc(var(--deco) * .8);-webkit-mask-image:linear-gradient(180deg,transparent 4%,#000 40%);mask-image:linear-gradient(180deg,transparent 4%,#000 40%)}
+  .hero-chart{display:none}
+}
+@media(prefers-reduced-motion:reduce){.hero-chart path{animation:none;stroke-dashoffset:0}}
