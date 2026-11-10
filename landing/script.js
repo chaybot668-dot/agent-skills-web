@@ -183,7 +183,7 @@ addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
     ctx.clearRect(0, 0, W, H);
     bars.forEach((b, i) => {
       const x = i * GAP - off, up = b.c < b.o;
-      const col = up ? "255,179,0" : "255,100,0";
+      const col = up ? "16,217,138" : "239,83,80";
       ctx.strokeStyle = `rgba(${col},.55)`; ctx.fillStyle = `rgba(${col},${up ? .5 : .22})`;
       ctx.beginPath(); ctx.moveTo(x + BW / 2, b.h); ctx.lineTo(x + BW / 2, b.l); ctx.stroke();
       const top = Math.min(b.o, b.c), hgt = Math.max(Math.abs(b.o - b.c), 2);
