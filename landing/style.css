@@ -1003,3 +1003,5 @@ em .wi{animation-delay:calc(var(--i,0) * .18s)}
 
 .portrait-in .peak{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.92}
 .portrait-in::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,9,10,.15),transparent 40%,rgba(8,9,10,.55))}
+.portrait-in .peak{object-fit:contain;object-position:50% 50%;opacity:.95;padding:6%}
+.portrait-in .peak{object-fit:cover;padding:0;opacity:.95}
