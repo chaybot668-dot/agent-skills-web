@@ -1056,3 +1056,6 @@ span.soc-card .soc-cta{color:var(--text-4);font-weight:500}
 @media(max-width:820px){.soc-grid{grid-template-columns:repeat(2,1fr);gap:12px}.soc-card{padding:20px 18px;min-height:0}.soc-card p{font-size:.85rem}}
 @media(max-width:420px){.soc-grid{grid-template-columns:1fr}}
 @media(max-width:767px){.tipx{display:none}}
+/* sửa sau rà soát: không để nhãn/chip tràn mép ở tablet; tooltip icon chỉ khi có chuột */
+@media(max-width:960px){.chip-a{left:0}.chip-b{right:0}}
+@media(hover:none),(max-width:1100px){.tipx{display:none}}
