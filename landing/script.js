@@ -237,3 +237,14 @@ addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
   });
   addEventListener("scroll", run, { passive: true }); run();
 })();
+
+/* ===== nạp ảnh nền theo nhu cầu (tiết kiệm băng thông) ===== */
+(function lazyBg() {
+  const els = $$(".bg-photo[data-bg]");
+  const load = el => { el.style.backgroundImage = `url(${el.dataset.bg})`; };
+  if (!("IntersectionObserver" in window)) { els.forEach(load); return; }
+  const o = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { load(e.target); o.unobserve(e.target); }
+  }), { rootMargin: "700px 0px" });
+  els.forEach(el => o.observe(el));
+})();
