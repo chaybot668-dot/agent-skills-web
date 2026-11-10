@@ -990,3 +990,13 @@ em .wi{animation-delay:calc(var(--i,0) * .18s)}
 .lite .hero-dust,.lite .hero-floor{display:none}
 .lite .hero-beam,.lite .hero-light::before,.lite .hero-chart .wave{animation:none}
 .lite em,.lite em .wi,.lite .num{animation:none}
+
+/* logo thương hiệu (ảnh trong suốt) */
+.brand .mark{width:auto;height:38px;filter:none}
+.brand:hover .mark{transform:scale(1.04);filter:none}
+.brand-t{margin-left:2px}
+.monogram{width:auto;height:120px;filter:none}
+.veil img{width:auto;height:56px;opacity:0;animation:veilMark .9s .05s var(--ease) forwards}
+.veil svg{display:none}
+.veil{background:var(--bg)}
+.mono-t{display:none}
