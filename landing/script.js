@@ -29,6 +29,8 @@ const SITE = {
       { src: "img/my-the5ers-funded.webp", w: 600, h: 600, firm: "The5ers", title: "Funded Certificate" },
       { src: "img/my-the5ers-total-a.webp", w: 1040, h: 992, firm: "The5ers", title: "Total Payouts" },
       { src: "img/my-the5ers-total-b.webp", w: 1024, h: 1024, firm: "The5ers", title: "Total Payouts" },
+      // TEST ONLY — ảnh chưa được xác minh (chữ "TRADER" trông đã bị chỉnh). Xoá dòng này trước khi đưa trang lên mạng thật.
+      { src: "img/my-fundednext-elite.webp", w: 1200, h: 800, firm: "FundedNext", title: "Elite Trader · unverified sample" },
       { src: "img/my-the5ers-payout.webp", w: 600, h: 580, firm: "The5ers", title: "Payout $4,373.88" },
       { src: "img/my-topstep-funded.webp", w: 1054, h: 814, firm: "Topstep", title: "Funded Trader" },
       // { src: "img/my-ftmo-profit.webp", w: 1080, h: 1080, firm: "FTMO", title: "Profit Split", verify: "" },
