@@ -414,3 +414,19 @@ em{white-space:nowrap}
 @media(max-width:640px){.coin{width:120px;right:0;top:-6%}}
 @media(prefers-reduced-motion:reduce){.coin{animation:none;transform:rotateZ(-6deg)}}
 .bg-orbit{filter:sepia(.85) saturate(1.7) hue-rotate(-14deg) brightness(.95)}.bg-night{filter:sepia(.4) saturate(1.3)}
+
+/* ===== FONT & TIẾNG VIỆT ===== */
+html{text-rendering:optimizeLegibility;-webkit-text-size-adjust:100%}
+body{font-feature-settings:"kern","liga","calt";font-optical-sizing:auto}
+/* Playfair mặc định dùng số kiểu cổ (0 giống chữ o) → ép số thẳng hàng, dễ đọc */
+h1,h2,h3,.num,.price,.price b,.trust b,.badge-float b,.term-foot b,.quote blockquote,.logo{font-variant-numeric:lining-nums proportional-nums;font-feature-settings:"lnum","kern"}
+.plan .price b{font-variant-numeric:lining-nums tabular-nums}
+/* dấu thanh/mũ tiếng Việt không bị cắt, không dính dòng trên */
+h1{line-height:1.22}
+h2{line-height:1.25}
+h3{line-height:1.3}
+em{padding:.14em .04em .1em;margin:-.14em -.04em -.1em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.eyebrow{letter-spacing:.2em;line-height:1.5}
+.tag,.ribbon{letter-spacing:.12em}
+.trust b{line-height:1.3}
+.lead,.about-text p,.card p,.steps p,.rung p,.faq p{line-height:1.75}
