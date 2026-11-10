@@ -404,9 +404,9 @@ html[lang=en] .lang [data-l=en],html[lang=vi] .lang [data-l=vi]{opacity:1;color:
 .tl-c p{color:var(--text-3);font-size:.93rem}
 .tl:nth-child(even) .tl-d{order:2;text-align:left}
 .tl:nth-child(even) .tl-c{order:1}
-.tl:nth-child(3) .tl-c,.tl:nth-child(5) .tl-c{--hl:var(--accent-rgb);border-color:var(--milestone-line);background:var(--milestone-bg)}
-.tl:nth-child(3) .tl-d,.tl:nth-child(5) .tl-d,.tl:nth-child(3) .tl-f,.tl:nth-child(5) .tl-f{color:var(--accent)}
-.tl:nth-child(3).lit::before,.tl:nth-child(5).lit::before{border-color:var(--accent-strong);background:var(--accent);box-shadow:0 0 0 6px rgba(var(--accent-rgb),.16),0 0 18px rgba(var(--accent-rgb),.55)}
+.tl:nth-child(3) .tl-c,.tl:nth-child(6) .tl-c{--hl:var(--accent-rgb);border-color:var(--milestone-line);background:var(--milestone-bg)}
+.tl:nth-child(3) .tl-d,.tl:nth-child(6) .tl-d,.tl:nth-child(3) .tl-f,.tl:nth-child(6) .tl-f{color:var(--accent)}
+.tl:nth-child(3).lit::before,.tl:nth-child(6).lit::before{border-color:var(--accent-strong);background:var(--accent);box-shadow:0 0 0 6px rgba(var(--accent-rgb),.16),0 0 18px rgba(var(--accent-rgb),.55)}
 
 /* ---------- philosophy ---------- */
 .philosophy{background:var(--phil-bg)}
@@ -570,3 +570,5 @@ html.theme-anim,html.theme-anim *,html.theme-anim *::before,html.theme-anim *::a
   .phil-gallery::-webkit-scrollbar{display:none}
   .ph-fig{flex:0 0 min(62vw,260px);scroll-snap-align:center}
 }
+
+.num-text{font-size:clamp(1.6rem,2.6vw,2.2rem);letter-spacing:-.02em}
