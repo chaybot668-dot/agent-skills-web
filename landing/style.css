@@ -464,3 +464,40 @@ h1,h2{font-weight:700}
 .bg-orion{opacity:.4;filter:sepia(.55) saturate(1.5) hue-rotate(-18deg);background-position:center 30%;-webkit-mask-image:linear-gradient(270deg,#000 0%,transparent 65%);mask-image:linear-gradient(270deg,#000 0%,transparent 65%)}
 .register.has-photo{overflow:hidden}
 @media(max-width:640px){.showcase{min-height:480px}.show-shade{background:linear-gradient(180deg,rgba(5,5,5,.7),rgba(5,5,5,.9))}.card-img{margin:-26px -26px 0;height:160px}}
+
+/* ===== THÀNH TỰU HỌC VIÊN: DÃY CHẠY LIÊN TỤC ===== */
+.achv-section{overflow:hidden}
+.achv{position:relative;margin:10px 0 44px;padding:26px 0;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent)}
+.achv-track{display:flex;width:max-content;animation:achv var(--dur,40s) linear infinite;will-change:transform}
+.achv:hover .achv-track,.achv:focus-within .achv-track{animation-play-state:paused}
+.achv-group{display:flex;gap:30px;padding-right:30px}
+@keyframes achv{to{transform:translateX(calc(var(--w,1000px) * -1))}}
+.achv-card{position:relative;flex:none;height:340px;padding:3px;border:0;border-radius:20px;cursor:zoom-in;color:inherit;font:inherit;
+  background:linear-gradient(140deg,rgba(255,211,77,.85),rgba(255,122,0,.2) 45%,rgba(255,179,0,.7));
+  box-shadow:0 30px 60px -25px rgba(0,0,0,.9),0 0 40px rgba(255,122,0,.18);transition:transform .35s,box-shadow .35s}
+.achv-card:hover,.achv-card:focus-visible{transform:translateY(-8px) scale(1.03);box-shadow:0 40px 70px -25px rgba(0,0,0,.9),0 0 60px rgba(255,150,0,.45);outline:0}
+.achv-card img{display:block;height:100%;width:auto;border-radius:17px}
+.achv-cap{position:absolute;left:14px;bottom:14px;padding:7px 14px;border-radius:999px;font-size:.78rem;color:var(--text);
+  background:rgba(8,8,9,.82);backdrop-filter:blur(10px);border:1px solid rgba(255,179,0,.45)}
+.achv-cap b{color:var(--gold)}
+.achv-note{max-width:640px;margin:0 auto 26px;font-size:.8rem;color:#8d8777}
+
+.lightbox{flex-direction:column;cursor:zoom-out}
+.lightbox:not([hidden]){display:grid}
+.lightbox img{max-width:min(94vw,900px);max-height:88vh;border-radius:14px;border:2px solid var(--amber);box-shadow:0 0 80px rgba(255,140,0,.35);animation:pop .35s ease}
+.lightbox .modal-x{z-index:2;top:16px;right:22px;color:var(--text)}
+
+@media(max-width:640px){.achv-card{height:260px}.achv-group{gap:18px;padding-right:18px}}
+@media(prefers-reduced-motion:reduce){
+  .achv{overflow-x:auto;-webkit-mask-image:none;mask-image:none}
+  .achv-track{animation:none}
+}
+
+/* nhãn nằm dưới chứng nhận, không che nội dung */
+.achv-card{height:auto;display:flex;flex-direction:column;align-items:center;gap:14px;padding:0;background:none;box-shadow:none;border-radius:0}
+.achv-card img{height:310px;border-radius:14px;border:2px solid rgba(255,179,0,.7);box-shadow:0 30px 60px -25px rgba(0,0,0,.9),0 0 40px rgba(255,122,0,.22);transition:box-shadow .35s}
+.achv-card:hover img,.achv-card:focus-visible img{box-shadow:0 40px 70px -25px rgba(0,0,0,.9),0 0 60px rgba(255,150,0,.5)}
+.achv-cap{position:static}
+@media(max-width:640px){.achv-card img{height:230px}}
+a.achv-cap a,.achv-cap a{color:var(--gold);text-decoration:underline}.achv-cap i{font-style:normal;color:var(--muted)}

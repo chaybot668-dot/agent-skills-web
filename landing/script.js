@@ -7,6 +7,14 @@ const CONFIG = {
   formEndpoint: "",
   // Link chuyển hướng sau khi đăng ký (Zalo/Telegram group...). Để trống = hiện thông báo.
   thankYouUrl: "",
+  // Dãy chứng nhận chạy ngang. Thêm ảnh: bỏ file vào landing/img/ rồi thêm 1 dòng ở đây.
+  // owner: ghi đúng "Học viên" hoặc "Của tôi" để nhãn không gây hiểu nhầm (để trống = không hiện).
+  // verify: (tuỳ chọn) link xác thực của quỹ — rất nên có để tăng độ tin cậy.
+  certificates: [
+    { src: "img/cert-payout.webp", w: 594, h: 572, firm: "The5ers", title: "Total Payouts", owner: "Học viên" },
+    { src: "img/cert-funded.webp", w: 600, h: 580, firm: "The5ers", title: "Funded Certificate", owner: "Học viên" },
+    { src: "img/cert-qt.webp", w: 709, h: 628, firm: "QT Funded", title: "Phase Pass $5,000", owner: "Học viên" },
+  ],
 };
 /* ================================================= */
 
@@ -247,4 +255,54 @@ addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
     if (e.isIntersecting) { load(e.target); o.unobserve(e.target); }
   }), { rootMargin: "700px 0px" });
   els.forEach(el => o.observe(el));
+})();
+
+/* ===== Dãy chứng nhận chạy liên tục + lightbox ===== */
+(function achievements() {
+  const track = $("#achvTrack");
+  if (!track) return;
+  const esc = t => String(t ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const items = (CONFIG.certificates || []).map(c => {
+    const alt = `Chứng nhận ${c.title} của ${c.firm}`;
+    const owner = c.owner ? ` · <i>${esc(c.owner)}</i>` : "";
+    const ver = c.verify ? ` · <a href="${esc(c.verify)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Xác thực</a>` : "";
+    return `<button class="achv-card" type="button"><img src="${esc(c.src)}" alt="${esc(alt)}" width="${+c.w}" height="${+c.h}" loading="lazy"><span class="achv-cap"><b>${esc(c.firm)}</b> · ${esc(c.title)}${owner}${ver}</span></button>`;
+  });
+  if (!items.length) { $("#thanh-tuu").hidden = true; return; }
+  const make = () => { const d = document.createElement("div"); d.className = "achv-group"; return d; };
+
+  function build() {
+    track.innerHTML = "";
+    const g = make();
+    track.appendChild(g);
+    let guard = 0;
+    do { g.insertAdjacentHTML("beforeend", items.join("")); } while (g.scrollWidth < innerWidth * 1.2 && ++guard < 12);
+    const w = g.getBoundingClientRect().width;
+    const g2 = g.cloneNode(true);
+    g2.setAttribute("aria-hidden", "true");
+    $$("button", g2).forEach(b => b.tabIndex = -1);
+    track.appendChild(g2);
+    track.style.setProperty("--w", w + "px");
+    track.style.setProperty("--dur", Math.max(w / 55, 20) + "s");
+  }
+  build();
+  let t; let lastW = innerWidth;
+  addEventListener("resize", () => {
+    clearTimeout(t);
+    t = setTimeout(() => { if (Math.abs(innerWidth - lastW) > 40) { lastW = innerWidth; build(); } }, 250);
+  });
+
+  const lb = $("#lightbox"), img = $("#lbImg");
+  const close = () => { lb.hidden = true; };
+  track.addEventListener("click", e => {
+    const card = e.target.closest(".achv-card");
+    if (!card) return;
+    const im = $("img", card);
+    img.src = im.currentSrc || im.src;
+    img.alt = im.alt;
+    lb.hidden = false;
+  });
+  lb.addEventListener("click", close);
+  $("#lbClose").addEventListener("click", close);
+  addEventListener("keydown", e => { if (e.key === "Escape") close(); });
 })();
