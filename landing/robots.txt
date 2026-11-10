@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
 
-# Khi có tên miền chính thức, thêm dòng:
-# Sitemap: https://YOUR-DOMAIN/sitemap.xml
+Sitemap: https://chaybot668-dot.github.io/agent-skills-web/sitemap.xml
