@@ -86,7 +86,7 @@ const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const SPD = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--spd")) || 1;
 const FAST = SPD < 1;
 /* Hệ số tốc độ chạy ngang của các dải ảnh (chứng nhận, triết lý): desktop 1, tablet 1.45, điện thoại 2.4. Đọc lại mỗi lần dựng/đổi cỡ màn hình. */
-const stripSpeed = () => innerWidth <= 767 ? 2.4 : innerWidth <= 1100 ? 1.45 : 1;
+const stripSpeed = (kind) => innerWidth <= 767 ? (kind === "phil" ? 3.6 : 2.4) : innerWidth <= 1100 ? (kind === "phil" ? 2 : 1.45) : 1;   // dải Triết lý có ảnh to nên cần nhanh hơn để cảm giác tương đương dải chứng nhận
 const hoverOk = matchMedia("(hover: hover)").matches;
 const store = {
   get(k) { try { return localStorage.getItem(k); } catch { return null; } },
@@ -950,7 +950,7 @@ if ("serviceWorker" in navigator && (location.protocol === "https:" || location.
     const w = g.getBoundingClientRect().width, g2 = g.cloneNode(true);
     g2.setAttribute("aria-hidden", "true"); track.appendChild(g2);
     track.style.setProperty("--w", w + "px");
-    const f = stripSpeed();
+    const f = stripSpeed("phil");
     track.style.setProperty("--dur", Math.max(w / (40 * f), 28 / f).toFixed(1) + "s");
     track.classList.add("run");
   };
