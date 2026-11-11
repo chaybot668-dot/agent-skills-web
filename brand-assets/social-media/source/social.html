@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>LAVIENT CAPITAL — social identity source</title>
+<!-- Nguồn chỉnh sửa. Mở bằng ?t=fb | yt | fbp | ytp  (fb=Facebook cover, yt=YouTube banner, fbp/ytp=ảnh đại diện).
+     Token màu/chữ lấy từ landing/style.css (obsidian #08090A, graphite #25282B, champagne #C6A66B, soft-gold #DFCB9F, antique #987747, ivory/soft-white). -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mark-mask.css">
+<style>
+:root{
+  --obsidian:#08090A; --graphite:#25282B; --champagne:#C6A66B; --soft-gold:#DFCB9F; --antique:#987747; --platinum:#BFC3C6; --titanium:#858B90; --soft-white:#F5F4F0;
+  --metal:linear-gradient(168deg,#F1E4BF 0%,#DFCB9F 22%,#C6A66B 52%,#987747 100%);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--obsidian)}
+body{position:relative;overflow:hidden;font-family:'Manrope',system-ui,sans-serif;color:var(--soft-white);-webkit-font-smoothing:antialiased}
+body.fb{width:1640px;height:624px;--mk:236px;--wm:92px;--cap:27px;--tg:19px;--gap:54px;--tgap:40px;--cy:47%}
+body.yt{width:2560px;height:1440px;--mk:280px;--wm:108px;--cap:32px;--tg:25px;--gap:64px;--tgap:38px;--cy:50%}
+body.fbp,body.ytp{width:1024px;height:1024px}
+.layer{position:absolute;inset:0}
+.bg{background:
+  radial-gradient(60% 75% at 50% 46%,rgba(198,166,107,.115),rgba(37,40,43,.22) 46%,transparent 72%),
+  radial-gradient(90% 90% at 100% 0%,rgba(85,91,96,.16),transparent 60%),
+  radial-gradient(80% 100% at 0% 100%,rgba(37,40,43,.5),transparent 62%),
+  linear-gradient(180deg,#0B0C0E,#08090A 55%,#060707)}
+.vig{background:radial-gradient(120% 120% at 50% 50%,transparent 55%,rgba(0,0,0,.55) 100%)}
+.grain{opacity:.07;mix-blend-mode:overlay}
+svg{position:absolute;inset:0;width:100%;height:100%}
+.lock{position:absolute;left:50%;top:var(--cy);transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center}
+.row{display:flex;align-items:center;gap:var(--gap)}
+.mark{height:var(--mk);aspect-ratio:368/584;background:var(--metal);-webkit-mask:var(--mask) center/100% 100% no-repeat;mask:var(--mask) center/100% 100% no-repeat;filter:drop-shadow(0 calc(var(--mk)*.05) calc(var(--mk)*.14) rgba(0,0,0,.55))}
+.word{display:flex;flex-direction:column;align-items:stretch}
+.lav{font-weight:700;font-size:var(--wm);line-height:1;letter-spacing:.2em;margin-right:-.2em;color:var(--soft-white);white-space:nowrap}
+.cap{display:flex;justify-content:space-between;margin-top:calc(var(--wm)*.2);font:500 var(--cap)/1 'IBM Plex Mono',monospace;color:var(--champagne);text-transform:uppercase}
+.rule{margin-top:var(--tgap);width:calc(var(--mk)*.42);height:1px;background:linear-gradient(90deg,transparent,var(--champagne),transparent);opacity:.75}
+.tag{margin-top:calc(var(--tgap)*.55);font:500 var(--tg)/1 'IBM Plex Mono',monospace;letter-spacing:.34em;margin-right:-.34em;text-transform:uppercase;color:var(--platinum);white-space:nowrap}
+/* ảnh đại diện */
+.pf{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);height:var(--pm);aspect-ratio:368/584;background:var(--metal);-webkit-mask:var(--mask) center/100% 100% no-repeat;mask:var(--mask) center/100% 100% no-repeat;filter:drop-shadow(0 18px 36px rgba(0,0,0,.55))}
+body.fbp{--pm:560px}
+body.ytp{--pm:610px}
+.ring{position:absolute;left:50%;top:50%;border-radius:50%;transform:translate(-50%,-50%);border:2px solid rgba(198,166,107,.38)}
+</style>
+</head>
+<body>
+<div class="layer bg"></div>
+<svg id="rays" aria-hidden="true"></svg>
+<svg id="globe" aria-hidden="true"></svg>
+<svg id="flow" aria-hidden="true"></svg>
+<div class="layer vig"></div>
+<div id="stage"></div>
+<svg class="layer grain" aria-hidden="true"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1.1 -.2"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
+<script>
+const t = new URLSearchParams(location.search).get('t') || 'fb';
+document.body.className = t;
+const W = document.body.clientWidth, H = document.body.clientHeight, NS = 'http://www.w3.org/2000/svg';
+const el = (n, a, p) => { const e = document.createElementNS(NS, n); for (const k in a) e.setAttribute(k, a[k]); (p || null) && p.appendChild(e); return e; };
+const set = (id, w, h) => { const s = document.getElementById(id); s.setAttribute('viewBox', `0 0 ${w} ${h}`); s.setAttribute('preserveAspectRatio', 'none'); return s; };
+const profile = t === 'fbp' || t === 'ytp';
+
+/* 1) Rays — nhắc đúng cấu trúc tia của logo: các nét mảnh toả từ một tiêu điểm phía dưới */
+{
+  const s = set('rays', W, H), d = el('defs', {}, s);
+  const fx = W * (profile ? .5 : .5), fy = H * (profile ? 1.05 : 1.32), n = profile ? 41 : 73, R = Math.hypot(W, H) * 1.1;
+  const g = el('linearGradient', { id: 'rg', gradientUnits: 'userSpaceOnUse', x1: fx, y1: fy, x2: fx, y2: fy - R }, d);
+  [['0', '#C6A66B', 0], ['.25', '#C6A66B', .5], ['.7', '#DFCB9F', .22], ['1', '#DFCB9F', 0]].forEach(([o, c, a]) => el('stop', { offset: o, 'stop-color': c, 'stop-opacity': a }, g));
+  for (let i = 0; i < n; i++) {
+    const k = i / (n - 1), ang = (-90 + (k - .5) * (profile ? 96 : 118)) * Math.PI / 180;
+    const x2 = fx + Math.cos(ang) * R, y2 = fy + Math.sin(ang) * R;
+    el('line', { x1: fx, y1: fy, x2, y2, stroke: 'url(#rg)', 'stroke-width': (i % 6 === 0 ? 1.6 : .8) * (W > 2000 ? 1.5 : 1), opacity: .07 + .09 * Math.sin(k * Math.PI) }, s);
+  }
+}
+/* 2) Globe / mạng toàn cầu — kinh tuyến + vĩ tuyến thép, vài nút nối rất nhẹ (không chữ, không số liệu) */
+if (!profile) {
+  const s = set('globe', W, H);
+  const cx = W * .925, cy = H * .5, R = H * .62, st = 'rgba(191,195,198,.13)', sw = W > 2000 ? 1.6 : 1.1;
+  el('circle', { cx, cy, r: R, fill: 'none', stroke: 'rgba(191,195,198,.2)', 'stroke-width': sw }, s);
+  for (let i = 1; i <= 5; i++) el('ellipse', { cx, cy, rx: R * i / 6 * 1, ry: R, fill: 'none', stroke: st, 'stroke-width': sw }, s);
+  for (let i = -3; i <= 3; i++) { const y = cy + R * i / 4.2, hw = Math.sqrt(Math.max(R * R - (y - cy) ** 2, 0)); el('ellipse', { cx, cy: y, rx: hw, ry: hw * .13, fill: 'none', stroke: st, 'stroke-width': sw }, s); }
+  const nodes = [[-.5, -.35], [.15, -.6], [.55, -.1], [-.2, .3], [.4, .5], [-.65, .1]].map(([a, b]) => [cx + a * R, cy + b * R]);
+  [[0, 1], [1, 2], [2, 4], [0, 3], [3, 4], [5, 3], [5, 0]].forEach(([a, b]) => el('line', { x1: nodes[a][0], y1: nodes[a][1], x2: nodes[b][0], y2: nodes[b][1], stroke: 'rgba(198,166,107,.28)', 'stroke-width': sw }, s));
+  nodes.forEach(([x, y]) => { el('circle', { cx: x, cy: y, r: (W > 2000 ? 6 : 4), fill: '#C6A66B', opacity: .75 }, s); el('circle', { cx: x, cy: y, r: (W > 2000 ? 15 : 10), fill: 'none', stroke: 'rgba(198,166,107,.25)', 'stroke-width': sw }, s); });
+  // bản đối xứng nhẹ ở góc trái dưới cho cân bằng bố cục
+  const cx2 = W * .06, cy2 = H * 1.02, R2 = H * .5;
+  el('circle', { cx: cx2, cy: cy2, r: R2, fill: 'none', stroke: 'rgba(191,195,198,.1)', 'stroke-width': sw }, s);
+  for (let i = 1; i <= 3; i++) el('ellipse', { cx: cx2, cy: cy2, rx: R2 * i / 4, ry: R2, fill: 'none', stroke: 'rgba(191,195,198,.07)', 'stroke-width': sw }, s);
+}
+/* 3) Flow — một đường dòng vốn mảnh, mờ dần hai đầu */
+if (!profile) {
+  const s = set('flow', W, H), d = el('defs', {}, s);
+  const g = el('linearGradient', { id: 'fg', x1: 0, y1: 0, x2: 1, y2: 0 }, d);
+  [['0', 0], ['.2', .5], ['.55', .85], ['.85', .4], ['1', 0]].forEach(([o, a]) => el('stop', { offset: o, 'stop-color': '#C6A66B', 'stop-opacity': a }, g));
+  const y = H, p = `M0 ${y * .86} C ${W * .18} ${y * .9}, ${W * .3} ${y * .74}, ${W * .46} ${y * .8} S ${W * .74} ${y * .62}, ${W} ${y * .7}`;
+  el('path', { d: p, fill: 'none', stroke: 'url(#fg)', 'stroke-width': W > 2000 ? 2.6 : 1.8, 'stroke-linecap': 'round', opacity: .8 }, s);
+  el('path', { d: p, fill: 'none', stroke: 'rgba(191,195,198,.08)', 'stroke-width': W > 2000 ? 12 : 8, transform: `translate(0 ${W > 2000 ? 14 : 9})` }, s);
+}
+/* 4) Nội dung */
+const st = document.getElementById('stage');
+if (profile) {
+  st.innerHTML = '<div class="ring" style="width:94%;height:94%"></div><div class="ring" style="width:86%;height:86%;opacity:.35"></div><div class="pf"></div>';
+  if (t === 'ytp') st.querySelectorAll('.ring').forEach((r, i) => i && r.remove());
+} else {
+  st.innerHTML = '<div class="lock"><div class="row"><div class="mark"></div><div class="word"><div class="lav">LAVIENT</div><div class="cap" id="cap"></div></div></div><div class="rule"></div><div class="tag">Discipline. Strategy. Long-term vision.</div></div>';
+  document.getElementById('cap').innerHTML = [...'CAPITAL'].map(c => `<span>${c}</span>`).join('');
+}
+document.fonts.ready.then(() => document.body.dataset.ready = '1');
+</script>
+</body>
+</html>
