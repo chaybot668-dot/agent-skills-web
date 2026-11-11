@@ -1286,7 +1286,7 @@ h1,h2,h3,.cn-h,.fs-big,.fs-quote{text-transform:none}
 }
 
 /* brand mark (monogram L, SVG) và wordmark LAVIENT / CAPITAL */
-.brand .mark{width:34px;height:34px;flex:none;color:var(--accent);transition:transform var(--t-micro) var(--ease)}
+.brand .mark{width:auto;height:38px;flex:none;transition:transform var(--t-micro) var(--ease)}
 .brand:hover .mark{transform:translateY(-1px)}
 .brand-t b{font-weight:700;letter-spacing:.2em}
 .brand-t i{letter-spacing:.5em}
