@@ -1669,3 +1669,9 @@ h1:not(.split),.sec-head h2:not(.split),.big-quote:not(.split),.cn-h:not(.split)
 /* đổi giao diện sáng/tối bằng View Transitions: chụp ảnh rồi mờ chéo — nhẹ hơn nhiều so với áp transition lên toàn bộ phần tử */
 ::view-transition-old(root),::view-transition-new(root){animation-duration:calc(.38s*var(--spd,1))}
 @media(prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
+
+/* màn hình cảm ứng: chạm hay đóng ảnh phóng to KHÔNG được làm dải ảnh dừng (":hover"/focus bị kẹt sau khi chạm). Chỉ dừng khi ngoài màn hình. */
+@media(hover:none){
+  .achv:hover .achv-track.run,.achv:focus-within .achv-track.run{animation-play-state:running}
+  .achv.off .achv-track.run{animation-play-state:paused}
+}
