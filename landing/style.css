@@ -1438,3 +1438,4 @@ p,li,small,figcaption,blockquote,.lead,.fine{text-wrap:pretty}
 @media(max-width:960px){.phil-run .ph-fig{flex:0 0 min(62vw,260px)}}
 [data-theme="light"] .ph-fig figcaption{color:#F5F4F0;text-shadow:0 1px 8px rgba(0,0,0,.6)}
 .ph-fig::before{padding:2.5px}
+.cn-h em{text-wrap:balance}
