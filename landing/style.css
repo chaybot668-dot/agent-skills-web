@@ -1064,11 +1064,11 @@ span.soc-card .soc-cta{color:var(--text-4);font-weight:500}
   --cta-text:#14110b; --cta-border:rgba(255,240,194,.55); --cta-sheen:rgba(255,248,222,.65);
   --cta-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 -8px 16px rgba(80,55,15,.25) inset,0 14px 30px -14px rgba(212,175,55,.55),0 0 0 1px rgba(8,9,10,.6);
   --cta-shadow-hover:0 1px 0 rgba(255,255,255,.6) inset,0 18px 38px -14px rgba(212,175,55,.65),0 0 0 1px rgba(232,213,163,.5);
-  --fx-line:191,195,198; --fx-dot:212,175,55; --fx-hi:255,240,194; --fx-a:1; --fx-glow:rgba(232,213,163,.075);
+  --fx-line:191,195,198; --fx-dot:212,175,55; --fx-hi:255,240,194; --fx-a:1; --fx-glow:rgba(232,213,163,.075); --fx-beam:.075; --fx-ptr:.09;
 }
 [data-theme="light"]{
   --gold-deep:#7d5f2c; --gold:#B08D3E; --gold-champ:#D6BC7A; --gold-hi:#F0DFAE; --gold-rgb:176,141,62; --gold-hi-rgb:240,223,174;
-  --accent:#7d5f2c; --accent-strong:#5f4519; --accent-rgb:176,141,62;
+  --accent:#252525; --accent-strong:#151515; --accent-rgb:176,141,62;
   --metal:linear-gradient(115deg,#151515 0%,#252525 36%,#B08D3E 62%,#F0DFAE 74%,#B08D3E 88%,#151515 100%);
   --metal-text:linear-gradient(100deg,#7d5f2c 0%,#B08D3E 36%,#D6BC7A 50%,#B08D3E 64%,#7d5f2c 100%);
   --sheen-base:#9a7a33; --sheen-hi:#D6BC7A; --num-base:#151515; --num-hi:#B08D3E;
@@ -1077,7 +1077,7 @@ span.soc-card .soc-cta{color:var(--text-4);font-weight:500}
   --cta-text:#F5F4F0; --cta-border:rgba(176,141,62,.75); --cta-sheen:rgba(240,223,174,.5);
   --cta-shadow:0 1px 0 rgba(214,188,122,.45) inset,0 14px 28px -14px rgba(21,21,21,.55),0 0 0 1px rgba(21,21,21,.9);
   --cta-shadow-hover:0 1px 0 rgba(240,223,174,.6) inset,0 18px 34px -14px rgba(21,21,21,.6),0 0 0 1px rgba(176,141,62,.8);
-  --fx-line:37,40,43; --fx-dot:176,141,62; --fx-hi:176,141,62; --fx-a:1.15; --fx-glow:rgba(176,141,62,.1);
+  --fx-line:37,40,43; --fx-dot:176,141,62; --fx-hi:176,141,62; --fx-a:1.15; --fx-glow:rgba(176,141,62,.17); --fx-beam:.13; --fx-ptr:.15;
 }
 
 /* ---------- CTA: Luxury Gold Conversion System ---------- */
@@ -1137,9 +1137,9 @@ em,em .wi{background-image:linear-gradient(100deg,var(--sheen-base) 0%,var(--she
 
 /* ---------- hiệu ứng hero: cùng một bộ ở cả hai theme (đổi màu qua token) ---------- */
 .hero-light::before{background:radial-gradient(circle,var(--fx-glow),transparent 62%)}
-.hero-pointer{background:radial-gradient(circle,rgba(var(--fx-dot),.09),transparent 65%)}
+.hero-pointer{background:radial-gradient(circle,rgba(var(--fx-dot),var(--fx-ptr)),transparent 65%)}
 .hero-floor::before{background-image:linear-gradient(rgba(var(--fx-line),.11) 1px,transparent 1px),linear-gradient(90deg,rgba(var(--fx-line),.11) 1px,transparent 1px)}
-.hero-beam{background:linear-gradient(90deg,transparent,rgba(var(--fx-dot),.075) 50%,transparent)}
+.hero-beam{background:linear-gradient(90deg,transparent,rgba(var(--fx-dot),var(--fx-beam)) 50%,transparent)}
 .hero-chart path,.hero-chart use{stroke:rgb(var(--fx-line));stroke-opacity:.17}
 .hero-chart path.b,.hero-chart use.b{stroke-opacity:.09}
 .hero-dust,.hero-globe-cv,.hero-chart,.hero-beam,.hero-floor,.hero-light{display:block}
