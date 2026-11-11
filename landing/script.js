@@ -85,6 +85,8 @@ const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 /* Hệ số tốc độ animation theo thiết bị: cùng biến --spd với CSS (desktop 1, tablet .93, mobile .82). `fast` = không phải desktop: kích hoạt sớm hơn khi cuộn. */
 const SPD = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--spd")) || 1;
 const FAST = SPD < 1;
+/* Hệ số tốc độ chạy ngang của các dải ảnh (chứng nhận, triết lý): desktop 1, tablet 1.45, điện thoại 2.4. Đọc lại mỗi lần dựng/đổi cỡ màn hình. */
+const stripSpeed = () => innerWidth <= 767 ? 2.4 : innerWidth <= 1100 ? 1.45 : 1;
 const hoverOk = matchMedia("(hover: hover)").matches;
 const store = {
   get(k) { try { return localStorage.getItem(k); } catch { return null; } },
@@ -434,7 +436,8 @@ if (hoverOk && !reduce) {
       $$("button", g2).forEach(b => { b.tabIndex = -1; });
       track.appendChild(g2);
       track.style.setProperty("--w", w + "px");
-      track.style.setProperty("--dur", Math.max(w / 45, 24) + "s");
+      const f = stripSpeed();                                  // điện thoại chạy nhanh hơn nhiều so với desktop
+      track.style.setProperty("--dur", Math.max(w / (45 * f), 24 / f).toFixed(1) + "s");
       track.classList.add("run");
     });
   });
@@ -947,7 +950,8 @@ if ("serviceWorker" in navigator && (location.protocol === "https:" || location.
     const w = g.getBoundingClientRect().width, g2 = g.cloneNode(true);
     g2.setAttribute("aria-hidden", "true"); track.appendChild(g2);
     track.style.setProperty("--w", w + "px");
-    track.style.setProperty("--dur", Math.max(w / 40, 28) + "s");
+    const f = stripSpeed();
+    track.style.setProperty("--dur", Math.max(w / (40 * f), 28 / f).toFixed(1) + "s");
     track.classList.add("run");
   };
   build();
