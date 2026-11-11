@@ -855,14 +855,8 @@ if ("serviceWorker" in navigator && (location.protocol === "https:" || location.
 })();
 
 
-/* ---------- Founder story: đường phân cách quét sáng khi vào khung nhìn; CTA cộng đồng dùng link sẵn có ---------- */
+/* ---------- Founder story: CTA cộng đồng dùng link sẵn có nếu đã cấu hình ---------- */
 (function founder() {
-  const rules = $$(".fs-rule");
-  if ("IntersectionObserver" in window) {
-    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .6 });
-    rules.forEach(r => io.observe(r));
-  } else rules.forEach(r => r.classList.add("in"));
-  // nếu đã cấu hình link cộng đồng thật thì dùng, nếu không thì cuộn tới khu mạng xã hội sẵn có
   const url = (SITE.links.community || "").trim(), a = $("#fsCommunity");
   if (a && /^https?:\/\//i.test(url)) { a.href = url; a.target = "_blank"; a.rel = "noopener noreferrer"; }
 })();
