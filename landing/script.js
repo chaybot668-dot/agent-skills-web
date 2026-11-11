@@ -295,6 +295,10 @@ if (hoverOk && !reduce) {
     if (url) { a.href = url; a.hidden = false; }
   });
 
+  // Mọi nút "Kết nối" (header, menu, hero, Triết lý) mở thẳng Telegram. Chưa điền link thì giữ nguyên: cuộn tới mục Kết nối.
+  const tg = val(L.telegram);
+  if (/^https:\/\//i.test(tg)) $$('a[href="#connect"]').forEach(a => { a.href = tg; a.target = "_blank"; a.rel = "noopener noreferrer"; });
+
   const email = val(L.email);
   if (email) {
     const p = $("#footContact");
