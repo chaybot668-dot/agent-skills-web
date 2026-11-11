@@ -400,8 +400,8 @@ if (hoverOk && !reduce) {
   const root = document.documentElement;
   const metaTheme = $('meta[name="theme-color"]');
   const L = {
-    en: { dark: "Dark Mode", light: "Light Mode", aria: t => `Theme: ${t === "dark" ? "Dark" : "Light"} mode. Switch to ${t === "dark" ? "light" : "dark"} mode` },
-    vi: { dark: "Chế độ tối", light: "Chế độ sáng", aria: t => `Giao diện: chế độ ${t === "dark" ? "tối" : "sáng"}. Chuyển sang chế độ ${t === "dark" ? "sáng" : "tối"}` },
+    en: { dark: "Dark Mode", light: "Light Mode", tip: t => `Switch to ${t === "dark" ? "light" : "dark"} mode`, aria: t => `Theme: ${t === "dark" ? "Dark" : "Light"} mode. Switch to ${t === "dark" ? "light" : "dark"} mode` },
+    vi: { dark: "Chế độ tối", light: "Chế độ sáng", tip: t => `Chuyển sang chế độ ${t === "dark" ? "sáng" : "tối"}`, aria: t => `Giao diện: chế độ ${t === "dark" ? "tối" : "sáng"}. Chuyển sang chế độ ${t === "dark" ? "sáng" : "tối"}` },
   };
   const get = () => root.getAttribute("data-theme") === "light" ? "light" : "dark";
   const paint = () => {
@@ -409,7 +409,7 @@ if (hoverOk && !reduce) {
     $$("[data-theme-toggle]").forEach(b => {
       b.setAttribute("aria-pressed", String(t === "dark"));
       b.setAttribute("aria-label", l.aria(t));
-      b.title = l[t];
+      b.dataset.tip = l.tip(t); b.removeAttribute("title");
       const lab = $(".th-label", b); if (lab) lab.textContent = l[t];
     });
     root.style.colorScheme = t;
