@@ -11,6 +11,7 @@ const SITE = {
   // Kênh liên hệ THẬT. Để trống = không hiện. Không điền link giả.
   links: {
     email: "",       // vd: "you@domain.com"
+    telegram: "https://t.me/",   // nút "Kết nối qua Telegram" — ĐANG LÀ LINK TẠM (trang chủ Telegram). Thay bằng link thật, ví dụ "https://t.me/ten_cua_ban"; để "" để ẩn nút
     community: "",   // nút "Join The Community"
     website: "",     // nút "Explore LAVIENT CAPITAL"
   },
@@ -151,7 +152,7 @@ $("#year").textContent = new Date().getFullYear();
 
   // đánh dấu mục menu theo section đang xem
   const links = new Map($$("a", menu).map(a => [a.getAttribute("href").slice(1), a]));
-  const secs = ["home", "about", "achievements", "journey", "philosophy", "approach", "connect"].map(id => document.getElementById(id)).filter(Boolean);
+  const secs = ["home", "about", "achievements", "journey", "philosophy", "approach", "ebook", "connect"].map(id => document.getElementById(id)).filter(Boolean);
   const io = new IntersectionObserver(es => es.forEach(e => {
     if (!e.isIntersecting) return;
     links.forEach(a => a.classList.remove("active"));
@@ -364,6 +365,7 @@ if (hoverOk && !reduce) {
   const valid = /^https:\/\//i.test(action);
   if (!valid && !dev) return;                       // chưa cấu hình thật: không hiển thị
   sec.hidden = false;
+  ["#navEbook", "#footEbook"].forEach(id => { const a = $(id); if (a) a.hidden = false; });
   const form = $("#ebookForm"), email = $("#ebEmail"), consent = $("#ebConsent"), msg = $("#ebMsg"), demo = $("#ebDemo");
   const T = {
     en: { bad: "Please enter a valid email address.", consent: "Please tick the consent box to continue.", sent: "Request sent. Check your inbox (and spam folder) to confirm and receive the ebook.", demo: "Demo mode: set SITE.ebook.formAction in script.js to enable sign-ups." },

@@ -1552,3 +1552,8 @@ h1:not(.split),.sec-head h2:not(.split),.big-quote:not(.split),.cn-h:not(.split)
 @media(max-width:900px){.eb-in{grid-template-columns:1fr}}
 .eb-copy .fine{text-align:left}
 .eb-consent span{text-wrap:pretty}
+
+/* menu/footer: liên kết ẩn (chưa cấu hình) không được hiện dù có display:flex của menu mobile */
+.menu a[hidden],.foot-nav a[hidden]{display:none!important}
+/* nút Telegram */
+.btn-tg svg{width:18px;height:18px;flex:none}
