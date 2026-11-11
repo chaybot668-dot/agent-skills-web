@@ -1,5 +1,5 @@
 /* =====================================================================
-   LUCIUS CAPITAL — Luxury personal brand · dual theme design system
+   LAVIENT CAPITAL — Luxury personal brand · dual theme design system
 
    1. PRIMITIVES   bảng màu thương hiệu (không đổi theo theme)
    2. SHARED       kiểu chữ, hình khối, chuyển động
@@ -634,7 +634,7 @@ html.theme-anim,html.theme-anim *,html.theme-anim *::before,html.theme-anim *::a
 
 
 /* =====================================================================
-   LUCIUS CAPITAL — Dark Luxury (Obsidian · Graphite · Champagne · Platinum)
+   LAVIENT CAPITAL — Dark Luxury (Obsidian · Graphite · Champagne · Platinum)
    Gold là chữ ký, bạc là sự tinh chỉnh, đen là nền tảng. Không dùng xanh lá.
    ===================================================================== */
 :root{
@@ -949,7 +949,7 @@ em .wi{animation-delay:calc(var(--i,0) * .18s)}
 .lite em,.lite em .wi,.lite .num{animation:none}
 
 /* logo thương hiệu (ảnh trong suốt) */
-.brand .mark{width:auto;height:38px;filter:none}
+
 .brand:hover .mark{transform:scale(1.04);filter:none}
 .brand-t{margin-left:2px}
 .monogram{width:auto;height:120px;filter:none}
@@ -1233,7 +1233,7 @@ h1,h2,h3,.cn-h,.fs-big,.fs-quote{text-transform:none}
 
 
 /* =====================================================================
-   THE LUCIUS CAPITAL FRAMEWORK — timeline đối xứng 5 bước
+   THE LAVIENT CAPITAL FRAMEWORK — timeline đối xứng 5 bước
    Cấu trúc: <ol.method-tl> > <li.mt-step.mt-l|mt-r> > node (tâm trục) + slot > card.
    Hàng lưới 2 cột bằng nhau; node ở đúng 50% hàng; trục đi qua tâm node 01 → 05.
    Một breakpoint duy nhất (≤900px) chuyển sang một cột, trục bên trái.
@@ -1284,3 +1284,9 @@ h1,h2,h3,.cn-h,.fs-big,.fs-quote{text-transform:none}
   .js .mt-slot,.js .mt-l .mt-slot,.js .mt-r .mt-slot{opacity:1;transform:none;transition:none}
   .method-tl::after{transition:none}
 }
+
+/* brand mark (monogram L, SVG) và wordmark LAVIENT / CAPITAL */
+.brand .mark{width:34px;height:34px;flex:none;color:var(--accent);transition:transform var(--t-micro) var(--ease)}
+.brand:hover .mark{transform:translateY(-1px)}
+.brand-t b{font-weight:700;letter-spacing:.2em}
+.brand-t i{letter-spacing:.5em}

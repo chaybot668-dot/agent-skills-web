@@ -1,5 +1,5 @@
 /* =====================================================================
-   LUCIUS CAPITAL — site script
+   LAVIENT CAPITAL — site script
    Không dùng thư viện ngoài. Mọi cấu hình nằm trong SITE bên dưới.
    ===================================================================== */
 
@@ -12,7 +12,7 @@ const SITE = {
   links: {
     email: "",       // vd: "you@domain.com"
     community: "",   // nút "Join The Community"
-    website: "",     // nút "Explore Lucius Capital"
+    website: "",     // nút "Explore LAVIENT CAPITAL"
   },
 
   // ===== MẠNG XÃ HỘI — nơi DUY NHẤT quản lý link =====
@@ -830,7 +830,7 @@ if ("serviceWorker" in navigator && (location.protocol === "https:" || location.
 })();
 
 
-/* ---------- The Lucius Method: thắp sáng nút 01 → 05 lần lượt, chỉ một lần ---------- */
+/* ---------- The LAVIENT Method: thắp sáng nút 01 → 05 lần lượt, chỉ một lần ---------- */
 (function method() {
   const tl = $("#methodTl"); if (!tl) return;
   const steps = $$(".mt-step", tl);
