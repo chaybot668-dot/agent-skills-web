@@ -20,6 +20,8 @@ body{position:relative;overflow:hidden;font-family:'Manrope',system-ui,sans-seri
 body.fb{width:1640px;height:624px;--mk:236px;--wm:92px;--cap:27px;--tg:19px;--gap:54px;--tgap:40px;--cy:47%}
 body.yt{width:2560px;height:1440px;--mk:280px;--wm:108px;--cap:32px;--tg:25px;--gap:64px;--tgap:38px;--cy:50%}
 body.fbp,body.ytp{width:1024px;height:1024px}
+body.wp{width:1290px;height:2796px;--pm:900px}
+body.wp2{width:1080px;height:2400px;--pm:760px}
 .layer{position:absolute;inset:0}
 .bg{background:
   radial-gradient(60% 75% at 50% 46%,rgba(198,166,107,.115),rgba(37,40,43,.22) 46%,transparent 72%),
@@ -38,7 +40,8 @@ svg{position:absolute;inset:0;width:100%;height:100%}
 .rule{margin-top:var(--tgap);width:calc(var(--mk)*.42);height:1px;background:linear-gradient(90deg,transparent,var(--champagne),transparent);opacity:.75}
 .tag{margin-top:calc(var(--tgap)*.55);font:500 var(--tg)/1 'IBM Plex Mono',monospace;letter-spacing:.34em;margin-right:-.34em;text-transform:uppercase;color:var(--platinum);white-space:nowrap}
 /* ảnh đại diện */
-.pf{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);height:var(--pm);aspect-ratio:368/584;background:var(--metal);-webkit-mask:var(--mask) center/100% 100% no-repeat;mask:var(--mask) center/100% 100% no-repeat;filter:drop-shadow(0 18px 36px rgba(0,0,0,.55))}
+.pf{position:absolute;left:50%;top:var(--pt,50%);transform:translate(-50%,-50%);height:var(--pm);aspect-ratio:368/584;background:var(--metal);-webkit-mask:var(--mask) center/100% 100% no-repeat;mask:var(--mask) center/100% 100% no-repeat;filter:drop-shadow(0 18px 36px rgba(0,0,0,.55))}
+body.wp,body.wp2{--pt:57%}
 body.fbp{--pm:560px}
 body.ytp{--pm:610px}
 .ring{position:absolute;left:50%;top:50%;border-radius:50%;transform:translate(-50%,-50%);border:2px solid rgba(198,166,107,.38)}
@@ -58,7 +61,7 @@ document.body.className = t;
 const W = document.body.clientWidth, H = document.body.clientHeight, NS = 'http://www.w3.org/2000/svg';
 const el = (n, a, p) => { const e = document.createElementNS(NS, n); for (const k in a) e.setAttribute(k, a[k]); (p || null) && p.appendChild(e); return e; };
 const set = (id, w, h) => { const s = document.getElementById(id); s.setAttribute('viewBox', `0 0 ${w} ${h}`); s.setAttribute('preserveAspectRatio', 'none'); return s; };
-const profile = t === 'fbp' || t === 'ytp';
+const profile = t === 'fbp' || t === 'ytp' || t === 'wp' || t === 'wp2';
 
 /* 1) Rays — nhắc đúng cấu trúc tia của logo: các nét mảnh toả từ một tiêu điểm phía dưới */
 {
@@ -69,7 +72,7 @@ const profile = t === 'fbp' || t === 'ytp';
   for (let i = 0; i < n; i++) {
     const k = i / (n - 1), ang = (-90 + (k - .5) * (profile ? 96 : 118)) * Math.PI / 180;
     const x2 = fx + Math.cos(ang) * R, y2 = fy + Math.sin(ang) * R;
-    el('line', { x1: fx, y1: fy, x2, y2, stroke: 'url(#rg)', 'stroke-width': (i % 6 === 0 ? 1.6 : .8) * (W > 2000 ? 1.5 : 1), opacity: .07 + .09 * Math.sin(k * Math.PI) }, s);
+    el('line', { x1: fx, y1: fy, x2, y2, stroke: 'url(#rg)', 'stroke-width': (i % 6 === 0 ? 1.6 : .8) * (W > 2000 || H > 2000 ? 1.8 : 1), opacity: .07 + .09 * Math.sin(k * Math.PI) }, s);
   }
 }
 /* 2) Globe / mạng toàn cầu — kinh tuyến + vĩ tuyến thép, vài nút nối rất nhẹ (không chữ, không số liệu) */
@@ -98,7 +101,9 @@ if (!profile) {
 }
 /* 4) Nội dung */
 const st = document.getElementById('stage');
-if (profile) {
+if (t === 'wp' || t === 'wp2') {
+  st.innerHTML = '<div class="pf"></div>';
+} else if (profile) {
   st.innerHTML = '<div class="ring" style="width:94%;height:94%"></div><div class="ring" style="width:86%;height:86%;opacity:.35"></div><div class="pf"></div>';
   if (t === 'ytp') st.querySelectorAll('.ring').forEach((r, i) => i && r.remove());
 } else {
