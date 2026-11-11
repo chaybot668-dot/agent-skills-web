@@ -73,12 +73,14 @@ const I18N = {
   lang: "en",
 };
 (function i18n() {
-  const els = $$("[data-i18n]");
-  els.forEach(el => { el.dataset.en = el.innerHTML; });
   const set = l => {
     I18N.lang = l;
     document.documentElement.lang = l;
-    els.forEach(el => { el.innerHTML = l === "vi" ? el.dataset.vi : el.dataset.en; });
+    // quét lại mỗi lần đổi: phần tử được nhân bản sau khi tải (dải ảnh chạy vòng) vẫn đổi ngôn ngữ đúng
+    $$("[data-i18n]").forEach(el => {
+      if (!("en" in el.dataset)) el.dataset.en = el.innerHTML;
+      el.innerHTML = l === "vi" ? el.dataset.vi : el.dataset.en;
+    });
     $("#toTop").setAttribute("aria-label", l === "vi" ? "Lên đầu trang" : "Back to Top");
     $("#burger").setAttribute("aria-label", l === "vi" ? "Mở menu" : "Open menu");
     store.set("lang", l);
