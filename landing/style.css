@@ -1407,3 +1407,34 @@ p,li,small,figcaption,blockquote,.lead,.fine{text-wrap:pretty}
 @media(min-width:901px){.fs-ch{grid-template-columns:minmax(240px,.85fr) minmax(0,1.15fr)}}
 @media(max-width:359px){.fs-sign i{letter-spacing:.1em}}
 .cn-copy .lead,.fs-cta p{text-wrap:balance}
+
+/* =====================================================================
+   PHILOSOPHY GALLERY — dải ảnh tự chạy (cả desktop và mobile) + viền vàng ánh kim chuyển động
+   Dùng chung cơ chế với dải chứng nhận (.achv / .achv-track.run). Giảm chuyển động: giữ bố cục tĩnh.
+   ===================================================================== */
+@property --pa{syntax:"<angle>";inherits:false;initial-value:0deg}
+@keyframes phRing{to{--pa:360deg}}
+.ph-fig{--g1:#80613B;--g2:#C6A66B;--g3:#FFF0C2;--g-glow:rgba(198,166,107,.34)}
+[data-theme="light"] .ph-fig{--g1:#7d5f2c;--g2:#B08D3E;--g3:#EBD08A;--g-glow:rgba(176,141,62,.34)}
+.ph-fig{border-color:rgba(var(--accent-rgb),.28);box-shadow:var(--shadow),0 18px 44px -22px var(--g-glow)}
+/* viền ánh kim: dải sáng champagne chạy một vòng quanh ảnh */
+.ph-fig::before{content:"";position:absolute;inset:0;z-index:3;border-radius:inherit;padding:2px;pointer-events:none;
+  background:conic-gradient(from var(--pa),transparent 0 38%,var(--g1) 46%,var(--g2) 56%,var(--g3) 64%,var(--g2) 72%,var(--g1) 80%,transparent 90% 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
+  animation:phRing 7s linear infinite}
+.ph-fig:nth-child(2n)::before{animation-delay:-2.3s}.ph-fig:nth-child(3n)::before{animation-delay:-4.6s}
+/* vệt sáng kim loại quét chậm qua ảnh */
+.ph-fig .ph-sheen{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(112deg,transparent 40%,rgba(255,240,194,.16) 50%,transparent 60%);transform:translateX(-130%);animation:phSheen 9s var(--ease-io,ease-in-out) infinite}
+@keyframes phSheen{0%,55%{transform:translateX(-130%)}85%,100%{transform:translateX(130%)}}
+.achv.off .ph-fig::before,.achv.off .ph-sheen{animation-play-state:paused}
+@media(hover:hover){.ph-fig:hover::before{animation-duration:3.2s}.ph-fig:hover{border-color:rgba(var(--accent-rgb),.6)}}
+@media(prefers-reduced-motion:reduce){.ph-fig::before,.ph-fig .ph-sheen{animation:none}.ph-fig::before{background:linear-gradient(135deg,var(--g1),var(--g3),var(--g1))}.ph-fig .ph-sheen{display:none}}
+
+/* dải chạy */
+.phil-run{margin-top:clamp(40px,5vw,72px)}
+.phil-run .achv-group{gap:16px;padding-right:16px}
+.phil-run .achv-track.run .achv-group{padding-right:16px}
+.phil-run .ph-fig{flex:0 0 clamp(210px,18vw,300px);cursor:default}
+@media(max-width:960px){.phil-run .ph-fig{flex:0 0 min(62vw,260px)}}
+[data-theme="light"] .ph-fig figcaption{color:#F5F4F0;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+.ph-fig::before{padding:2.5px}
