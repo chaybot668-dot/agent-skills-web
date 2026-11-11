@@ -392,16 +392,7 @@ if ("serviceWorker" in navigator && (location.protocol === "https:" || location.
 }
 
 
-/* ---------- Approach: ảnh chuyển theo bước đang đọc ---------- */
-(function approachImages() {
-  const imgs = $$(".ap-img"), steps = $$("[data-ap-step]");
-  if (!imgs.length || !steps.length || !("IntersectionObserver" in window)) return;
-  const show = key => imgs.forEach(i => i.classList.toggle("is-on", i.dataset.ap === key));
-  const io = new IntersectionObserver(es => es.forEach(e => {
-    if (e.isIntersecting) { show(e.target.dataset.apStep); steps.forEach(s => s.classList.toggle("dim", s !== e.target)); }
-  }), { rootMargin: "-40% 0px -45% 0px" });
-  steps.forEach(s => io.observe(s));
-})();
+
 
 
 /* ---------- Hero: địa cầu kỹ thuật số (canvas thuần, không thư viện) ----------
@@ -725,4 +716,33 @@ if ("serviceWorker" in navigator && (location.protocol === "https:" || location.
   if (!("IntersectionObserver" in window)) return;
   const io = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle("off", !e.isIntersecting)));
   $$(".achv").forEach(a => io.observe(a));
+})();
+
+
+/* ---------- The Lucius Method: thắp sáng nút 01 → 05 lần lượt, chỉ một lần ---------- */
+(function method() {
+  const tl = $("#methodTl"); if (!tl) return;
+  const steps = $$(".mt-step", tl);
+  const geom = () => {                                   // trục chạy từ nút 01 đến nút 05
+    const tr = tl.getBoundingClientRect(), c = n => { const r = $(".mt-node", n).getBoundingClientRect(); return r.top + r.height / 2 - tr.top; };
+    const t0 = c(steps[0]), t1 = c(steps[steps.length - 1]);
+    tl.style.setProperty("--lt", t0 + "px"); tl.style.setProperty("--lb", (tr.height - t1) + "px"); return [t0, t1 - t0];
+  };
+  const lit = el => {
+    el.classList.add("on");
+    const [t0, len] = geom(), nr = $(".mt-node", el).getBoundingClientRect(), tr = tl.getBoundingClientRect();
+    tl.style.setProperty("--p", Math.max(0, Math.min(1, (nr.top + nr.height / 2 - tr.top - t0) / len)).toFixed(4));
+  };
+  if (reduce || !("IntersectionObserver" in window)) { steps.forEach(lit); tl.style.setProperty("--p", 1); return; }
+  let last = -1;
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    io.unobserve(e.target);
+    // luôn theo thứ tự: không sáng bước sau khi bước trước chưa sáng
+    const idx = steps.indexOf(e.target);
+    for (let k = last + 1; k <= idx; k++) setTimeout(() => lit(steps[k]), (k - last - 1) * 450);
+    last = Math.max(last, idx);
+  }), { threshold: .35, rootMargin: "0px 0px -8% 0px" });
+  steps.forEach(st => io.observe(st));
+  addEventListener("resize", () => { geom(); const on = steps.filter(x => x.classList.contains("on")).pop(); if (on) lit(on); });
 })();
