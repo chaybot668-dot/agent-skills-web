@@ -392,16 +392,7 @@ if ("serviceWorker" in navigator && (location.protocol === "https:" || location.
 }
 
 
-/* ---------- Approach: ảnh chuyển theo bước đang đọc ---------- */
-(function approachImages() {
-  const imgs = $$(".ap-img"), steps = $$("[data-ap-step]");
-  if (!imgs.length || !steps.length || !("IntersectionObserver" in window)) return;
-  const show = key => imgs.forEach(i => i.classList.toggle("is-on", i.dataset.ap === key));
-  const io = new IntersectionObserver(es => es.forEach(e => {
-    if (e.isIntersecting) { show(e.target.dataset.apStep); steps.forEach(s => s.classList.toggle("dim", s !== e.target)); }
-  }), { rootMargin: "-40% 0px -45% 0px" });
-  steps.forEach(s => io.observe(s));
-})();
+
 
 
 /* ---------- Hero: địa cầu kỹ thuật số (canvas thuần, không thư viện) ----------
@@ -545,6 +536,110 @@ if ("serviceWorker" in navigator && (location.protocol === "https:" || location.
   // đổi sang Light: dừng; về Dark: chạy lại
   new MutationObserver(() => { FX = fx(); size(); frame(performance.now()); start(); })
     .observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+})();
+
+/* =====================================================================
+   MOTION ENGINE — tất cả dùng chung nhịp ở :root (--d1/--d2/--d3/--stagger)
+   ===================================================================== */
+(function motion() {
+  const root = document.documentElement;
+  const wide = matchMedia("(min-width: 768px)").matches;
+
+  /* --- 1. Chữ: hiện từng từ (h1 khi tải, h2/trích dẫn khi cuộn tới) --- */
+  const splitEl = el => {
+    let i = 0;
+    const walk = n => [...n.childNodes].forEach(c => {
+      if (c.nodeType === 3) {
+        const frag = document.createDocumentFragment();
+        c.textContent.split(/(\s+)/).forEach(p => {
+          if (!p) return;
+          if (/^\s+$/.test(p)) { frag.append(p); return; }
+          const w = document.createElement("span"), wi = document.createElement("span");
+          w.className = "w"; wi.className = "wi"; wi.style.setProperty("--i", i++); wi.textContent = p;
+          w.append(wi); frag.append(w);
+        });
+        c.replaceWith(frag);
+      } else if (c.nodeType === 1 && !c.classList.contains("w")) walk(c);
+    });
+    el.classList.add("split"); walk(el);
+  };
+  const targets = $$("h1, .sec-head h2, .big-quote, .cn-h, .fs-quote");
+  if (!reduce) {
+    targets.forEach(splitEl);
+    const h1 = $("h1");
+    h1.style.setProperty("--base", ".5s");
+    requestAnimationFrame(() => requestAnimationFrame(() => h1.classList.add("go")));
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add("go"); io.unobserve(e.target); }
+    }), { threshold: .45 });
+    targets.filter(t => t !== h1).forEach(t => io.observe(t));
+    // đổi ngôn ngữ: tách lại từ, không chạy lại hiệu ứng
+    new MutationObserver(() => targets.forEach(t => { t.classList.remove("split"); splitEl(t); t.classList.add("instant", "go"); }))
+      .observe(root, { attributes: true, attributeFilter: ["lang"] });
+  }
+
+  /* --- 2. Đường kẻ section vẽ ra khi vào tầm nhìn --- */
+  const sio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("seen"); sio.unobserve(e.target); } }), { threshold: .08 });
+  $$(".section").forEach(s => sio.observe(s));
+
+  /* --- 3. Icon: chuẩn hoá độ dài nét để animate vẽ lại --- */
+  $$(".ico svg path, .ico svg circle").forEach(p => p.setAttribute("pathLength", "1"));
+
+  if (reduce || !wide) return;                           // phần còn lại chỉ cho desktop
+
+  /* --- 4. Parallax theo tiến trình cuộn (một biến CSS, chỉ trong màn hình đầu) --- */
+  const hero = $(".hero");
+  let ticking = false;
+  addEventListener("scroll", () => {
+    if (ticking || scrollY > 1100) return;
+    ticking = true;
+    requestAnimationFrame(() => { hero.style.setProperty("--sy", Math.min(scrollY, 1000)); ticking = false; });
+  }, { passive: true });
+
+  if (!hoverOk) return;
+
+  /* --- 5. Ánh sáng theo con trỏ trong hero --- */
+  const ptr = $(".hero-pointer");
+  hero.addEventListener("pointermove", e => {
+    const r = hero.getBoundingClientRect();
+    ptr.style.transform = `translate3d(${e.clientX - r.left}px,${e.clientY - r.top}px,0)`;
+    hero.classList.add("lit");
+  }, { passive: true });
+  hero.addEventListener("pointerleave", () => hero.classList.remove("lit"));
+
+  /* --- 6. Thẻ: nghiêng ≤2.2° --- */
+  const TILT = ".card, .stat, .cred, .tl-c";
+  $$(TILT).forEach(el => el.classList.add("tilt"));
+  let cur = null, raf = 0;
+  document.addEventListener("pointermove", e => {
+    const el = e.target.closest?.(TILT);
+    if (cur && cur !== el) { cur.style.setProperty("--rx", "0deg"); cur.style.setProperty("--ry", "0deg"); }
+    cur = el;
+    if (!el) return;
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(() => {
+      const r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      el.style.setProperty("--ry", (x * 4.4).toFixed(2) + "deg");
+      el.style.setProperty("--rx", (-y * 4.4).toFixed(2) + "deg");
+    });
+  }, { passive: true });
+  document.addEventListener("pointerleave", () => { if (cur) { cur.style.setProperty("--rx", "0deg"); cur.style.setProperty("--ry", "0deg"); cur = null; } });
+
+  /* --- 7. Nút: nam châm nhẹ + phản hồi khi nhấn --- */
+  $$(".btn-lg, .nav-cta").forEach(b => {
+    b.classList.add("mag");
+    let x = 0, y = 0;
+    const set = (sc) => { b.style.transform = `translate3d(${x}px,${y}px,0)${sc ? " scale(.97)" : ""}`; };
+    b.addEventListener("pointermove", e => {
+      const r = b.getBoundingClientRect();
+      x = Math.max(-6, Math.min(6, (e.clientX - r.left - r.width / 2) * .14));
+      y = Math.max(-5, Math.min(5, (e.clientY - r.top - r.height / 2) * .2));
+      set(false);
+    });
+    b.addEventListener("pointerleave", () => { x = y = 0; b.style.transform = ""; });
+    b.addEventListener("pointerdown", () => set(true));
+    b.addEventListener("pointerup", () => set(false));
+  });
 })();
 
 (function heroDust() {
@@ -725,4 +820,46 @@ if ("serviceWorker" in navigator && (location.protocol === "https:" || location.
   if (!("IntersectionObserver" in window)) return;
   const io = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle("off", !e.isIntersecting)));
   $$(".achv").forEach(a => io.observe(a));
+})();
+
+
+/* ---------- The Lucius Method: thắp sáng nút 01 → 05 lần lượt, chỉ một lần ---------- */
+(function method() {
+  const tl = $("#methodTl"); if (!tl) return;
+  const steps = $$(".mt-step", tl);
+  const geom = () => {                                   // trục chạy từ nút 01 đến nút 05
+    const tr = tl.getBoundingClientRect(), c = n => { const r = $(".mt-node", n).getBoundingClientRect(); return r.top + r.height / 2 - tr.top; };
+    const t0 = c(steps[0]), t1 = c(steps[steps.length - 1]);
+    tl.style.setProperty("--lt", t0 + "px"); tl.style.setProperty("--lb", (tr.height - t1) + "px"); return [t0, t1 - t0];
+  };
+  const lit = el => {
+    el.classList.add("on");
+    const [t0, len] = geom(), nr = $(".mt-node", el).getBoundingClientRect(), tr = tl.getBoundingClientRect();
+    tl.style.setProperty("--p", Math.max(0, Math.min(1, (nr.top + nr.height / 2 - tr.top - t0) / len)).toFixed(4));
+  };
+  if (reduce || !("IntersectionObserver" in window)) { steps.forEach(lit); tl.style.setProperty("--p", 1); return; }
+  let last = -1;
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    io.unobserve(e.target);
+    // luôn theo thứ tự: không sáng bước sau khi bước trước chưa sáng
+    const idx = steps.indexOf(e.target);
+    for (let k = last + 1; k <= idx; k++) setTimeout(() => lit(steps[k]), (k - last - 1) * 450);
+    last = Math.max(last, idx);
+  }), { threshold: .35, rootMargin: "0px 0px -8% 0px" });
+  steps.forEach(st => io.observe(st));
+  addEventListener("resize", () => { geom(); const on = steps.filter(x => x.classList.contains("on")).pop(); if (on) lit(on); });
+})();
+
+
+/* ---------- Founder story: đường phân cách quét sáng khi vào khung nhìn; CTA cộng đồng dùng link sẵn có ---------- */
+(function founder() {
+  const rules = $$(".fs-rule");
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .6 });
+    rules.forEach(r => io.observe(r));
+  } else rules.forEach(r => r.classList.add("in"));
+  // nếu đã cấu hình link cộng đồng thật thì dùng, nếu không thì cuộn tới khu mạng xã hội sẵn có
+  const url = (SITE.links.community || "").trim(), a = $("#fsCommunity");
+  if (a && /^https?:\/\//i.test(url)) { a.href = url; a.target = "_blank"; a.rel = "noopener noreferrer"; }
 })();
