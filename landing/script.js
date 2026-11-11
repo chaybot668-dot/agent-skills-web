@@ -320,7 +320,7 @@ if (hoverOk && !reduce) {
 
   // form: chỉ hiện khi có nơi nhận thật; môi trường thử nghiệm (file/localhost) hiện chế độ demo
   const box = $("#contact-form"), contactBtn = $("#ctaContact");
-  const endpoint = val(SITE.formEndpoint);
+  const endpoint = /^https:\/\//i.test(val(SITE.formEndpoint)) ? val(SITE.formEndpoint) : "";   // chỉ nhận địa chỉ https
   const canSend = !!(endpoint || email);
   const dev = location.protocol === "file:" || ["", "localhost", "127.0.0.1"].includes(location.hostname);
   if (canSend || dev) {
@@ -483,13 +483,14 @@ if (hoverOk && !reduce) {
   };
   const apply = (t, persist) => {
     if (t === get()) { if (persist) store.set("theme", t); return; }
+    const commit = () => { root.setAttribute("data-theme", t); if (persist) store.set("theme", t); paint(); };
+    // View Transitions (chụp ảnh + mờ chéo) cho độ phản hồi tốt (INP); trình duyệt chưa hỗ trợ thì dùng transition cũ trong 380ms
+    if (!reduce && document.startViewTransition) { document.startViewTransition(commit); return; }
     if (!reduce) {
       root.classList.add("theme-anim");
       clearTimeout(apply.t); apply.t = setTimeout(() => root.classList.remove("theme-anim"), 380 * SPD);
     }
-    root.setAttribute("data-theme", t);
-    if (persist) store.set("theme", t);
-    paint();
+    commit();
   };
   $$("[data-theme-toggle]").forEach(b => b.addEventListener("click", () => apply(get() === "dark" ? "light" : "dark", true)));
   // theo hệ điều hành khi người dùng chưa chọn thủ công

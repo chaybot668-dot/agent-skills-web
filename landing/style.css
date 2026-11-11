@@ -431,7 +431,7 @@ h1:hover em,h2:hover em,.big-quote:hover em{background-position:100% 0}
 .foot-contact{margin-top:16px!important;font-size:.88rem!important}
 .foot-contact a{color:var(--accent-strong);text-decoration:underline}
 .foot-nav{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
-.foot-nav h4{font:500 .72rem var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.foot-nav h3,.foot-nav h4{font:500 .72rem var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
 .foot-nav a{color:var(--text-3);font-size:.92rem;transition:color calc(.3s*var(--spd,1)),transform calc(.3s*var(--spd,1)) var(--ease)}
 .foot-nav a:hover{color:var(--accent-strong);transform:translateX(4px)}
 .risk{padding:22px 26px;border:1px solid var(--line);border-left:2px solid var(--brand-line);border-radius:14px;background:var(--risk-bg)}
@@ -1662,3 +1662,10 @@ h1:not(.split),.sec-head h2:not(.split),.big-quote:not(.split),.cn-h:not(.split)
 :root{--spd:1}
 @media(min-width:768px) and (max-width:1100px){:root{--spd:.93}}
 @media(max-width:767px){:root{--spd:.82}}
+
+/* ô tick đồng ý: vùng chạm đủ lớn (cả dòng nhãn bấm được, tối thiểu 44px) */
+.cn-form .eb-consent{min-height:44px;padding:6px 0;align-items:center}
+.cn-form .eb-consent input{width:24px;height:24px;min-width:24px;margin-top:0}
+/* đổi giao diện sáng/tối bằng View Transitions: chụp ảnh rồi mờ chéo — nhẹ hơn nhiều so với áp transition lên toàn bộ phần tử */
+::view-transition-old(root),::view-transition-new(root){animation-duration:calc(.38s*var(--spd,1))}
+@media(prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
