@@ -1,5 +1,5 @@
 /* =====================================================================
-   LUCIUS CAPITAL — Luxury personal brand · dual theme design system
+   LAVIENT CAPITAL — Luxury personal brand · dual theme design system
 
    1. PRIMITIVES   bảng màu thương hiệu (không đổi theo theme)
    2. SHARED       kiểu chữ, hình khối, chuyển động
@@ -250,11 +250,6 @@ h1:hover em,h2:hover em,.big-quote:hover em{background-position:100% 0}
 .menu a:hover,.menu a.active{color:var(--heading)}
 .menu a:hover::after,.menu a.active::after{transform:scaleX(1)}
 .nav-end{display:flex;align-items:center;gap:18px}
-.lang{font:500 .72rem var(--mono);letter-spacing:.12em;color:var(--chip-text);padding:8px 10px;border:1px solid var(--chip-line);border-radius:10px;background:var(--chip-bg);transition:border-color .3s,color .3s;white-space:nowrap}
-.lang:hover{border-color:var(--line-hi);color:var(--heading)}
-.lang .sep{opacity:.4;margin:0 3px}
-.lang [data-l]{opacity:1;color:var(--text-3);transition:opacity .3s,color .3s}
-html[lang=en] .lang [data-l=en],html[lang=vi] .lang [data-l=vi]{opacity:1;color:var(--accent-strong)}
 .burger{display:none;width:44px;height:44px;border:1px solid var(--chip-line);border-radius:12px;position:relative}
 .burger span{position:absolute;left:12px;right:12px;height:1.5px;background:var(--heading);transition:transform .35s var(--ease),top .35s var(--ease)}
 .burger span:first-child{top:18px}.burger span:last-child{top:25px}
@@ -573,7 +568,6 @@ html.theme-anim,html.theme-anim *,html.theme-anim *::before,html.theme-anim *::a
   .btn-lg{padding:15px 22px}
   .brand-t b{font-size:.95rem}
   .brand-t i{letter-spacing:.3em}
-  .lang{padding:0 9px}
   .num{font-size:1.75rem}
   .stat:nth-child(1) .num{font-size:2rem}
   .eyebrow{letter-spacing:.16em}
@@ -612,7 +606,6 @@ html.theme-anim,html.theme-anim *,html.theme-anim *::before,html.theme-anim *::a
 
 /* ---------- vùng chạm ≥44px ---------- */
 .btn{min-height:46px}
-.lang{display:inline-flex;align-items:center;min-height:44px;padding:0 12px}
 .brand{min-height:44px}
 .th-ic{width:44px;height:44px}
 .text-link{padding:13px 0 6px;margin-top:6px}
@@ -634,7 +627,7 @@ html.theme-anim,html.theme-anim *,html.theme-anim *::before,html.theme-anim *::a
 
 
 /* =====================================================================
-   LUCIUS CAPITAL — Dark Luxury (Obsidian · Graphite · Champagne · Platinum)
+   LAVIENT CAPITAL — Dark Luxury (Obsidian · Graphite · Champagne · Platinum)
    Gold là chữ ký, bạc là sự tinh chỉnh, đen là nền tảng. Không dùng xanh lá.
    ===================================================================== */
 :root{
@@ -719,7 +712,6 @@ h1:hover em,h2:hover em,.big-quote:hover em{background-position:0 0}
 /* nút: phẳng, không phát sáng, không quét sáng */
 .theme-toggle{background:none;color:var(--label);border-color:var(--line)}
 .theme-toggle:hover{border-color:var(--line-hi);color:var(--heading);box-shadow:none}
-.lang{background:none}
 .progress{background:var(--accent);box-shadow:none;height:1.5px}
 
 /* số liệu: ngà phẳng, đơn vị vàng cổ */
@@ -949,7 +941,7 @@ em .wi{animation-delay:calc(var(--i,0) * .18s)}
 .lite em,.lite em .wi,.lite .num{animation:none}
 
 /* logo thương hiệu (ảnh trong suốt) */
-.brand .mark{width:auto;height:38px;filter:none}
+
 .brand:hover .mark{transform:scale(1.04);filter:none}
 .brand-t{margin-left:2px}
 .monogram{width:auto;height:120px;filter:none}
@@ -1118,13 +1110,13 @@ em,em .wi{background-image:linear-gradient(100deg,var(--sheen-base) 0%,var(--she
 .card:hover .ico{transform:translateY(-2px)}
 .achv-card,.ph-fig,.ap-media{transition-duration:var(--t-card)}
 .soc-sm,.soc{transition-duration:var(--t-micro)}
-.lang,.theme-toggle,.menu a,.text-link,.foot-nav a{transition-duration:var(--t-micro)}
+.theme-toggle,.menu a,.text-link,.foot-nav a{transition-duration:var(--t-micro)}
 
 /* ---------- mobile: phản hồi chạm thay cho hover ---------- */
 @media(hover:none){
   .btn:active{transform:scale(.97);transition-duration:.12s}
   .glass:active,a.soc-card:active{transform:scale(.985);border-color:rgba(var(--gold-rgb),.55);transition-duration:.12s}
-  .soc-sm:active,.theme-toggle:active,.lang:active,.burger:active{transform:scale(.92);border-color:rgba(var(--gold-rgb),.6)}
+  .soc-sm:active,.theme-toggle:active,.burger:active{transform:scale(.92);border-color:rgba(var(--gold-rgb),.6)}
   .menu a:active,.foot-nav a:active{color:var(--accent-strong)}
   .btn::after{display:none}
 }
@@ -1144,8 +1136,8 @@ em,em .wi{background-image:linear-gradient(100deg,var(--sheen-base) 0%,var(--she
   .btn-ghost:active{background-size:100% 100%;color:var(--ghost-fill-text);border-color:var(--ghost-fill-border)}
 }
 /* điều khiển nhỏ cũng đổi màu chậm sang vàng khi hover */
-.theme-toggle,.lang,.burger{transition:border-color var(--t-fill) var(--ease-io),color var(--t-fill) var(--ease-io),background-color var(--t-fill) var(--ease-io),box-shadow var(--t-fill) var(--ease-io),transform var(--t-lift) var(--ease)}
-.theme-toggle:hover,.lang:hover,.burger:hover{border-color:rgba(var(--gold-rgb),.8);color:var(--accent-strong);background-color:rgba(var(--gold-rgb),.1)}
+.theme-toggle,.burger{transition:border-color var(--t-fill) var(--ease-io),color var(--t-fill) var(--ease-io),background-color var(--t-fill) var(--ease-io),box-shadow var(--t-fill) var(--ease-io),transform var(--t-lift) var(--ease)}
+.theme-toggle:hover,.burger:hover{border-color:rgba(var(--gold-rgb),.8);color:var(--accent-strong);background-color:rgba(var(--gold-rgb),.1)}
 @media(prefers-reduced-motion:reduce){.btn-primary,.btn-ghost{transition-duration:.01ms}}
 
 
@@ -1233,7 +1225,7 @@ h1,h2,h3,.cn-h,.fs-big,.fs-quote{text-transform:none}
 
 
 /* =====================================================================
-   THE LUCIUS CAPITAL FRAMEWORK — timeline đối xứng 5 bước
+   THE LAVIENT CAPITAL FRAMEWORK — timeline đối xứng 5 bước
    Cấu trúc: <ol.method-tl> > <li.mt-step.mt-l|mt-r> > node (tâm trục) + slot > card.
    Hàng lưới 2 cột bằng nhau; node ở đúng 50% hàng; trục đi qua tâm node 01 → 05.
    Một breakpoint duy nhất (≤900px) chuyển sang một cột, trục bên trái.
@@ -1284,3 +1276,35 @@ h1,h2,h3,.cn-h,.fs-big,.fs-quote{text-transform:none}
   .js .mt-slot,.js .mt-l .mt-slot,.js .mt-r .mt-slot{opacity:1;transform:none;transition:none}
   .method-tl::after{transition:none}
 }
+
+/* brand mark (monogram L, SVG) và wordmark LAVIENT / CAPITAL */
+.brand .mark{width:auto;height:38px;flex:none;transition:transform var(--t-micro) var(--ease)}
+.brand:hover .mark{transform:translateY(-1px)}
+.brand-t b{font-weight:700;letter-spacing:.2em}
+.brand-t i{letter-spacing:.5em}
+
+/* =====================================================================
+   LANGUAGE DROPDOWN — dùng token và easing sẵn có; không keyframe mới
+   ===================================================================== */
+.lang-dd{position:relative}
+.lang-btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 12px 0 14px;border:1px solid var(--chip-line);border-radius:12px;background:none;color:var(--heading);
+  font:500 .75rem var(--mono);letter-spacing:.12em;transition:border-color var(--t-micro) var(--ease),background-color var(--t-micro) var(--ease),color var(--t-micro) var(--ease)}
+.lang-btn:hover,.lang-dd.open .lang-btn{border-color:var(--line-hi);background:rgba(var(--gold-rgb),.06)}
+.lang-chev{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;color:var(--text-3);transition:transform var(--t-micro) var(--ease)}
+.lang-dd.open .lang-chev{transform:rotate(180deg)}
+.lang-list{position:absolute;top:calc(100% + 8px);right:0;z-index:20;min-width:176px;margin:0;padding:6px;list-style:none;border:1px solid var(--line);border-radius:14px;background:var(--surface);
+  box-shadow:0 18px 40px -18px rgba(var(--shadow-rgb),.7);opacity:0;visibility:hidden;transform:translateY(-4px);
+  transition:opacity var(--t-micro) var(--ease),transform var(--t-micro) var(--ease),visibility 0s linear var(--t-micro)}
+.lang-dd.open .lang-list{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+.lang-list [role=option]{display:flex;align-items:center;gap:12px;min-height:44px;padding:0 12px;border-radius:10px;cursor:pointer;color:var(--text-2);outline:none;
+  transition:background-color var(--t-micro) var(--ease),color var(--t-micro) var(--ease)}
+.lang-list .lc{font:500 .72rem var(--mono);letter-spacing:.12em;color:var(--label);min-width:22px}
+.lang-list .ln{font:500 .9rem var(--sans);flex:1}
+.lang-check{width:16px;height:16px;fill:none;stroke:var(--accent);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;opacity:0}
+.lang-list [role=option]:hover,.lang-list [role=option]:focus-visible{background:rgba(var(--gold-rgb),.09);color:var(--heading)}
+.lang-list [role=option]:focus-visible{outline:2px solid var(--accent-strong);outline-offset:-2px}
+.lang-list [role=option].is-on{color:var(--heading)}
+.lang-list [role=option].is-on .lang-check{opacity:1}
+.lang-list [role=option].is-on .lc{color:var(--accent)}
+@media(max-width:360px){.lang-btn{padding:0 9px 0 11px;gap:6px}}
+@media(prefers-reduced-motion:reduce){.lang-list,.lang-chev{transition:none}}
