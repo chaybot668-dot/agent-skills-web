@@ -1218,3 +1218,55 @@ em,em .wi{background-image:linear-gradient(100deg,var(--sheen-base) 0%,var(--she
   .mt-num{opacity:1;transition:none}.mt-step .mt-num{transform:translateY(-50%) rotate(180deg)}
   .method-tl::after{transition:none}.mt-card::after{display:none}
 }
+
+
+/* =====================================================================
+   FOUNDER STORY — editorial storytelling (cùng cấu trúc và hiệu ứng ở cả hai theme)
+   ===================================================================== */
+.founder{position:relative}
+.fs-glow{position:absolute;z-index:-1;pointer-events:none;width:900px;height:900px;left:50%;top:6%;margin-left:-450px;border-radius:50%;
+  background:radial-gradient(circle,rgba(var(--gold-rgb),.09),transparent 64%);animation:fsDrift 38s ease-in-out infinite alternate;will-change:transform}
+@keyframes fsDrift{from{transform:translate3d(-14%,0,0)}to{transform:translate3d(14%,38%,0)}}
+.idle .fs-glow{animation-play-state:paused}
+.fs-wrap{max-width:980px}
+.fs-head{text-align:center;margin-bottom:clamp(44px,6vw,76px)}
+.fs-head .eyebrow{justify-content:center}
+.fs-quote{font-size:clamp(2rem,4.8vw,3.7rem);line-height:1.15;font-weight:500;max-width:900px;margin:0 auto;text-wrap:balance}
+.fs-open{max-width:720px;margin:0 auto;display:grid;gap:22px}
+.fs-lead{color:var(--text-2);font-size:clamp(1.05rem,1.5vw,1.2rem);line-height:1.9}
+.fs-center{text-align:center;max-width:720px;margin-inline:auto}
+.hl{background:none;color:inherit;font-weight:600;background-image:linear-gradient(100deg,var(--sheen-base) 0%,var(--sheen-base) 38%,var(--sheen-hi) 50%,var(--sheen-base) 62%,var(--sheen-base) 100%);background-size:260% 100%;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;animation:sheen 11s ease-in-out infinite}
+.idle .hl{animation-play-state:paused}
+/* đường phân cách: vệt sáng quét một lần khi xuất hiện */
+.fs-rule{position:relative;height:1px;margin:clamp(40px,5vw,64px) auto;max-width:980px;background:linear-gradient(90deg,transparent,rgba(var(--gold-rgb),.35),transparent);overflow:hidden}
+.fs-rule::after{content:"";position:absolute;top:0;bottom:0;width:34%;left:-34%;background:linear-gradient(90deg,transparent,rgba(var(--gold-hi-rgb),.95),transparent);transition:transform 2.6s var(--ease) .2s}
+.fs-rule.in::after{transform:translateX(400%)}
+.fs-chapters{display:grid}
+.fs-ch{display:grid;grid-template-columns:minmax(190px,.8fr) 1.7fr;gap:clamp(28px,5vw,72px);align-items:start}
+.fs-label{position:sticky;top:110px}
+.fs-no{display:block;font:500 .8rem var(--mono);letter-spacing:.22em;color:var(--accent);margin-bottom:12px}
+.fs-label h3{font:600 clamp(1.35rem,2.1vw,1.75rem)/1.25 var(--display);color:var(--heading)}
+.fs-body{display:grid;gap:18px}
+.fs-body p{color:var(--text-3);font-size:1.02rem;line-height:1.9}
+.fs-manifesto{text-align:center;margin-top:clamp(56px,7vw,96px)}
+.fs-manifesto .eyebrow{justify-content:center}
+.fs-big{font:500 clamp(1.9rem,4.4vw,3.3rem)/1.2 var(--display);max-width:860px;margin:0 auto 28px;text-wrap:balance;color:var(--heading)}
+.fs-sign{display:flex;flex-direction:column;gap:8px;align-items:center;margin:36px 0 30px}
+.fs-sign span{font:600 1.05rem var(--display);letter-spacing:.28em;color:var(--heading)}
+.fs-sign i{font:500 .74rem var(--mono);font-style:normal;letter-spacing:.24em;text-transform:uppercase;color:var(--label)}
+.fs-motto{font:italic 500 clamp(1.1rem,1.8vw,1.4rem)/1.6 var(--display);color:var(--accent-strong);max-width:640px;margin:0 auto}
+[data-theme="dark"] .fs-motto{color:var(--gold-champ)}
+/* CTA tinh tế */
+.fs-cta{margin:clamp(56px,7vw,96px) auto 0;max-width:820px;padding:clamp(30px,5vw,56px);text-align:center;display:grid;gap:16px;background:var(--surface)}
+.fs-cta h3{font:600 clamp(1.5rem,3vw,2.2rem)/1.25 var(--display);color:var(--heading)}
+.fs-cta p{color:var(--text-3);line-height:1.85}
+.fs-cta .cta-row{justify-content:center;margin:10px 0 6px}
+.fs-final{font:italic 500 1.05rem/1.7 var(--display)!important;color:var(--text-2)!important}
+.fs-tag{font:500 .72rem var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--label)}
+@media(max-width:820px){
+  .fs-ch{grid-template-columns:1fr;gap:14px}
+  .fs-label{position:static}
+  .fs-label h3{font-size:1.4rem}
+}
+@media(prefers-reduced-motion:reduce){.fs-glow{animation:none}.fs-rule::after{transition:none}.fs-rule.in::after{transform:translateX(400%)}.hl{animation:none}}
