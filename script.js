@@ -863,6 +863,29 @@ if ("serviceWorker" in navigator && (location.protocol === "https:" || location.
 })();
 
 
+/* ---------- Triết lý: dải ảnh tự chạy (dùng lại .achv / .achv-track.run) ---------- */
+(function philRun() {
+  const box = $(".phil-gallery"); if (!box || reduce) return;
+  const orig = [...box.children];
+  orig.forEach(f => { const s = document.createElement("span"); s.className = "ph-sheen"; s.setAttribute("aria-hidden", "true"); f.insertBefore(s, f.querySelector("figcaption")); $("img", f).loading = "eager"; f.classList.add("in"); });
+  const build = () => {
+    box.innerHTML = ""; box.className = "achv phil-run";
+    const track = document.createElement("div"); track.className = "achv-track";
+    const g = document.createElement("div"); g.className = "achv-group"; track.appendChild(g); box.appendChild(track);
+    orig.forEach(f => g.appendChild(f));
+    let guard = 0;
+    while (g.scrollWidth < innerWidth * 1.2 && ++guard < 6) orig.forEach(f => { const c = f.cloneNode(true); c.setAttribute("aria-hidden", "true"); g.appendChild(c); });
+    const w = g.getBoundingClientRect().width, g2 = g.cloneNode(true);
+    g2.setAttribute("aria-hidden", "true"); track.appendChild(g2);
+    track.style.setProperty("--w", w + "px");
+    track.style.setProperty("--dur", Math.max(w / 40, 28) + "s");
+    track.classList.add("run");
+  };
+  build();
+  let t, lastW = innerWidth;
+  addEventListener("resize", () => { clearTimeout(t); t = setTimeout(() => { if (Math.abs(innerWidth - lastW) > 40) { lastW = innerWidth; build(); } }, 250); });
+})();
+
 /* dừng dải chứng nhận khi ngoài màn hình (tiết kiệm pin) */
 (function achvIdle() {
   if (!("IntersectionObserver" in window)) return;
