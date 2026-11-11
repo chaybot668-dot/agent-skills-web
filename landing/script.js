@@ -85,7 +85,38 @@ const I18N = {
   };
   const saved = store.get("lang");
   set(saved || (/^vi/i.test(navigator.language || "") ? "vi" : "en"));
-  $("#lang").addEventListener("click", () => set(I18N.lang === "en" ? "vi" : "en"));
+  I18N.set = set;
+})();
+
+/* ---------- Language dropdown (dùng lại I18N.set; chỉ thay phần giao diện chọn ngôn ngữ) ---------- */
+(function langDropdown() {
+  const dd = $("#langDd"), btn = $("#lang"), list = $("#langList"), opts = $$("[role=option]", list);
+  const NAMES = { en: "Language", vi: "Ngôn ngữ" };
+  const sync = () => {
+    $(".lang-code", btn).textContent = I18N.lang.toUpperCase();
+    btn.setAttribute("aria-label", NAMES[I18N.lang] + ": " + I18N.lang.toUpperCase());
+    list.setAttribute("aria-label", NAMES[I18N.lang]);
+    opts.forEach(o => { const on = o.dataset.lang === I18N.lang; o.setAttribute("aria-selected", on); o.classList.toggle("is-on", on); });
+  };
+  const isOpen = () => dd.classList.contains("open");
+  const open = () => { dd.classList.add("open"); btn.setAttribute("aria-expanded", "true"); (opts.find(o => o.dataset.lang === I18N.lang) || opts[0]).focus(); };
+  const close = back => { dd.classList.remove("open"); btn.setAttribute("aria-expanded", "false"); if (back) btn.focus(); };
+  const pick = o => { if (o.dataset.lang !== I18N.lang) I18N.set(o.dataset.lang); sync(); close(true); };
+  btn.addEventListener("click", () => isOpen() ? close() : open());
+  btn.addEventListener("keydown", e => { if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); open(); } });
+  opts.forEach(o => o.addEventListener("click", () => pick(o)));
+  list.addEventListener("keydown", e => {
+    const i = opts.indexOf(document.activeElement);
+    if (e.key === "ArrowDown") { e.preventDefault(); opts[(i + 1) % opts.length].focus(); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); opts[(i - 1 + opts.length) % opts.length].focus(); }
+    else if (e.key === "Home") { e.preventDefault(); opts[0].focus(); }
+    else if (e.key === "End") { e.preventDefault(); opts[opts.length - 1].focus(); }
+    else if (e.key === "Enter" || e.key === " ") { e.preventDefault(); if (i >= 0) pick(opts[i]); }
+    else if (e.key === "Escape") { e.preventDefault(); close(true); }
+    else if (e.key === "Tab") close();
+  });
+  document.addEventListener("click", e => { if (isOpen() && !dd.contains(e.target)) close(); });
+  sync();
 })();
 
 $("#year").textContent = new Date().getFullYear();
