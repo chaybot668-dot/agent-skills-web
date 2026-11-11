@@ -29,7 +29,7 @@
   --fs-h3:clamp(1.25rem,1.05rem + .8vw,1.625rem);      /* 20 → 26px */
   --fs-body:clamp(.9375rem,.9rem + .15vw,1.0625rem);   /* 15 → 17px */
   --fs-sm:clamp(.8125rem,.8rem + .1vw,.875rem);        /* 13 → 14px */
-  --fs-label:.6875rem;                                  /* 11px */
+  --fs-label:.75rem;                                  /* 11px */
   --fs-data:clamp(.875rem,.85rem + .15vw,1rem);         /* 14 → 16px */
   --fs-data-xl:clamp(1.5rem,1.1rem + 1.4vw,2.5rem);    /* 24 → 40px: số liệu nổi bật */
   --lh-tight:1.15; --lh-head:1.22; --lh-body:1.7; --lh-long:1.8;
@@ -1330,7 +1330,7 @@ h1,h2,h3,.cn-h,.fs-big,.fs-quote{text-transform:none}
 #achievements .stats{grid-template-columns:repeat(6,minmax(0,1fr));gap:20px}
 #achievements .stat{grid-column:span 2;container-type:inline-size;padding:28px 28px 26px;gap:0;min-height:196px}
 #achievements .stat:nth-child(1),#achievements .stat:nth-child(2){grid-column:span 3;padding:36px 36px 32px;min-height:248px}
-#achievements .stat-k{font-size:.72rem;letter-spacing:.14em}
+#achievements .stat-k{font-size:.75rem;letter-spacing:.14em}
 #achievements .stat p{margin-top:auto;padding-top:16px;font-size:.875rem;line-height:1.5;color:var(--text-3)}
 #achievements .num{margin:18px 0 0;font-weight:500;letter-spacing:-.02em;line-height:1.05;white-space:nowrap;font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;
   background:none;-webkit-text-fill-color:currentColor;color:var(--cu);animation:none;font-size:2rem;font-size:clamp(1.4rem,13.5cqi,2.4rem)}
@@ -1384,3 +1384,15 @@ h1,h2,h3,.cn-h,.fs-big,.fs-quote{text-transform:none}
   .cu-go .num,#achievements .stat,#achievements .cred,#achievements .cred-top::after{transition:none}
   #achievements .stat:hover,#achievements .cred:hover{transform:none}
 }
+
+/* =====================================================================
+   TYPOGRAPHY — ngắt dòng có chủ đích (không còn từ mồ côi)
+   Heading/nhãn: balance. Đoạn văn: pretty. Mô tả ngắn trong thẻ: balance.
+   ===================================================================== */
+h1,h2,h3,h4,.big-quote,.fs-big,.eyebrow,.stat-k,.mt-tag,.proof-h{text-wrap:balance}
+p,li,small,figcaption,blockquote,.lead,.fine{text-wrap:pretty}
+.card p,.cred p,.cred small,.stat p,.tl-c p,.mt-desc,.pillars p,.soc-card p,.fs-intro,.fs-dek,.fs-support,.fs-final,.demo-note,.foot-bottom p,.fine{text-wrap:balance}
+
+/* sàn chữ nhỏ: không nhãn nào dưới 12px (đọc được trên điện thoại, không cần zoom) */
+.eyebrow,.stat-k,.tl-f,.mt-tag,.proof-h,.th-label,.lang-list .lc,.achv-cap,figcaption,.tags li,.fs-no{font-size:max(12px,.75rem)}
+.cred small,.stat p,.demo-note,.fine{font-size:max(12.5px,.78rem)}
