@@ -392,9 +392,9 @@ html[lang=en] .lang [data-l=en],html[lang=vi] .lang [data-l=vi]{opacity:1;color:
 .tl-c p{color:var(--text-3);font-size:.93rem}
 .tl:nth-child(even) .tl-d{order:2;text-align:left}
 .tl:nth-child(even) .tl-c{order:1}
-.tl:nth-child(4) .tl-c,.tl:nth-child(7) .tl-c{--hl:var(--accent-rgb);border-color:var(--milestone-line);background:var(--milestone-bg)}
-.tl:nth-child(4) .tl-d,.tl:nth-child(7) .tl-d,.tl:nth-child(4) .tl-f,.tl:nth-child(7) .tl-f{color:var(--accent)}
-.tl:nth-child(4).lit::before,.tl:nth-child(7).lit::before{border-color:var(--accent-strong);background:var(--accent);box-shadow:0 0 0 6px rgba(var(--accent-rgb),.16),0 0 18px rgba(var(--accent-rgb),.55)}
+.tl:nth-child(4) .tl-c,.tl:nth-child(9) .tl-c{--hl:var(--accent-rgb);border-color:var(--milestone-line);background:var(--milestone-bg)}
+.tl:nth-child(4) .tl-d,.tl:nth-child(9) .tl-d,.tl:nth-child(4) .tl-f,.tl:nth-child(9) .tl-f{color:var(--accent)}
+.tl:nth-child(4).lit::before,.tl:nth-child(9).lit::before{border-color:var(--accent-strong);background:var(--accent);box-shadow:0 0 0 6px rgba(var(--accent-rgb),.16),0 0 18px rgba(var(--accent-rgb),.55)}
 
 /* ---------- philosophy ---------- */
 .philosophy{background:var(--phil-bg)}
@@ -744,8 +744,8 @@ h1:hover em,h2:hover em,.big-quote:hover em{background-position:0 0}
 /* timeline: đường mảnh, mốc ngà */
 .timeline::after{background:var(--accent);box-shadow:none}
 .tl.lit::before{background:var(--heading);border-color:var(--heading);box-shadow:none}
-.tl:nth-child(4) .tl-c,.tl:nth-child(7) .tl-c{border-color:var(--line);background:var(--surface)}
-.tl:nth-child(4).lit::before,.tl:nth-child(7).lit::before{background:var(--accent);border-color:var(--accent);box-shadow:none}
+.tl:nth-child(4) .tl-c,.tl:nth-child(9) .tl-c{border-color:var(--line);background:var(--surface)}
+.tl:nth-child(4).lit::before,.tl:nth-child(9).lit::before{background:var(--accent);border-color:var(--accent);box-shadow:none}
 
 /* philosophy & approach */
 .pillars li:hover{transform:none;border-top-color:var(--label)}
@@ -1103,7 +1103,7 @@ em,em .wi{background-image:linear-gradient(100deg,var(--sheen-base) 0%,var(--she
 .menu a:hover,.menu a.active{color:var(--heading)}
 .eyebrow::before{background:var(--metal);background-size:200% 100%}
 .section::before{background:linear-gradient(90deg,transparent,rgba(var(--gold-rgb),.55) 30%,rgba(var(--gold-hi-rgb),.8) 50%,rgba(var(--gold-rgb),.55) 70%,transparent)}
-.tl.lit::before,.tl:nth-child(4).lit::before,.tl:nth-child(7).lit::before{border-color:rgba(var(--gold-hi-rgb),.9);background:var(--gold);box-shadow:0 0 0 6px rgba(var(--gold-rgb),.14)}
+.tl.lit::before,.tl:nth-child(4).lit::before,.tl:nth-child(9).lit::before{border-color:rgba(var(--gold-hi-rgb),.9);background:var(--gold);box-shadow:0 0 0 6px rgba(var(--gold-rgb),.14)}
 .timeline::after{background:var(--metal);box-shadow:0 0 10px rgba(var(--gold-rgb),.3)}
 .pillars li:hover,.steps li:hover{border-color:rgba(var(--gold-rgb),.6)}
 
