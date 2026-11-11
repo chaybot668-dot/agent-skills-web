@@ -1449,3 +1449,19 @@ p,li,small,figcaption,blockquote,.lead,.fine{text-wrap:pretty}
 @media(max-width:767px){.th-nav .th-ic{width:44px;height:44px}}
 @media(max-width:380px){.nav-in{gap:8px}.nav-end{gap:6px}.brand-t b{letter-spacing:.14em}.brand-t i{letter-spacing:.34em}.th-nav .th-ic{width:42px;height:42px}}
 @media(prefers-reduced-motion:reduce){.th-nav::after{transition:none}}
+
+/* =====================================================================
+   ACHIEVEMENT STRIPS — cùng ngôn ngữ chuyển động với dải ảnh Triết lý:
+   viền vàng ánh kim chạy quanh ảnh, vệt sáng quét chậm, quầng sáng mờ. Dùng lại @keyframes phRing / phSheen.
+   ===================================================================== */
+.achv-fig{--g1:#80613B;--g2:#C6A66B;--g3:#FFF0C2;--g-glow:rgba(198,166,107,.34);position:relative;display:block;border-radius:14px;overflow:hidden;box-shadow:var(--media-shadow),0 18px 44px -22px var(--g-glow)}
+[data-theme="light"] .achv-fig{--g1:#7d5f2c;--g2:#B08D3E;--g3:#EBD08A;--g-glow:rgba(176,141,62,.34)}
+.achv-fig img{display:block;box-shadow:none}
+.achv-fig::before{content:"";position:absolute;inset:0;z-index:3;border-radius:inherit;padding:2.5px;pointer-events:none;
+  background:conic-gradient(from var(--pa),transparent 0 38%,var(--g1) 46%,var(--g2) 56%,var(--g3) 64%,var(--g2) 72%,var(--g1) 80%,transparent 90% 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:phRing 7s linear infinite}
+.achv-card:nth-child(2n) .achv-fig::before{animation-delay:-2.3s}.achv-card:nth-child(3n) .achv-fig::before{animation-delay:-4.6s}
+.achv-fig .ph-sheen{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(112deg,transparent 40%,rgba(255,240,194,.16) 50%,transparent 60%);transform:translateX(-130%);animation:phSheen 9s var(--ease-io,ease-in-out) infinite}
+.achv.off .achv-fig::before,.achv.off .achv-fig .ph-sheen{animation-play-state:paused}
+@media(hover:hover){.achv-card:hover .achv-fig::before{animation-duration:3.2s}}
+@media(prefers-reduced-motion:reduce){.achv-fig::before,.achv-fig .ph-sheen{animation:none}.achv-fig::before{background:linear-gradient(135deg,var(--g1),var(--g3),var(--g1))}.achv-fig .ph-sheen{display:none}}
