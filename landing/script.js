@@ -36,6 +36,7 @@ const SITE = {
   certificates: {
     mine: [
       { src: "img/my-fundednext-elite.webp", w: 601, h: 402, firm: "FundedNext", title: "Elite Trader" },
+      { src: "img/my-myforexfunds-professional.webp", w: 1280, h: 892, firm: "MyForexFunds", title: "Certificate of Achievement" },
       { src: "img/my-the5ers-funded-5k.webp", w: 1000, h: 1000, firm: "The5ers", title: "Funded Trader · High Stakes 5K" },
       { src: "img/my-the5ers-payout-226.webp", w: 1000, h: 1000, firm: "The5ers", title: "Payout Received $226.14" },
       { src: "img/my-ftmo-profit-split.webp", w: 1080, h: 1080, firm: "FTMO", title: "Profit Split" },
