@@ -1630,3 +1630,27 @@ h1:not(.split),.sec-head h2:not(.split),.big-quote:not(.split),.cn-h:not(.split)
   .brand-mark,.nav-in .brand-t b,.nav-in .brand-t i{animation:none}
   .nav-in .brand:hover .brand-mark::after,.nav-in .brand:hover .brand-t b::before,.nav-in .brand:hover .brand-t i::before,.nav-in .brand:hover .brand-t b::after{animation:none}
 }
+
+/* =====================================================================
+   CONNECT — ảnh minh hoạ cột phải (tốt đen và bóng quân hậu) với viền vàng ánh kim, vệt sáng và quầng sáng ấm
+   Chỉ hiện khi biểu mẫu liên hệ đang ẩn. Dùng lại @keyframes phRing / phSheen.
+   ===================================================================== */
+.cn-art-wrap{position:relative;justify-self:center;width:min(100%,400px)}
+.cn-art-wrap::before{content:"";position:absolute;inset:-14% -18%;z-index:0;pointer-events:none;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(248,217,139,.34),rgba(230,182,92,.12) 55%,transparent 72%);animation:cnBreath 6s ease-in-out infinite}
+@keyframes cnBreath{0%,100%{opacity:.6;transform:scale(.97)}50%{opacity:1;transform:scale(1.03)}}
+.cn-art{--g1:#B87932;--g2:#F8D98B;--g3:#FFF0C2;position:relative;z-index:1;margin:0;aspect-ratio:2/3;border-radius:var(--r);overflow:hidden;
+  box-shadow:0 34px 70px -28px rgba(0,0,0,.8),0 0 0 1px rgba(var(--accent-rgb),.28),0 0 54px -14px rgba(248,217,139,.45)}
+[data-theme="light"] .cn-art{--g1:#8A5A22;--g2:#C9953D;--g3:#F0D890;box-shadow:0 34px 70px -30px rgba(60,40,10,.45),0 0 0 1px rgba(176,141,62,.4),0 0 50px -16px rgba(184,121,50,.45)}
+.cn-art img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 38%;filter:saturate(1.15) contrast(1.06) brightness(1.04);transition:transform 1.2s var(--lux-ease)}
+/* ánh sáng ấm ở trên và tối dần ở đáy để tạo chiều sâu */
+.cn-art::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:radial-gradient(90% 55% at 50% 12%,rgba(255,226,150,.26),transparent 70%),linear-gradient(180deg,transparent 55%,rgba(8,9,10,.55))}
+.cn-art::before{content:"";position:absolute;inset:0;z-index:4;border-radius:inherit;padding:3px;pointer-events:none;
+  background:conic-gradient(from var(--pa),transparent 0 30%,var(--g1) 40%,var(--g2) 52%,var(--g3) 60%,var(--g2) 70%,var(--g1) 80%,transparent 92% 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:phRing 6s linear infinite}
+.cn-art .ph-sheen{position:absolute;inset:0;z-index:3;pointer-events:none;background:linear-gradient(112deg,transparent 40%,rgba(255,240,194,.22) 50%,transparent 60%);transform:translateX(-130%);animation:phSheen 8s var(--ease-io,ease-in-out) infinite}
+@media(hover:hover) and (pointer:fine){.cn-art-wrap:hover .cn-art img{transform:scale(1.05)}.cn-art-wrap:hover .cn-art::before{animation-duration:3s}}
+#contact-form:not([hidden]) + .cn-art-wrap{display:none}
+@media(max-width:960px){.cn-art-wrap{width:min(78%,340px)}.cn-art{aspect-ratio:3/4}.cn-art img{object-position:50% 42%}}
+@media(prefers-reduced-motion:reduce){.cn-art-wrap::before,.cn-art::before,.cn-art .ph-sheen{animation:none}.cn-art::before{background:linear-gradient(135deg,var(--g1),var(--g3),var(--g1))}.cn-art .ph-sheen{display:none}}
