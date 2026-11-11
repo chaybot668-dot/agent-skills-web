@@ -1400,3 +1400,10 @@ p,li,small,figcaption,blockquote,.lead,.fine{text-wrap:pretty}
 /* tiêu đề có <br>: mỗi vế tự cân dòng, không để một chữ lẻ ở cuối vế */
 .fs-big em{display:block;text-wrap:balance}
 .cn-h em{display:block}
+
+/* ---------- biên tập: bố cục đọc cho nội dung dài ---------- */
+.soc-card p{text-wrap:balance}
+@media(max-width:520px){.soc-grid{grid-template-columns:1fr}}
+@media(min-width:901px){.fs-ch{grid-template-columns:minmax(240px,.85fr) minmax(0,1.15fr)}}
+@media(max-width:359px){.fs-sign i{letter-spacing:.1em}}
+.cn-copy .lead,.fs-cta p{text-wrap:balance}
