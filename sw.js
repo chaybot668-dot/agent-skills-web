@@ -1,5 +1,6 @@
-/* Service worker: precache vỏ trang, ảnh dùng stale-while-revalidate, điều hướng có trang offline dự phòng. */
-const V = "lucius-v1";
+/* Service worker: HTML/CSS/JS ưu tiên mạng (luôn nhận bản mới), ảnh dùng cache trước; có trang offline dự phòng.
+   Khi đổi tệp tĩnh, tăng V để dọn cache cũ. */
+const V = "lucius-v2";
 const SHELL = ["./", "index.html", "style.css", "script.js", "offline.html", "manifest.webmanifest", "img/icon-192.png"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(V).then(c => c.addAll(SHELL)).then(() => self.skipWaiting())); });
 self.addEventListener("activate", e => {
@@ -13,8 +14,10 @@ self.addEventListener("fetch", e => {
       .catch(() => caches.match("index.html").then(m => m || caches.match("offline.html"))));
     return;
   }
-  e.respondWith(caches.match(r).then(hit => {
-    const net = fetch(r).then(res => { if (res.ok) { const cp = res.clone(); caches.open(V).then(c => c.put(r, cp)); } return res; }).catch(() => hit);
-    return hit || net;
-  }));
+  const code = /\.(?:css|js|webmanifest)$/.test(new URL(r.url).pathname);
+  if (code) {                                            // network-first: tránh phục vụ CSS/JS cũ
+    e.respondWith(fetch(r).then(res => { if (res.ok) { const cp = res.clone(); caches.open(V).then(c => c.put(r, cp)); } return res; }).catch(() => caches.match(r)));
+    return;
+  }
+  e.respondWith(caches.match(r).then(hit => hit || fetch(r).then(res => { if (res.ok) { const cp = res.clone(); caches.open(V).then(c => c.put(r, cp)); } return res; })));
 });

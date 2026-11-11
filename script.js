@@ -278,7 +278,9 @@ if (hoverOk && !reduce) {
     btn.disabled = true; msg.textContent = m.sending;
     try {
       if (endpoint) {
-        const r = await fetch(endpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...d, source: location.href, time: new Date().toISOString() }) });
+        const ac = new AbortController(), to = setTimeout(() => ac.abort(), 12000);
+        const r = await fetch(endpoint, { method: "POST", headers: { "Content-Type": "application/json" }, signal: ac.signal, body: JSON.stringify({ ...d, source: location.href, time: new Date().toISOString() }) });
+        clearTimeout(to);
         if (!r.ok) throw new Error(r.status);
       } else if (email) {
         location.href = `mailto:${email}?subject=${encodeURIComponent("Message from " + d.name)}&body=${encodeURIComponent(d.message + "\n\n" + d.name + " <" + d.email + ">")}`;
@@ -287,7 +289,9 @@ if (hoverOk && !reduce) {
         arr.push({ ...d, time: new Date().toISOString() });
         store.set("contact_demo", JSON.stringify(arr));
       }
-      msg.textContent = m.ok; msg.classList.add("ok"); form.reset();
+      const demoOnly = !endpoint && !email;
+      msg.textContent = demoOnly ? (I18N.lang === "vi" ? "Chế độ thử nghiệm: tin nhắn CHƯA được gửi đi (chỉ lưu tạm trên trình duyệt)." : "Demo mode: your message was NOT sent (stored in this browser only).") : m.ok;
+      msg.classList.add(demoOnly ? "bad" : "ok"); form.reset();
     } catch {
       msg.textContent = m.fail; msg.classList.add("bad");
     } finally { btn.disabled = false; }
@@ -299,7 +303,7 @@ if (hoverOk && !reduce) {
   const esc = t => String(t ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const card = c => {
     const alt = `Certificate: ${c.title} — ${c.firm}`;
-    const ver = c.verify ? ` · <a href="${esc(c.verify)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Verify</a>` : "";
+    const ver = /^https?:\/\//i.test(c.verify || "") ? ` · <a href="${esc(c.verify)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Verify</a>` : "";
     return `<button class="achv-card" type="button"><img src="${esc(c.src)}" alt="${esc(alt)}" width="${+c.w}" height="${+c.h}" loading="lazy" decoding="async"><span class="achv-cap"><b>${esc(c.firm)}</b> · ${esc(c.title)}${ver}</span></button>`;
   };
   const builders = [];
@@ -855,14 +859,8 @@ if ("serviceWorker" in navigator && (location.protocol === "https:" || location.
 })();
 
 
-/* ---------- Founder story: đường phân cách quét sáng khi vào khung nhìn; CTA cộng đồng dùng link sẵn có ---------- */
+/* ---------- Founder story: CTA cộng đồng dùng link sẵn có nếu đã cấu hình ---------- */
 (function founder() {
-  const rules = $$(".fs-rule");
-  if ("IntersectionObserver" in window) {
-    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .6 });
-    rules.forEach(r => io.observe(r));
-  } else rules.forEach(r => r.classList.add("in"));
-  // nếu đã cấu hình link cộng đồng thật thì dùng, nếu không thì cuộn tới khu mạng xã hội sẵn có
   const url = (SITE.links.community || "").trim(), a = $("#fsCommunity");
   if (a && /^https?:\/\//i.test(url)) { a.href = url; a.target = "_blank"; a.rel = "noopener noreferrer"; }
 })();
