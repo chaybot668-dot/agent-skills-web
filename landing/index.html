@@ -31,7 +31,7 @@
 <link rel="apple-touch-icon" href="img/icon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script>
 /* Theme bootstrap: chạy trước khi vẽ giao diện. Ưu tiên: lựa chọn đã lưu > cài đặt hệ điều hành. */
 (function(){var d=document.documentElement,t=null;d.classList.add('js');
@@ -113,7 +113,7 @@ var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='light
         </div>
       </figure>
       <div class="chip chip-a glass"><small data-i18n data-vi="Thị trường">Markets</small><b>Futures · CFDs</b></div>
-      <div class="chip chip-b glass"><small data-i18n data-vi="Đã ghi nhận">On record</small><b data-i18n data-vi="4 prop firm">4 prop firms</b></div>
+      <div class="chip chip-b glass"><small data-i18n data-vi="Đã ghi nhận">On record</small><b data-i18n data-vi="5 prop firm">5 prop firms</b></div>
     </div>
   </div>
   
@@ -142,7 +142,7 @@ var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='light
       <article class="card glass reveal">
         <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 9h18v11H3zM8 9V6a2 2 0 012-2h4a2 2 0 012 2v3M3 14h18"/></svg></div>
         <h3 data-i18n data-vi="Giao dịch Prop Firm">Prop Firm Trading</h3>
-        <p data-i18n data-vi="Giao dịch bằng vốn của quỹ theo các tham số rủi ro nghiêm ngặt. Chứng nhận từ FTMO, Topstep, The5ers và MyForexFunds được ghi nhận trong mục Thành tựu.">Trading firm capital under strict risk parameters. Credentials from FTMO, Topstep, The5ers and MyForexFunds are documented in Achievements.</p>
+        <p data-i18n data-vi="Giao dịch bằng vốn của quỹ theo các tham số rủi ro nghiêm ngặt. Chứng nhận từ FTMO, Topstep, The5ers, MyForexFunds và FundedNext được ghi nhận trong mục Thành tựu.">Trading firm capital under strict risk parameters. Credentials from FTMO, Topstep, The5ers, MyForexFunds and FundedNext are documented in Achievements.</p>
       </article>
       <article class="card glass reveal">
         <div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg></div>
@@ -197,8 +197,8 @@ var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='light
       </article>
       <article class="stat glass reveal">
         <small class="stat-k" data-i18n data-vi="Prop firm đã ghi nhận">Prop firms on record</small>
-        <div class="num"><span data-count="4" data-dec="0">4</span></div>
-        <p>FTMO · Topstep · The5ers · MyForexFunds</p>
+        <div class="num"><span data-count="5" data-dec="0">5</span></div>
+        <p>FTMO · Topstep · The5ers · MyForexFunds · FundedNext</p>
       </article>
     </div>
 
@@ -213,6 +213,11 @@ var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='light
         <div class="cred-top"><span class="cred-firm">MyForexFunds</span><time datetime="2023-06-12" data-i18n data-vi="12/06/2023">12 Jun 2023</time></div>
         <h3>Certificate of Achievement</h3>
         <p data-i18n data-vi="Đã vượt qua MyForexFunds Evaluation và được ghi nhận là MyForexFunds Professional Trader.">Passed the MyForexFunds Evaluation and recognised as a MyForexFunds Professional Trader.</p>
+      </article>
+      <article class="cred glass reveal">
+        <div class="cred-top"><span class="cred-firm">FundedNext</span><time datetime="2023-02-15" data-i18n data-vi="15/02/2023">15 Feb 2023</time></div>
+        <h3>Elite Trader</h3>
+        <p data-i18n data-vi="Chính thức được FundedNext ghi nhận là Elite Trader (Certificate of Appreciation).">Officially recognised by FundedNext as an Elite Trader (Certificate of Appreciation).</p>
       </article>
     </div>
     <p class="fine reveal" data-i18n data-vi="Thành tích trong quá khứ không đảm bảo kết quả trong tương lai.">Past performance does not guarantee future results.</p>
@@ -240,6 +245,10 @@ var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='light
       <p class="lead" data-i18n data-vi="Các cột mốc có hồ sơ qua những bài đánh giá, chương trình cấp vốn và các lần chi trả.">Documented milestones across evaluations, funded programs and payouts.</p>
     </header>
     <ol class="timeline" id="timeline">
+      <li class="tl reveal">
+        <time class="tl-d" datetime="2023-02" data-i18n data-vi="02/2023">Feb 2023</time>
+        <div class="tl-c glass"><span class="tl-f">FundedNext</span><h3>Elite Trader</h3><p data-i18n data-vi="Nhận Certificate of Appreciation, được FundedNext ghi nhận là Elite Trader.">Awarded the Certificate of Appreciation, recognised by FundedNext as an Elite Trader.</p></div>
+      </li>
       <li class="tl reveal">
         <time class="tl-d" datetime="2023-06" data-i18n data-vi="06/2023">Jun 2023</time>
         <div class="tl-c glass"><span class="tl-f">MyForexFunds</span><h3 data-i18n data-vi="Vượt qua Evaluation">Passed the Evaluation</h3><p data-i18n data-vi="Nhận Certificate of Achievement, được ghi nhận là Professional Trader của MyForexFunds.">Awarded the Certificate of Achievement, recognised as a MyForexFunds Professional Trader.</p></div>
