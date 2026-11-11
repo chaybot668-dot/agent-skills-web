@@ -29,7 +29,7 @@ const SITE = {
   },
 
   // ===== TÀI LIỆU MIỄN PHÍ ("ebook") — đăng ký bằng email, gửi tự động qua dịch vụ email marketing =====
-  // Khi formAction còn trống, mục này hiện dạng nút "Nhận tài liệu qua Telegram" (dùng links.telegram). Cả hai đều trống thì ẩn.
+  // Khi formAction còn trống, mục vẫn hiện nhưng form báo "đang thiết lập" và không thu email. Telegram chỉ dùng để liên hệ, không dùng cho tài liệu.
   // formAction: địa chỉ "form action" của dịch vụ email (Mailchimp, MailerLite, Brevo...). Để "" = ẩn hẳn mục này.
   // emailField: tên ô email mà dịch vụ yêu cầu (Mailchimp: "EMAIL"; nhiều dịch vụ khác: "email").
   // nameField: để "" nếu không thu họ tên. hidden: các trường ẩn dịch vụ yêu cầu. honeypot: tên ô chống bot (nếu dịch vụ cung cấp).
@@ -373,36 +373,17 @@ if (hoverOk && !reduce) {
 (function ebook() {
   const E = SITE.ebook || {}, sec = $("#ebook"); if (!sec) return;
   const action = (E.formAction || "").trim();
-  const dev = location.protocol === "file:" || ["", "localhost", "127.0.0.1"].includes(location.hostname);
   const valid = /^https:\/\//i.test(action);
-  const tgLink = ((SITE.links && SITE.links.telegram) || "").trim(), tgOk = /^https:\/\//i.test(tgLink);
-  // khối "Nội dung tài liệu": vẽ từ cấu hình, đổi theo ngôn ngữ
-  const topics = Array.isArray(E.topics) ? E.topics : [];
-  const esc = x => String(x ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-  const paintTopics = () => {
-    const vi = I18N.lang === "vi", box = $("#ebTopics");
-    box.hidden = !topics.length;
-    $("#ebList").innerHTML = topics.map((x, i) => `<li><span class="eb-n" aria-hidden="true">${String(i + 1).padStart(2, "0")}</span><div><h4>${esc(vi ? (x.tVi || x.t) : x.t)}</h4><p>${esc(vi ? (x.dVi || x.d) : x.d)}</p></div></li>`).join("");
-  };
-  paintTopics();
-  new MutationObserver(paintTopics).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
-  // 3 chế độ: có formAction → form email tự động; chưa có nhưng có link Telegram → nút nhận tài liệu qua Telegram; còn lại ẩn (trừ khi chạy thử trên máy)
-  if (!valid && !tgOk && !dev) return;
+  // Mục luôn hiện cùng form email. Có formAction thật → gửi tới dịch vụ email. Chưa có → form không thu gì và nói rõ điều đó.
   sec.hidden = false;
   ["#navEbook", "#footEbook"].forEach(id => { const a = $(id); if (a) a.hidden = false; });
-  if (!valid && tgOk) {
-    sec.classList.add("eb-tg");
-    $(".eb-form", sec).hidden = true; $("#ebookLead").hidden = true; $("#ebookLeadTg").hidden = false;
-    const b = $("#ebTg"); b.href = tgLink; b.hidden = false;
-    return;
-  }
-  const form = $("#ebookForm"), email = $("#ebEmail"), consent = $("#ebConsent"), msg = $("#ebMsg"), demo = $("#ebDemo");
+  const form = $("#ebookForm"), email = $("#ebEmail"), consent = $("#ebConsent"), msg = $("#ebMsg");
   const T = {
-    en: { bad: "Please enter a valid email address.", consent: "Please tick the consent box to continue.", sent: "Request sent. Check your inbox (and spam folder) to confirm and receive the material.", demo: "Demo mode: set SITE.ebook.formAction in script.js to enable sign-ups." },
-    vi: { bad: "Vui lòng nhập email hợp lệ.", consent: "Vui lòng tick ô đồng ý để tiếp tục.", sent: "Đã gửi đăng ký. Hãy kiểm tra hộp thư (và thư rác) để xác nhận và nhận tài liệu.", demo: "Chế độ thử nghiệm: điền SITE.ebook.formAction trong script.js để bật đăng ký." },
+    en: { bad: "Please enter a valid email address.", consent: "Please tick the consent box to continue.", sent: "Request sent. Check your inbox (and spam folder) to confirm and receive the material.", pending: "The sign-up form is being set up and is not collecting emails yet. Please check back soon." },
+    vi: { bad: "Vui lòng nhập email hợp lệ.", consent: "Vui lòng tick ô đồng ý để tiếp tục.", sent: "Đã gửi đăng ký. Hãy kiểm tra hộp thư (và thư rác) để xác nhận và nhận tài liệu.", pending: "Biểu mẫu đang được thiết lập và chưa nhận đăng ký. Vui lòng quay lại sau." },
   };
   const t = () => T[I18N.lang] || T.en;
-  if (valid) form.action = action; else { demo.hidden = false; }
+  if (valid) form.action = action;
   email.name = E.emailField || "email";
   if (E.nameField) { const n = $("#ebName"); n.name = E.nameField; $("#ebNameRow").hidden = false; }
   const hid = $("#ebHidden");
@@ -410,8 +391,7 @@ if (hoverOk && !reduce) {
   const hp = $("#ebHp"); if (E.honeypot) hp.name = E.honeypot; else hp.remove();
   const title = $("#ebookTitle");
   const paintTitle = () => { const v = (I18N.lang === "vi" ? (E.titleVi || E.title) : E.title) || ""; title.textContent = v; title.hidden = !v; };
-  paintTitle(); new MutationObserver(() => { paintTitle(); demo.textContent = t().demo; if (msg.dataset.k) msg.textContent = t()[msg.dataset.k]; }).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
-  demo.textContent = t().demo;
+  paintTitle(); new MutationObserver(() => { paintTitle(); if (msg.dataset.k) msg.textContent = t()[msg.dataset.k]; }).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
   const say = (k, bad) => { msg.dataset.k = k; msg.textContent = t()[k]; msg.classList.toggle("bad", !!bad); };
   form.addEventListener("submit", e => {
     const v = email.value.trim();
@@ -419,7 +399,7 @@ if (hoverOk && !reduce) {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) { e.preventDefault(); email.classList.add("err"); say("bad", true); email.focus(); return; }
     email.classList.remove("err");
     if (!consent.checked) { e.preventDefault(); say("consent", true); consent.focus(); return; }
-    if (!valid) { e.preventDefault(); return; }                                  // chế độ thử nghiệm: không gửi đi đâu
+    if (!valid) { e.preventDefault(); say("pending", true); return; }            // chưa có dịch vụ email: không thu và không giả vờ thành công
     say("sent", false);                                                          // form gửi sang tab mới của dịch vụ email
   });
 })();

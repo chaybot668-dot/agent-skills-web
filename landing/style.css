@@ -1558,15 +1558,10 @@ h1:not(.split),.sec-head h2:not(.split),.big-quote:not(.split),.cn-h:not(.split)
 /* nút Telegram */
 .btn-tg svg{width:18px;height:18px;flex:none}
 
-/* tài liệu miễn phí ở chế độ Telegram: một cột, nút ngay dưới lời giới thiệu */
-.ebook.eb-tg .eb-in{grid-template-columns:1fr;justify-items:start}
-.ebook.eb-tg .eb-copy .btn{margin-top:28px}
-.ebook.eb-tg .eb-copy{max-width:640px}
-
 /* tài liệu miễn phí: thứ tự đọc — tiêu đề → giới thiệu → nội dung → nút/biểu mẫu */
 .eb-copy{display:flex;flex-direction:column;align-items:flex-start}
-.eb-copy .eyebrow{order:0}.eb-copy h2{order:1}.eb-copy #ebookLead,.eb-copy #ebookLeadTg{order:2}.eb-copy .eb-title{order:3}
-.eb-copy .eb-topics{order:4;width:100%}.eb-copy #ebTg{order:5}.eb-copy .fine{order:6}
+.eb-copy .eyebrow{order:0}.eb-copy h2{order:1}.eb-copy #ebookLead{order:2}.eb-copy .eb-title{order:3}
+.eb-copy .eb-topics{order:4;width:100%}.eb-copy .fine{order:6}
 .eb-topics{margin-top:26px}
 .eb-topics-h{font:500 .75rem var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--label);margin-bottom:6px;-webkit-text-fill-color:currentColor;background:none;animation:none}
 .eb-list{list-style:none;margin:0;padding:0}
@@ -1575,10 +1570,4 @@ h1:not(.split),.sec-head h2:not(.split),.big-quote:not(.split),.cn-h:not(.split)
 .eb-n{flex:none;font:500 .8rem var(--mono);letter-spacing:.08em;color:var(--accent);padding-top:3px;min-width:24px}
 .eb-list h4{font:600 1rem/1.35 var(--sans);color:var(--heading);margin:0 0 4px;letter-spacing:0;text-transform:none}
 .eb-list p{color:var(--text-2);font-size:.92rem;line-height:1.6;margin:0}
-.ebook.eb-tg .eb-topics{margin-top:30px}
-.ebook.eb-tg .eb-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
-.ebook.eb-tg .eb-list li{flex-direction:column;gap:10px;padding:20px 0 0;border-bottom:0}
-.ebook.eb-tg .eb-list li:last-child{border-bottom:0}
-.ebook.eb-tg .eb-copy{max-width:none;width:100%}
-.ebook.eb-tg .eb-copy .btn{margin-top:30px}
-@media(max-width:900px){.ebook.eb-tg .eb-list{grid-template-columns:1fr;gap:0}.ebook.eb-tg .eb-list li{flex-direction:row;padding:16px 0;border-bottom:0}}
+@media(max-width:900px){
