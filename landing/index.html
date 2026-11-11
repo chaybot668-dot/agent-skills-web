@@ -488,6 +488,31 @@ var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='light
   </div>
 </section>
 
+<!-- ============ EBOOK (đăng ký nhận ebook qua email tự động; chỉ hiện khi đã cấu hình SITE.ebook.formAction) ============ -->
+<section class="section alt ebook" id="ebook" hidden>
+  <div class="container eb-in">
+    <div class="eb-copy">
+      <p class="eyebrow reveal" data-i18n data-vi="Tài liệu miễn phí">Free resource</p>
+      <h2 class="reveal" data-i18n data-vi="Nhận <em>ebook</em> miễn phí.">Get the free <em>ebook</em>.</h2>
+      <p class="lead reveal" id="ebookLead" data-i18n data-vi="Nhập email, ebook sẽ được gửi tự động đến hộp thư của bạn.">Enter your email and the ebook will be sent to your inbox automatically.</p>
+      <p class="eb-title reveal" id="ebookTitle" hidden></p>
+      <p class="fine reveal" data-i18n data-vi="Nội dung chỉ mang tính giáo dục, không phải lời khuyên đầu tư.">For education only; not investment advice.</p>
+    </div>
+    <div class="cn-form eb-form glass reveal">
+      <form id="ebookForm" method="post" target="_blank" novalidate>
+        <label id="ebNameRow" hidden><span data-i18n data-vi="Họ và tên">Name</span><input id="ebName" type="text" autocomplete="name"></label>
+        <label><span>Email</span><input id="ebEmail" type="email" autocomplete="email" inputmode="email" required></label>
+        <input id="ebHp" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="eb-hp">
+        <div id="ebHidden"></div>
+        <label class="eb-consent"><input id="ebConsent" type="checkbox" required><span data-i18n data-vi="Tôi đồng ý nhận ebook và email thông tin từ LAVIENT CAPITAL. Tôi có thể hủy đăng ký bất cứ lúc nào.">I agree to receive the ebook and information emails from LAVIENT CAPITAL. I can unsubscribe at any time.</span></label>
+        <button class="btn btn-primary btn-lg" type="submit"><span data-i18n data-vi="Nhận ebook">Get the ebook</span></button>
+        <p class="eb-msg" id="ebMsg" role="status" aria-live="polite"></p>
+        <p class="demo-note" id="ebDemo" hidden></p>
+      </form>
+    </div>
+  </div>
+</section>
+
 <!-- ============ 08 CONNECT ============ -->
 <section class="section connect" id="connect">
   <div class="connect-art" aria-hidden="true"></div>

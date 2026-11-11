@@ -27,6 +27,20 @@ const SITE = {
     discord: { name: "Discord", url: "", enabled: true, description: "Trading community, discussions, learning and member interaction.", descriptionVi: "Cộng đồng giao dịch, thảo luận, học hỏi và tương tác giữa thành viên.", cta: "Join", ctaVi: "Tham gia" },
   },
 
+  // ===== EBOOK MIỄN PHÍ — đăng ký bằng email, gửi tự động qua dịch vụ email marketing =====
+  // formAction: địa chỉ "form action" của dịch vụ email (Mailchimp, MailerLite, Brevo...). Để "" = ẩn hẳn mục này.
+  // emailField: tên ô email mà dịch vụ yêu cầu (Mailchimp: "EMAIL"; nhiều dịch vụ khác: "email").
+  // nameField: để "" nếu không thu họ tên. hidden: các trường ẩn dịch vụ yêu cầu. honeypot: tên ô chống bot (nếu dịch vụ cung cấp).
+  // Không đặt file PDF vào thư mục website — file ebook chỉ gửi qua email tự động của dịch vụ.
+  ebook: {
+    formAction: "",
+    emailField: "email",
+    nameField: "",
+    hidden: {},
+    honeypot: "",
+    title: "", titleVi: "",   // tên ebook (tuỳ chọn, hiện dưới đoạn giới thiệu)
+  },
+
   // Địa chỉ nhận tin nhắn từ form (Formspree, Google Apps Script, webhook CRM...).
   formEndpoint: "",
 
@@ -339,6 +353,42 @@ if (hoverOk && !reduce) {
     } catch {
       msg.textContent = m.fail; msg.classList.add("bad");
     } finally { btn.disabled = false; }
+  });
+})();
+
+/* ---------- Ebook: đăng ký email (form gửi thẳng tới dịch vụ email; không giả lập thành công) ---------- */
+(function ebook() {
+  const E = SITE.ebook || {}, sec = $("#ebook"); if (!sec) return;
+  const action = (E.formAction || "").trim();
+  const dev = location.protocol === "file:" || ["", "localhost", "127.0.0.1"].includes(location.hostname);
+  const valid = /^https:\/\//i.test(action);
+  if (!valid && !dev) return;                       // chưa cấu hình thật: không hiển thị
+  sec.hidden = false;
+  const form = $("#ebookForm"), email = $("#ebEmail"), consent = $("#ebConsent"), msg = $("#ebMsg"), demo = $("#ebDemo");
+  const T = {
+    en: { bad: "Please enter a valid email address.", consent: "Please tick the consent box to continue.", sent: "Request sent. Check your inbox (and spam folder) to confirm and receive the ebook.", demo: "Demo mode: set SITE.ebook.formAction in script.js to enable sign-ups." },
+    vi: { bad: "Vui lòng nhập email hợp lệ.", consent: "Vui lòng tick ô đồng ý để tiếp tục.", sent: "Đã gửi đăng ký. Hãy kiểm tra hộp thư (và thư rác) để xác nhận và nhận ebook.", demo: "Chế độ thử nghiệm: điền SITE.ebook.formAction trong script.js để bật đăng ký." },
+  };
+  const t = () => T[I18N.lang] || T.en;
+  if (valid) form.action = action; else { demo.hidden = false; }
+  email.name = E.emailField || "email";
+  if (E.nameField) { const n = $("#ebName"); n.name = E.nameField; $("#ebNameRow").hidden = false; }
+  const hid = $("#ebHidden");
+  Object.entries(E.hidden || {}).forEach(([k, v]) => { const i = document.createElement("input"); i.type = "hidden"; i.name = k; i.value = v; hid.appendChild(i); });
+  const hp = $("#ebHp"); if (E.honeypot) hp.name = E.honeypot; else hp.remove();
+  const title = $("#ebookTitle");
+  const paintTitle = () => { const v = (I18N.lang === "vi" ? (E.titleVi || E.title) : E.title) || ""; title.textContent = v; title.hidden = !v; };
+  paintTitle(); new MutationObserver(() => { paintTitle(); demo.textContent = t().demo; if (msg.dataset.k) msg.textContent = t()[msg.dataset.k]; }).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
+  demo.textContent = t().demo;
+  const say = (k, bad) => { msg.dataset.k = k; msg.textContent = t()[k]; msg.classList.toggle("bad", !!bad); };
+  form.addEventListener("submit", e => {
+    const v = email.value.trim();
+    if (hp.name && hp.value) { e.preventDefault(); return; }                     // bot
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) { e.preventDefault(); email.classList.add("err"); say("bad", true); email.focus(); return; }
+    email.classList.remove("err");
+    if (!consent.checked) { e.preventDefault(); say("consent", true); consent.focus(); return; }
+    if (!valid) { e.preventDefault(); return; }                                  // chế độ thử nghiệm: không gửi đi đâu
+    say("sent", false);                                                          // form gửi sang tab mới của dịch vụ email
   });
 })();
 
