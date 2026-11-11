@@ -1533,3 +1533,27 @@ h1:not(.split),.sec-head h2:not(.split),.big-quote:not(.split),.cn-h:not(.split)
 .btn-primary{transition:background-position var(--t-fill) var(--ease-io),color .5s var(--ease-io) .3s,border-color var(--t-fill) var(--ease-io),box-shadow var(--t-fill) var(--ease-io),transform var(--t-lift) var(--ease),scale .35s var(--lux-ease)}
 .btn-ghost{transition:background-size var(--t-fill) var(--ease-io),color .5s var(--ease-io) .3s,border-color var(--t-fill) var(--ease-io),box-shadow var(--t-fill) var(--ease-io),transform var(--t-lift) var(--ease),scale .35s var(--lux-ease)}
 .btn.mag{transition:transform .35s var(--ease),scale .35s var(--lux-ease),background-color .3s,border-color .3s,color .3s}
+
+/* =====================================================================
+   EBOOK — đăng ký nhận ebook qua email (tái sử dụng kiểu form liên hệ)
+   ===================================================================== */
+.eb-in{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(32px,5vw,72px);align-items:center}
+.eb-copy h2{margin:14px 0 18px}
+.eb-copy .lead{max-width:48ch}
+.eb-title{margin-top:18px;font:600 1.05rem var(--display);color:var(--heading)}
+.eb-copy .fine{margin-top:22px}
+.eb-form{padding:clamp(24px,3vw,36px)}
+.eb-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none}
+.cn-form .eb-consent{display:flex;align-items:flex-start;gap:12px;font:400 .85rem/1.55 var(--sans);letter-spacing:0;text-transform:none;color:var(--text-2);cursor:pointer}
+.cn-form .eb-consent input{width:20px;height:20px;min-width:20px;margin-top:2px;padding:0;accent-color:var(--accent);cursor:pointer}
+.eb-form .btn{width:100%}
+.eb-msg{min-height:1.4em;font-size:.88rem;line-height:1.55;color:var(--text-2)}
+.eb-msg.bad{color:var(--danger)}
+@media(max-width:900px){.eb-in{grid-template-columns:1fr}}
+.eb-copy .fine{text-align:left}
+.eb-consent span{text-wrap:pretty}
+
+/* menu/footer: liên kết ẩn (chưa cấu hình) không được hiện dù có display:flex của menu mobile */
+.menu a[hidden],.foot-nav a[hidden]{display:none!important}
+/* nút Telegram */
+.btn-tg svg{width:18px;height:18px;flex:none}
