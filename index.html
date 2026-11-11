@@ -55,7 +55,7 @@ var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='light
 <header class="nav" id="nav">
   <div class="nav-in">
     <a href="#home" class="brand" aria-label="LAVIENT CAPITAL — Home">
-      <img class="mark" src="img/logo.png" alt="" width="24" height="38" decoding="async">
+      <span class="brand-mark"><img class="mark" src="img/logo.png" alt="" width="24" height="38" decoding="async"></span>
       <span class="brand-t"><b>LAVIENT</b><i>CAPITAL</i></span>
     </a>
     <nav class="menu" id="menu" aria-label="Primary">
@@ -64,7 +64,7 @@ var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='light
       <a href="#journey" data-i18n data-vi="Hành trình">Trading Journey</a>
       <a href="#achievements" data-i18n data-vi="Thành tựu">Achievements</a>
       <a href="#philosophy" data-i18n data-vi="Triết lý">Philosophy</a>
-      <a href="#ebook" id="navEbook" hidden data-i18n data-vi="Ebook miễn phí">Free Ebook</a>
+      <a href="#ebook" id="navEbook" hidden data-i18n data-vi="Nhận tài liệu">Free Resources</a>
       <a href="#connect" class="btn btn-primary menu-cta" data-i18n data-vi="Kết nối">Let’s Connect</a>
     </nav>
     <div class="nav-end">
@@ -492,10 +492,11 @@ var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='light
 <section class="section alt ebook" id="ebook" hidden>
   <div class="container eb-in">
     <div class="eb-copy">
-      <p class="eyebrow reveal" data-i18n data-vi="Tài liệu miễn phí">Free resource</p>
-      <h2 class="reveal" data-i18n data-vi="Nhận <em>ebook</em> miễn phí.">Get the free <em>ebook</em>.</h2>
-      <p class="lead reveal" id="ebookLead" data-i18n data-vi="Nhập email, ebook sẽ được gửi tự động đến hộp thư của bạn.">Enter your email and the ebook will be sent to your inbox automatically.</p>
+      <p class="eyebrow reveal" data-i18n data-vi="Tài liệu miễn phí">Free resources</p>
+      <h2 class="reveal" data-i18n data-vi="Nhận <em>tài liệu</em> miễn phí.">Get free <em>resources</em>.</h2>
+      <p class="lead reveal" id="ebookLead" data-i18n data-vi="Nhập email, tài liệu sẽ được gửi tự động đến hộp thư của bạn.">Enter your email and the material will be sent to your inbox automatically.</p>
       <p class="eb-title reveal" id="ebookTitle" hidden></p>
+      <div class="eb-topics reveal" id="ebTopics" hidden><h3 class="eb-topics-h" data-i18n data-vi="Nội dung tài liệu">What is included</h3><ol class="eb-list" id="ebList"></ol></div>
       <p class="fine reveal" data-i18n data-vi="Nội dung chỉ mang tính giáo dục, không phải lời khuyên đầu tư.">For education only; not investment advice.</p>
     </div>
     <div class="cn-form eb-form glass reveal">
@@ -504,10 +505,9 @@ var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='light
         <label><span>Email</span><input id="ebEmail" type="email" autocomplete="email" inputmode="email" required></label>
         <input id="ebHp" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="eb-hp">
         <div id="ebHidden"></div>
-        <label class="eb-consent"><input id="ebConsent" type="checkbox" required><span data-i18n data-vi="Tôi đồng ý nhận ebook và email thông tin từ LAVIENT CAPITAL. Tôi có thể hủy đăng ký bất cứ lúc nào.">I agree to receive the ebook and information emails from LAVIENT CAPITAL. I can unsubscribe at any time.</span></label>
-        <button class="btn btn-primary btn-lg" type="submit"><span data-i18n data-vi="Nhận ebook">Get the ebook</span></button>
+        <label class="eb-consent"><input id="ebConsent" type="checkbox" required><span data-i18n data-vi="Tôi đồng ý nhận tài liệu và email thông tin từ LAVIENT CAPITAL. Tôi có thể hủy đăng ký bất cứ lúc nào.">I agree to receive the material and information emails from LAVIENT CAPITAL. I can unsubscribe at any time.</span></label>
+        <button class="btn btn-primary btn-lg" type="submit"><span data-i18n data-vi="Nhận tài liệu">Get the material</span></button>
         <p class="eb-msg" id="ebMsg" role="status" aria-live="polite"></p>
-        <p class="demo-note" id="ebDemo" hidden></p>
       </form>
     </div>
   </div>
@@ -563,7 +563,7 @@ var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='light
         <a href="#achievements" data-i18n data-vi="Thành tựu">Achievements</a>
         <a href="#journey" data-i18n data-vi="Hành trình">Trading Journey</a>
         <a href="#philosophy" data-i18n data-vi="Triết lý">Philosophy</a>
-        <a href="#ebook" id="footEbook" hidden data-i18n data-vi="Ebook miễn phí">Free Ebook</a>
+        <a href="#ebook" id="footEbook" hidden data-i18n data-vi="Nhận tài liệu">Free Resources</a>
         </nav>
     </div>
     <div class="risk" role="note">

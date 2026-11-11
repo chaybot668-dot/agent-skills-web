@@ -28,7 +28,8 @@ const SITE = {
     discord: { name: "Discord", url: "", enabled: true, description: "Trading community, discussions, learning and member interaction.", descriptionVi: "Cộng đồng giao dịch, thảo luận, học hỏi và tương tác giữa thành viên.", cta: "Join", ctaVi: "Tham gia" },
   },
 
-  // ===== EBOOK MIỄN PHÍ — đăng ký bằng email, gửi tự động qua dịch vụ email marketing =====
+  // ===== TÀI LIỆU MIỄN PHÍ ("ebook") — đăng ký bằng email, gửi tự động qua dịch vụ email marketing =====
+  // Khi formAction còn trống, mục vẫn hiện nhưng form báo "đang thiết lập" và không thu email. Telegram chỉ dùng để liên hệ, không dùng cho tài liệu.
   // formAction: địa chỉ "form action" của dịch vụ email (Mailchimp, MailerLite, Brevo...). Để "" = ẩn hẳn mục này.
   // emailField: tên ô email mà dịch vụ yêu cầu (Mailchimp: "EMAIL"; nhiều dịch vụ khác: "email").
   // nameField: để "" nếu không thu họ tên. hidden: các trường ẩn dịch vụ yêu cầu. honeypot: tên ô chống bot (nếu dịch vụ cung cấp).
@@ -40,6 +41,13 @@ const SITE = {
     hidden: {},
     honeypot: "",
     title: "", titleVi: "",   // tên ebook (tuỳ chọn, hiện dưới đoạn giới thiệu)
+    // Các chủ đề tài liệu hiển thị cho khách (viết theo khung phương pháp 5 bước của trang). ĐÂY LÀ NỘI DUNG GỢI Ý —
+    // sửa/xoá cho khớp tài liệu thật của bạn. Để [] thì ẩn khối này. Không ghi số liệu hay cam kết kết quả.
+    topics: [
+      { t: "Trading plan checklist", tVi: "Checklist xây dựng kế hoạch giao dịch", d: "A step-by-step checklist for turning entry, confirmation and position rules into a written plan.", dVi: "Danh sách kiểm tra từng bước để biến điều kiện vào lệnh, xác nhận và quản lý vị thế thành kế hoạch bằng văn bản." },
+      { t: "Risk and position sizing", tVi: "Quản trị rủi ro và khối lượng giao dịch", d: "How to define risk per trade, position size and drawdown limits before entering a trade.", dVi: "Cách xác định rủi ro mỗi lệnh, khối lượng giao dịch và giới hạn drawdown trước khi vào lệnh." },
+      { t: "Trading journal template", tVi: "Mẫu nhật ký giao dịch", d: "A simple template to record trades, review the data and identify mistakes.", dVi: "Mẫu đơn giản để ghi chép lệnh, đánh giá dữ liệu và nhận diện sai sót." },
+    ],
   },
 
   // Địa chỉ nhận tin nhắn từ form (Formspree, Google Apps Script, webhook CRM...).
@@ -365,18 +373,17 @@ if (hoverOk && !reduce) {
 (function ebook() {
   const E = SITE.ebook || {}, sec = $("#ebook"); if (!sec) return;
   const action = (E.formAction || "").trim();
-  const dev = location.protocol === "file:" || ["", "localhost", "127.0.0.1"].includes(location.hostname);
   const valid = /^https:\/\//i.test(action);
-  if (!valid && !dev) return;                       // chưa cấu hình thật: không hiển thị
+  // Mục luôn hiện cùng form email. Có formAction thật → gửi tới dịch vụ email. Chưa có → form không thu gì và nói rõ điều đó.
   sec.hidden = false;
   ["#navEbook", "#footEbook"].forEach(id => { const a = $(id); if (a) a.hidden = false; });
-  const form = $("#ebookForm"), email = $("#ebEmail"), consent = $("#ebConsent"), msg = $("#ebMsg"), demo = $("#ebDemo");
+  const form = $("#ebookForm"), email = $("#ebEmail"), consent = $("#ebConsent"), msg = $("#ebMsg");
   const T = {
-    en: { bad: "Please enter a valid email address.", consent: "Please tick the consent box to continue.", sent: "Request sent. Check your inbox (and spam folder) to confirm and receive the ebook.", demo: "Demo mode: set SITE.ebook.formAction in script.js to enable sign-ups." },
-    vi: { bad: "Vui lòng nhập email hợp lệ.", consent: "Vui lòng tick ô đồng ý để tiếp tục.", sent: "Đã gửi đăng ký. Hãy kiểm tra hộp thư (và thư rác) để xác nhận và nhận ebook.", demo: "Chế độ thử nghiệm: điền SITE.ebook.formAction trong script.js để bật đăng ký." },
+    en: { bad: "Please enter a valid email address.", consent: "Please tick the consent box to continue.", sent: "Request sent. Check your inbox (and spam folder) to confirm and receive the material.", pending: "The sign-up form is being set up and is not collecting emails yet. Please check back soon." },
+    vi: { bad: "Vui lòng nhập email hợp lệ.", consent: "Vui lòng tick ô đồng ý để tiếp tục.", sent: "Đã gửi đăng ký. Hãy kiểm tra hộp thư (và thư rác) để xác nhận và nhận tài liệu.", pending: "Biểu mẫu đang được thiết lập và chưa nhận đăng ký. Vui lòng quay lại sau." },
   };
   const t = () => T[I18N.lang] || T.en;
-  if (valid) form.action = action; else { demo.hidden = false; }
+  if (valid) form.action = action;
   email.name = E.emailField || "email";
   if (E.nameField) { const n = $("#ebName"); n.name = E.nameField; $("#ebNameRow").hidden = false; }
   const hid = $("#ebHidden");
@@ -384,8 +391,7 @@ if (hoverOk && !reduce) {
   const hp = $("#ebHp"); if (E.honeypot) hp.name = E.honeypot; else hp.remove();
   const title = $("#ebookTitle");
   const paintTitle = () => { const v = (I18N.lang === "vi" ? (E.titleVi || E.title) : E.title) || ""; title.textContent = v; title.hidden = !v; };
-  paintTitle(); new MutationObserver(() => { paintTitle(); demo.textContent = t().demo; if (msg.dataset.k) msg.textContent = t()[msg.dataset.k]; }).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
-  demo.textContent = t().demo;
+  paintTitle(); new MutationObserver(() => { paintTitle(); if (msg.dataset.k) msg.textContent = t()[msg.dataset.k]; }).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
   const say = (k, bad) => { msg.dataset.k = k; msg.textContent = t()[k]; msg.classList.toggle("bad", !!bad); };
   form.addEventListener("submit", e => {
     const v = email.value.trim();
@@ -393,7 +399,7 @@ if (hoverOk && !reduce) {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) { e.preventDefault(); email.classList.add("err"); say("bad", true); email.focus(); return; }
     email.classList.remove("err");
     if (!consent.checked) { e.preventDefault(); say("consent", true); consent.focus(); return; }
-    if (!valid) { e.preventDefault(); return; }                                  // chế độ thử nghiệm: không gửi đi đâu
+    if (!valid) { e.preventDefault(); say("pending", true); return; }            // chưa có dịch vụ email: không thu và không giả vờ thành công
     say("sent", false);                                                          // form gửi sang tab mới của dịch vụ email
   });
 })();

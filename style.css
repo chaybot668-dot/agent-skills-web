@@ -1557,3 +1557,82 @@ h1:not(.split),.sec-head h2:not(.split),.big-quote:not(.split),.cn-h:not(.split)
 .menu a[hidden],.foot-nav a[hidden]{display:none!important}
 /* nút Telegram */
 .btn-tg svg{width:18px;height:18px;flex:none}
+
+/* tài liệu miễn phí: thứ tự đọc — tiêu đề → giới thiệu → nội dung → nút/biểu mẫu */
+.eb-copy{display:flex;flex-direction:column;align-items:flex-start}
+.eb-copy .eyebrow{order:0}.eb-copy h2{order:1}.eb-copy #ebookLead{order:2}.eb-copy .eb-title{order:3}
+.eb-copy .eb-topics{order:4;width:100%}.eb-copy .fine{order:6}
+.eb-topics{margin-top:26px}
+.eb-topics-h{font:500 .75rem var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--label);margin-bottom:6px;-webkit-text-fill-color:currentColor;background:none;animation:none}
+.eb-list{list-style:none;margin:0;padding:0}
+.eb-list li{display:flex;gap:18px;padding:16px 0;border-top:1px solid var(--line-soft)}
+.eb-list li:last-child{border-bottom:1px solid var(--line-soft)}
+.eb-n{flex:none;font:500 .8rem var(--mono);letter-spacing:.08em;color:var(--accent);padding-top:3px;min-width:24px}
+.eb-list h4{font:600 1rem/1.35 var(--sans);color:var(--heading);margin:0 0 4px;letter-spacing:0;text-transform:none}
+.eb-list p{color:var(--text-2);font-size:.92rem;line-height:1.6;margin:0}
+/* =====================================================================
+   BRAND LIGHTING — logo + LAVIENT (bạch kim kim cương) + CAPITAL (vàng ánh kim)
+   Chỉ ở header đầu trang. Một vệt sáng đi qua cả cụm theo thứ tự logo → LAVIENT → CAPITAL, mỗi ~7 giây;
+   một điểm lóe kim cương thỉnh thoảng. Chỉ dùng transform / opacity / background-position. Không đổi logo, kích thước, vị trí.
+   ===================================================================== */
+[data-theme="dark"]{
+  --bl-1:#FFFFFF; --bl-2:#E8E8EB; --bl-3:#C4C7CC; --bl-4:#AEB4BC; --bl-edge:rgba(214,226,240,.5); --bl-core:#FFFFFF; --bl-glow:rgba(190,205,225,.22);
+  --bg-1:#FFE6A6; --bg-2:#F8D98B; --bg-3:#E6B65C; --bg-4:#C9953D; --bg-5:#B87932; --bg-edge:rgba(255,230,166,.45); --bg-core:#FFE6A6; --bg-glow:rgba(230,182,92,.32)}
+[data-theme="light"]{
+  --bl-1:#5A6067; --bl-2:#3A3F44; --bl-3:#24272B; --bl-4:#15171A; --bl-edge:rgba(120,128,136,.5); --bl-core:#8E969E; --bl-glow:rgba(0,0,0,0);
+  --bg-1:#D6A24C; --bg-2:#C9953D; --bg-3:#B87932; --bg-4:#9A6428; --bg-5:#8A5A22; --bg-edge:rgba(230,182,92,.5); --bg-core:#E6B65C; --bg-glow:rgba(184,121,50,.2)}
+
+.brand-mark{position:relative;isolation:isolate;display:inline-flex;flex:none;animation:brIn .8s var(--lux-ease) both}
+.brand-mark::before{content:"";position:absolute;inset:-7px;border-radius:50%;pointer-events:none;background:radial-gradient(closest-side,var(--bg-glow),transparent);opacity:.7;z-index:-1}
+.brand-mark::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(105deg,transparent 40%,rgba(255,246,214,.85) 50%,transparent 60%);background-size:300% 100%;background-position:140% 0;
+  -webkit-mask:url(img/logo.png) center/100% 100% no-repeat;mask:url(img/logo.png) center/100% 100% no-repeat;
+  animation:brSweepLogo 7s ease-in-out 1.4s infinite}
+[data-theme="light"] .brand-mark::after{background:linear-gradient(105deg,transparent 40%,rgba(255,236,190,.9) 50%,transparent 60%);background-size:300% 100%;background-position:140% 0}
+
+.nav-in .brand-t b,.nav-in .brand-t i{background-repeat:no-repeat;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+  background-size:260% 100%,100% 100%;background-position:140% 0,0 0;transition:filter .35s var(--lux-ease)}
+.nav-in .brand-t b{position:relative;
+  background-image:linear-gradient(100deg,transparent 41%,var(--bl-edge) 46%,var(--bl-core) 50%,var(--bl-edge) 54%,transparent 59%),linear-gradient(180deg,var(--bl-1) 0%,var(--bl-2) 38%,var(--bl-3) 72%,var(--bl-4) 100%);
+  filter:brightness(1) drop-shadow(0 0 6px var(--bl-glow));
+  animation:brIn .8s var(--lux-ease) .18s both,brSweep 7s ease-in-out 1.9s infinite}
+.nav-in .brand-t i{
+  background-image:linear-gradient(100deg,transparent 41%,var(--bg-edge) 46%,var(--bg-core) 50%,var(--bg-edge) 54%,transparent 59%),linear-gradient(180deg,var(--bg-1) 0%,var(--bg-2) 30%,var(--bg-3) 62%,var(--bg-4) 85%,var(--bg-5) 100%);
+  filter:brightness(1) drop-shadow(0 0 6px var(--bg-glow));
+  animation:brIn .8s var(--lux-ease) .4s both,brSweep 7s ease-in-out 2.4s infinite}
+/* điểm lóe kim cương: một điểm nhỏ, thỉnh thoảng (14s/lần) */
+.nav-in .brand-t b::after{content:"";position:absolute;right:-5px;top:-5px;width:10px;height:10px;background:#fff;opacity:0;pointer-events:none;-webkit-text-fill-color:initial;
+  clip-path:polygon(50% 0,58% 42%,100% 50%,58% 58%,50% 100%,42% 58%,0 50%,42% 42%);animation:brSpark 14s ease-in-out 1s infinite}
+[data-theme="light"] .nav-in .brand-t b::after{background:#B8892F}
+
+@keyframes brIn{from{opacity:0;transform:translateY(3px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes brSweep{0%{background-position:140% 0,0 0}16%,100%{background-position:-40% 0,0 0}}
+@keyframes brSweepLogo{0%{background-position:140% 0}16%,100%{background-position:-40% 0}}
+@keyframes brSpark{0%,17%{opacity:0;transform:scale(.3) rotate(0)}20%{opacity:.95;transform:scale(1) rotate(20deg)}25%,100%{opacity:0;transform:scale(.3) rotate(45deg)}}
+@keyframes brSparkHover{0%{opacity:0;transform:scale(.3) rotate(0)}35%{opacity:.95;transform:scale(1) rotate(25deg)}100%{opacity:0;transform:scale(.3) rotate(45deg)}}
+
+/* desktop (chuột): sáng hơn một chút, phóng 1.03, một điểm lóe */
+.nav-in .brand{transform-origin:left center;transition:scale .35s var(--lux-ease)}
+@media(hover:hover) and (pointer:fine){
+  .nav-in .brand:hover{scale:1.03}
+  .nav-in .brand:hover .brand-t b{filter:brightness(1.14) drop-shadow(0 0 7px var(--bl-glow))}
+  .nav-in .brand:hover .brand-t i{filter:brightness(1.12) drop-shadow(0 0 7px var(--bg-glow))}
+  .nav-in .brand:hover .brand-t b::after{animation:brSparkHover .9s ease-out 1 both}
+}
+/* tablet: nhẹ hơn, chậm hơn, không điểm lóe */
+@media(max-width:1100px){
+  .brand-mark::after{animation:brSweepLogo 10s ease-in-out 1.4s infinite;opacity:.8}
+  .nav-in .brand-t b{animation:brIn .8s var(--lux-ease) .18s both,brSweep 10s ease-in-out 1.9s infinite}
+  .nav-in .brand-t i{animation:brIn .8s var(--lux-ease) .4s both,brSweep 10s ease-in-out 2.4s infinite}
+  .nav-in .brand-t b::after{display:none}
+}
+/* mobile: tiết kiệm pin — chỉ một lần quét sau khi tải */
+@media(max-width:767px){
+  .brand-mark::after{animation:brSweepLogo 7s ease-in-out 1.4s 1 both}
+  .nav-in .brand-t b{animation:brIn .8s var(--lux-ease) .18s both,brSweep 7s ease-in-out 1.9s 1 both}
+  .nav-in .brand-t i{animation:brIn .8s var(--lux-ease) .4s both,brSweep 7s ease-in-out 2.4s 1 both}
+}
+@media(prefers-reduced-motion:reduce){
+  .brand-mark,.nav-in .brand-t b,.nav-in .brand-t i{animation:none}
+  .brand-mark::after,.nav-in .brand-t b::after{display:none}
+}
