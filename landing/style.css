@@ -266,7 +266,6 @@ h1:hover em,h2:hover em,.big-quote:hover em{background-position:100% 0}
 [data-theme="dark"] .ic-sun,[data-theme="light"] .ic-moon{opacity:0;transform:rotate(-70deg) scale(.4)}
 [data-theme="dark"] .ic-moon,[data-theme="light"] .ic-sun{opacity:1;transform:none}
 .th-nav .th-label{display:none}
-.th-menu{display:none}
 .th-label{font:500 .74rem var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--label)}
 
 /* ---------- hero ---------- */
@@ -526,8 +525,7 @@ html.theme-anim,html.theme-anim *,html.theme-anim *::before,html.theme-anim *::a
   .container{width:calc(100% - 36px)}
   .nav-in{width:calc(100% - 28px);gap:12px}
   .nav-end{gap:10px}
-  .nav-cta,.th-nav{display:none}
-  .th-menu{display:flex;align-items:center;width:100%;margin-top:14px;padding:2px 16px 2px 2px;justify-content:flex-start}
+  .nav-cta{display:none}
   .menu-cta{display:inline-flex;width:100%;margin-top:12px}
   /* hero: tiêu đề → mô tả → CTA → chân dung */
   .hero-in{grid-template-columns:1fr;gap:34px}
@@ -1439,3 +1437,15 @@ p,li,small,figcaption,blockquote,.lead,.fine{text-wrap:pretty}
 [data-theme="light"] .ph-fig figcaption{color:#F5F4F0;text-shadow:0 1px 8px rgba(0,0,0,.6)}
 .ph-fig::before{padding:2.5px}
 .cn-h em{text-wrap:balance}
+
+/* =====================================================================
+   THEME TOGGLE — luôn hiện trên Header (desktop, tablet, mobile); không nằm trong menu phụ
+   ===================================================================== */
+.th-nav{position:relative;flex:none}
+.th-nav::after{content:attr(data-tip);position:absolute;top:calc(100% + 10px);right:0;white-space:nowrap;padding:7px 12px;border-radius:9px;font:500 .74rem var(--sans);
+  color:var(--tip-text);background:var(--tip-bg);border:1px solid var(--tip-line);opacity:0;pointer-events:none;transform:translateY(-4px);transition:opacity .25s var(--ease),transform .25s var(--ease);z-index:30}
+@media(hover:hover){.th-nav:hover::after,.th-nav:focus-visible::after{opacity:1;transform:none}}
+@media(hover:none){.th-nav::after{display:none}}
+@media(max-width:767px){.th-nav .th-ic{width:44px;height:44px}}
+@media(max-width:380px){.nav-in{gap:8px}.nav-end{gap:6px}.brand-t b{letter-spacing:.14em}.brand-t i{letter-spacing:.34em}.th-nav .th-ic{width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.th-nav::after{transition:none}}
