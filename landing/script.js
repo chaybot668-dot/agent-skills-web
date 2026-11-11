@@ -174,24 +174,34 @@ $("#year").textContent = new Date().getFullYear();
   items.forEach(el => io.observe(el));
 })();
 
-/* ---------- count-up ---------- */
+/* ---------- count-up (Achievements): chạy một lần khi khối số vào viewport, lệch nhau ~150ms ---------- */
 (function countUp() {
-  const els = $$("[data-count]");
+  const wrap = $("#achievements .stats"); if (!wrap) return;
+  const els = $$("[data-count]", wrap);
   const fmt = (v, d) => v.toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
-  const run = el => {
-    const to = parseFloat(el.dataset.count), d = +el.dataset.dec || 0;
-    if (reduce) { el.textContent = fmt(to, d); return; }
-    const t0 = performance.now(), dur = 1500;
-    (function tick(t) {
-      const p = Math.min((t - t0) / dur, 1), e = 1 - Math.pow(1 - p, 3);
-      el.textContent = fmt(to * e, d);
-      if (p < 1) requestAnimationFrame(tick); else el.textContent = fmt(to, d);
-    })(t0);
+  const ease = p => 1 - Math.pow(1 - p, 4); // ease-out mượt
+  const run = (el, i) => {
+    const to = parseFloat(el.dataset.count), d = +el.dataset.dec || 0, dur = 2200;
+    setTimeout(() => {
+      const t0 = performance.now();
+      (function tick(t) {
+        const p = Math.min((t - t0) / dur, 1);
+        el.textContent = p < 1 ? fmt(to * ease(p), d) : fmt(to, d);
+        if (p < 1) requestAnimationFrame(tick);
+      })(t0);
+    }, i * 150);
   };
+  if (reduce || !("IntersectionObserver" in window)) return; // giữ nguyên giá trị cuối có sẵn trong HTML
+  els.forEach(el => { el.textContent = fmt(0, +el.dataset.dec || 0); });
+  wrap.classList.add("cu-wait");
   const io = new IntersectionObserver(es => es.forEach(e => {
-    if (e.isIntersecting) { io.unobserve(e.target); run(e.target); }
-  }), { threshold: .6 });
-  els.forEach(el => { if (!reduce) el.textContent = fmt(0, +el.dataset.dec || 0); io.observe(el); });
+    if (!e.isIntersecting) return;
+    io.disconnect();
+    $$(".num", wrap).forEach((n, i) => n.style.setProperty("--cu-d", (i * .15).toFixed(2) + "s"));
+    wrap.classList.remove("cu-wait"); wrap.classList.add("cu-go");
+    els.forEach((el, i) => run(el, i));
+  }), { threshold: .3 });
+  io.observe(wrap);
 })();
 
 /* ---------- timeline progress ---------- */
