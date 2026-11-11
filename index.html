@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>LAVIENT CAPITAL | Professional Futures &amp; CFD Trader</title>
-<meta name="description" content="LAVIENT CAPITAL — precision is power. A professional Futures and CFD trading brand working with proprietary trading firms, focused on trading systems, risk management and discipline.">
+<meta name="description" content="LAVIENT CAPITAL — precision is power. A professional Futures and CFD trading brand focused on trading systems, risk management and discipline.">
 <meta name="keywords" content="professional trader, futures trader, CFD trader, prop firm trader, trading risk management, LAVIENT CAPITAL">
 <meta name="author" content="LAVIENT CAPITAL">
 <meta name="robots" content="index, follow">
@@ -20,6 +20,8 @@
 <meta property="og:image" content="https://chaybot668-dot.github.io/agent-skills-web/img/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="LAVIENT CAPITAL — logo on a dark background">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="LAVIENT CAPITAL | Professional Futures &amp; CFD Trader">
 <meta name="twitter:description" content="Focus on the trading system, not the profit or win rate.">
@@ -43,7 +45,7 @@ var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='light
 <link rel="stylesheet" href="style.css">
 
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Organization","name":"LAVIENT CAPITAL","description":"Precision is power. A professional Futures and CFD trading brand focused on trading systems, risk management and discipline.","knowsAbout":["Futures trading","CFD trading","Proprietary trading","Risk management","Trading psychology"]}
+{"@context":"https://schema.org","@type":"Organization","name":"LAVIENT CAPITAL","url":"https://chaybot668-dot.github.io/agent-skills-web/","logo":"https://chaybot668-dot.github.io/agent-skills-web/img/icon-512.png","description":"Precision is power. A professional Futures and CFD trading brand focused on trading systems, risk management and discipline.","knowsAbout":["Futures trading","CFD trading","Proprietary trading","Risk management","Trading psychology"]}
 </script>
 </head>
 <body>
@@ -502,7 +504,7 @@ var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='light
     <div class="cn-form eb-form glass reveal">
       <form id="ebookForm" method="post" target="_blank" novalidate>
         <label id="ebNameRow" hidden><span data-i18n data-vi="Họ và tên">Name</span><input id="ebName" type="text" autocomplete="name"></label>
-        <label><span>Email</span><input id="ebEmail" type="email" autocomplete="email" inputmode="email" required></label>
+        <label><span>Email</span><input id="ebEmail" type="email" autocomplete="email" inputmode="email" maxlength="254" required></label>
         <input id="ebHp" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="eb-hp">
         <div id="ebHidden"></div>
         <label class="eb-consent"><input id="ebConsent" type="checkbox" required><span data-i18n data-vi="Tôi đồng ý nhận tài liệu và email thông tin từ LAVIENT CAPITAL. Tôi có thể hủy đăng ký bất cứ lúc nào.">I agree to receive the material and information emails from LAVIENT CAPITAL. I can unsubscribe at any time.</span></label>
@@ -530,9 +532,9 @@ var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='light
     </div>
     <div class="cn-form glass reveal" id="contact-form" hidden>
       <form id="leadForm" novalidate>
-        <label><span data-i18n data-vi="Họ và tên">Name</span><input name="name" type="text" autocomplete="name" required></label>
-        <label><span>Email</span><input name="email" type="email" autocomplete="email" required></label>
-        <label><span data-i18n data-vi="Nội dung">Message</span><textarea name="message" rows="4" required></textarea></label>
+        <label><span data-i18n data-vi="Họ và tên">Name</span><input name="name" type="text" autocomplete="name" maxlength="100" required></label>
+        <label><span>Email</span><input name="email" type="email" autocomplete="email" maxlength="254" required></label>
+        <label><span data-i18n data-vi="Nội dung">Message</span><textarea name="message" rows="4" maxlength="2000" required></textarea></label>
         <button class="btn btn-primary btn-lg" type="submit" data-i18n data-vi="Gửi tin nhắn">Send message</button>
         <p class="form-msg" id="formMsg" role="status"></p>
         <p class="demo-note" id="demoNote" hidden>Demo mode: set <code>formEndpoint</code> or <code>links.email</code> in script.js to receive messages.</p>
@@ -563,7 +565,7 @@ var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='light
         <p class="foot-contact" id="footContact" hidden></p>
       </div>
       <nav class="foot-nav" aria-label="Footer">
-        <h4 data-i18n data-vi="Điều hướng">Navigate</h4>
+        <h3 data-i18n data-vi="Điều hướng">Navigate</h3>
         <a href="#home" data-i18n data-vi="Trang chủ">Home</a>
         <a href="#about" data-i18n data-vi="Giới thiệu">About Me</a>
         <a href="#achievements" data-i18n data-vi="Thành tựu">Achievements</a>

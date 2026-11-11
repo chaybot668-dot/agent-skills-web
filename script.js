@@ -82,6 +82,9 @@ const SITE = {
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+/* Hệ số tốc độ animation theo thiết bị: cùng biến --spd với CSS (desktop 1, tablet .93, mobile .82). `fast` = không phải desktop: kích hoạt sớm hơn khi cuộn. */
+const SPD = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--spd")) || 1;
+const FAST = SPD < 1;
 const hoverOk = matchMedia("(hover: hover)").matches;
 const store = {
   get(k) { try { return localStorage.getItem(k); } catch { return null; } },
@@ -192,11 +195,11 @@ $("#year").textContent = new Date().getFullYear();
   items.forEach(el => {
     const n = seen.get(el.parentElement) || 0;
     seen.set(el.parentElement, n + 1);
-    el.style.setProperty("--d", Math.min(n, 5) * 0.08 + "s");
+    el.style.setProperty("--d", (Math.min(n, 5) * 0.08 * SPD).toFixed(3) + "s");
   });
   const io = new IntersectionObserver(es => es.forEach(e => {
     if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
-  }), { threshold: .12, rootMargin: "0px 0px -5% 0px" });
+  }), FAST ? { threshold: .06, rootMargin: "0px 0px -2% 0px" } : { threshold: .12, rootMargin: "0px 0px -5% 0px" });
   items.forEach(el => io.observe(el));
 })();
 
@@ -207,7 +210,7 @@ $("#year").textContent = new Date().getFullYear();
   const fmt = (v, d) => v.toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
   const ease = p => 1 - Math.pow(1 - p, 4); // ease-out mượt
   const run = (el, i) => {
-    const to = parseFloat(el.dataset.count), d = +el.dataset.dec || 0, dur = 2200;
+    const to = parseFloat(el.dataset.count), d = +el.dataset.dec || 0, dur = 2200 * SPD;
     setTimeout(() => {
       const t0 = performance.now();
       (function tick(t) {
@@ -215,7 +218,7 @@ $("#year").textContent = new Date().getFullYear();
         el.textContent = p < 1 ? fmt(to * ease(p), d) : fmt(to, d);
         if (p < 1) requestAnimationFrame(tick);
       })(t0);
-    }, i * 150);
+    }, i * 150 * SPD);
   };
   if (reduce || !("IntersectionObserver" in window)) return; // giữ nguyên giá trị cuối có sẵn trong HTML
   els.forEach(el => { el.textContent = fmt(0, +el.dataset.dec || 0); });
@@ -223,10 +226,10 @@ $("#year").textContent = new Date().getFullYear();
   const io = new IntersectionObserver(es => es.forEach(e => {
     if (!e.isIntersecting) return;
     io.disconnect();
-    $$(".num", wrap).forEach((n, i) => n.style.setProperty("--cu-d", (i * .15).toFixed(2) + "s"));
+    $$(".num", wrap).forEach((n, i) => n.style.setProperty("--cu-d", (i * .15 * SPD).toFixed(2) + "s"));
     wrap.classList.remove("cu-wait"); wrap.classList.add("cu-go");
     els.forEach((el, i) => run(el, i));
-  }), { threshold: .3 });
+  }), { threshold: FAST ? .2 : .3 });
   io.observe(wrap);
 })();
 
@@ -317,7 +320,7 @@ if (hoverOk && !reduce) {
 
   // form: chỉ hiện khi có nơi nhận thật; môi trường thử nghiệm (file/localhost) hiện chế độ demo
   const box = $("#contact-form"), contactBtn = $("#ctaContact");
-  const endpoint = val(SITE.formEndpoint);
+  const endpoint = /^https:\/\//i.test(val(SITE.formEndpoint)) ? val(SITE.formEndpoint) : "";   // chỉ nhận địa chỉ https
   const canSend = !!(endpoint || email);
   const dev = location.protocol === "file:" || ["", "localhost", "127.0.0.1"].includes(location.hostname);
   if (canSend || dev) {
@@ -480,13 +483,14 @@ if (hoverOk && !reduce) {
   };
   const apply = (t, persist) => {
     if (t === get()) { if (persist) store.set("theme", t); return; }
+    const commit = () => { root.setAttribute("data-theme", t); if (persist) store.set("theme", t); paint(); };
+    // View Transitions (chụp ảnh + mờ chéo) cho độ phản hồi tốt (INP); trình duyệt chưa hỗ trợ thì dùng transition cũ trong 380ms
+    if (!reduce && document.startViewTransition) { document.startViewTransition(commit); return; }
     if (!reduce) {
       root.classList.add("theme-anim");
-      clearTimeout(apply.t); apply.t = setTimeout(() => root.classList.remove("theme-anim"), 380);
+      clearTimeout(apply.t); apply.t = setTimeout(() => root.classList.remove("theme-anim"), 380 * SPD);
     }
-    root.setAttribute("data-theme", t);
-    if (persist) store.set("theme", t);
-    paint();
+    commit();
   };
   $$("[data-theme-toggle]").forEach(b => b.addEventListener("click", () => apply(get() === "dark" ? "light" : "dark", true)));
   // theo hệ điều hành khi người dùng chưa chọn thủ công
@@ -680,11 +684,11 @@ if ("serviceWorker" in navigator && (location.protocol === "https:" || location.
   if (!reduce) {
     targets.forEach(splitEl);
     const h1 = $("h1");
-    h1.style.setProperty("--base", ".5s");
+    h1.style.setProperty("--base", (.5 * SPD).toFixed(2) + "s");
     requestAnimationFrame(() => requestAnimationFrame(() => h1.classList.add("go")));
     const io = new IntersectionObserver(es => es.forEach(e => {
       if (e.isIntersecting) { e.target.classList.add("go"); io.unobserve(e.target); }
-    }), { threshold: .45 });
+    }), { threshold: FAST ? .3 : .45 });
     targets.filter(t => t !== h1).forEach(t => io.observe(t));
     // đổi ngôn ngữ: tách lại từ, không chạy lại hiệu ứng
     new MutationObserver(() => targets.forEach(t => { t.classList.remove("split"); splitEl(t); t.classList.add("instant", "go"); }))
@@ -980,9 +984,9 @@ if ("serviceWorker" in navigator && (location.protocol === "https:" || location.
     io.unobserve(e.target);
     // luôn theo thứ tự: không sáng bước sau khi bước trước chưa sáng
     const idx = steps.indexOf(e.target);
-    for (let k = last + 1; k <= idx; k++) setTimeout(() => lit(steps[k]), (k - last - 1) * 450);
+    for (let k = last + 1; k <= idx; k++) setTimeout(() => lit(steps[k]), (k - last - 1) * 450 * SPD);
     last = Math.max(last, idx);
-  }), { threshold: .35, rootMargin: "0px 0px -8% 0px" });
+  }), { threshold: FAST ? .25 : .35, rootMargin: "0px 0px -8% 0px" });
   steps.forEach(st => io.observe(st));
   addEventListener("resize", () => { geom(); const on = steps.filter(x => x.classList.contains("on")).pop(); if (on) lit(on); });
 })();
