@@ -1675,3 +1675,11 @@ h1:not(.split),.sec-head h2:not(.split),.big-quote:not(.split),.cn-h:not(.split)
   .achv:hover .achv-track.run,.achv:focus-within .achv-track.run{animation-play-state:running}
   .achv.off .achv-track.run{animation-play-state:paused}
 }
+
+/* màn hình cảm ứng: bỏ chuyển động trang trí trên từng ảnh của hai dải ảnh chạy (viền xoay và vệt sáng gây vẽ lại mỗi khung hình → giật, dải trông chậm).
+   Viền vàng ánh kim vẫn còn nhưng đứng yên; chỉ riêng việc dải chạy ngang là chuyển động. */
+@media(hover:none){
+  .ph-fig,.achv-fig{--pa:215deg}
+  .ph-fig::before,.achv-fig::before{animation:none!important}
+  .ph-fig .ph-sheen,.achv-fig .ph-sheen{display:none}
+}
