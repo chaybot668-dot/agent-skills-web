@@ -1396,3 +1396,7 @@ p,li,small,figcaption,blockquote,.lead,.fine{text-wrap:pretty}
 /* sàn chữ nhỏ: không nhãn nào dưới 12px (đọc được trên điện thoại, không cần zoom) */
 .eyebrow,.stat-k,.tl-f,.mt-tag,.proof-h,.th-label,.lang-list .lc,.achv-cap,figcaption,.tags li,.fs-no{font-size:max(12px,.75rem)}
 .cred small,.stat p,.demo-note,.fine{font-size:max(12.5px,.78rem)}
+
+/* tiêu đề có <br>: mỗi vế tự cân dòng, không để một chữ lẻ ở cuối vế */
+.fs-big em{display:block;text-wrap:balance}
+.cn-h em{display:block}
