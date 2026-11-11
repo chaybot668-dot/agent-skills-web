@@ -1,4 +1,4 @@
-# Hướng dẫn bật “Nhận ebook miễn phí” (email tự động)
+# Hướng dẫn bật “Nhận tài liệu miễn phí” (email tự động)
 
 Website là trang tĩnh nên không tự gửi email được. Cách làm đúng: dùng một dịch vụ email marketing (có gói miễn phí) để
 **thu email + tự động gửi ebook**. Website chỉ chuyển email của khách sang dịch vụ đó.
@@ -57,3 +57,11 @@ Mở file trực tiếp trên máy hoặc `localhost` sẽ hiện ở chế đ�
 - Bạn đang thu dữ liệu cá nhân (email). Nên có trang chính sách quyền riêng tư nêu rõ dùng email để làm gì, lưu bao lâu, ai xử lý (nhà cung cấp dịch vụ email).
   Hãy hỏi luật sư hoặc người am hiểu để đảm bảo phù hợp quy định hiện hành về bảo vệ dữ liệu cá nhân; đây không phải tư vấn pháp lý.
 - Không hứa hẹn lợi nhuận trong ebook hay email. Giữ cảnh báo rủi ro. Chỉ gửi email đúng nội dung khách đã đồng ý nhận.
+
+## Hai chế độ hiển thị của mục “Nhận tài liệu miễn phí”
+1. **Chưa điền `formAction`** (hiện tại): mục hiện dạng giới thiệu + nút “Nhận tài liệu qua Telegram” (dùng `links.telegram`). Không có form email.
+2. **Đã điền `formAction`**: tự chuyển sang form nhập email, tài liệu gửi tự động như các bước ở trên.
+3. Cả hai đều trống: mục và nút menu “Nhận tài liệu” ẩn hẳn.
+
+Khối **“Nội dung tài liệu”** (3 chủ đề) lấy từ `SITE.ebook.topics` trong `landing/script.js`. Đây là nội dung gợi ý theo khung phương pháp của trang:
+hãy sửa hoặc xoá cho khớp tài liệu thật. Để `topics: []` nếu muốn ẩn khối này. Đừng ghi số liệu hay cam kết kết quả.
