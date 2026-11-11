@@ -347,7 +347,7 @@ if (hoverOk && !reduce) {
   const card = c => {
     const alt = `Certificate: ${c.title} — ${c.firm}`;
     const ver = /^https?:\/\//i.test(c.verify || "") ? ` · <a href="${esc(c.verify)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Verify</a>` : "";
-    return `<button class="achv-card" type="button"><img src="${esc(c.src)}" alt="${esc(alt)}" width="${+c.w}" height="${+c.h}" loading="lazy" decoding="async"><span class="achv-cap"><b>${esc(c.firm)}</b> · ${esc(c.title)}${ver}</span></button>`;
+    return `<button class="achv-card" type="button"><span class="achv-fig"><img src="${esc(c.src)}" alt="${esc(alt)}" width="${+c.w}" height="${+c.h}" loading="lazy" decoding="async"><span class="ph-sheen" aria-hidden="true"></span></span><span class="achv-cap"><b>${esc(c.firm)}</b> · ${esc(c.title)}${ver}</span></button>`;
   };
   const builders = [];
   $$(".achv-track[data-certs]").forEach(track => {

@@ -1344,7 +1344,7 @@ h1,h2,h3,.cn-h,.fs-big,.fs-quote{text-transform:none}
 #achievements .stat:nth-child(-n+2){background:repeating-linear-gradient(135deg,var(--ac-tex) 0 1px,transparent 1px 8px),var(--stat-bg)}
 
 /* hover: nâng 4px, viền đổi sắc, nền sáng hơn, vệt sáng quét một lần (từ .glass) */
-#achievements .stat,#achievements .cred{transition:transform var(--ac-t) var(--ease),border-color var(--ac-t) var(--ease),box-shadow var(--ac-t) var(--ease),background-color var(--ac-t) var(--ease)}
+#achievements .stat,#achievements .cred{transition:scale var(--ac-t) var(--ease),transform var(--ac-t) var(--ease),border-color var(--ac-t) var(--ease),box-shadow var(--ac-t) var(--ease),background-color var(--ac-t) var(--ease)}
 @media(hover:hover){
   #achievements .stat:hover,#achievements .cred:hover{transform:translateY(-4px);border-color:rgba(var(--accent-rgb),.5);background:var(--ac-hov)}
   #achievements .stat:nth-child(-n+2):hover{background:repeating-linear-gradient(135deg,var(--ac-tex) 0 1px,transparent 1px 8px),var(--ac-hov)}
@@ -1449,3 +1449,87 @@ p,li,small,figcaption,blockquote,.lead,.fine{text-wrap:pretty}
 @media(max-width:767px){.th-nav .th-ic{width:44px;height:44px}}
 @media(max-width:380px){.nav-in{gap:8px}.nav-end{gap:6px}.brand-t b{letter-spacing:.14em}.brand-t i{letter-spacing:.34em}.th-nav .th-ic{width:42px;height:42px}}
 @media(prefers-reduced-motion:reduce){.th-nav::after{transition:none}}
+
+/* =====================================================================
+   ACHIEVEMENT STRIPS — cùng ngôn ngữ chuyển động với dải ảnh Triết lý:
+   viền vàng ánh kim chạy quanh ảnh, vệt sáng quét chậm, quầng sáng mờ. Dùng lại @keyframes phRing / phSheen.
+   ===================================================================== */
+.achv-fig{--g1:#80613B;--g2:#C6A66B;--g3:#FFF0C2;--g-glow:rgba(198,166,107,.34);position:relative;display:block;border-radius:14px;overflow:hidden;box-shadow:var(--media-shadow),0 18px 44px -22px var(--g-glow)}
+[data-theme="light"] .achv-fig{--g1:#7d5f2c;--g2:#B08D3E;--g3:#EBD08A;--g-glow:rgba(176,141,62,.34)}
+.achv-fig img{display:block;box-shadow:none}
+.achv-fig::before{content:"";position:absolute;inset:0;z-index:3;border-radius:inherit;padding:2.5px;pointer-events:none;
+  background:conic-gradient(from var(--pa),transparent 0 38%,var(--g1) 46%,var(--g2) 56%,var(--g3) 64%,var(--g2) 72%,var(--g1) 80%,transparent 90% 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:phRing 7s linear infinite}
+.achv-card:nth-child(2n) .achv-fig::before{animation-delay:-2.3s}.achv-card:nth-child(3n) .achv-fig::before{animation-delay:-4.6s}
+.achv-fig .ph-sheen{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(112deg,transparent 40%,rgba(255,240,194,.16) 50%,transparent 60%);transform:translateX(-130%);animation:phSheen 9s var(--ease-io,ease-in-out) infinite}
+.achv.off .achv-fig::before,.achv.off .achv-fig .ph-sheen{animation-play-state:paused}
+@media(hover:hover){.achv-card:hover .achv-fig::before{animation-duration:3.2s}}
+@media(prefers-reduced-motion:reduce){.achv-fig::before,.achv-fig .ph-sheen{animation:none}.achv-fig::before{background:linear-gradient(135deg,var(--g1),var(--g3),var(--g1))}.achv-fig .ph-sheen{display:none}}
+
+/* =====================================================================
+   PREMIUM INTERACTION & LUXURY TYPOGRAPHY LIGHTING
+   Chữ trắng → bạch kim / kim cương; chữ vàng → vàng champagne kim loại. Dùng token theo theme.
+   Ánh sáng quét: một lần khi vào tầm nhìn (transition), và lại khi rê chuột (desktop). Không chạy liên tục (trừ vệt vàng chậm có sẵn).
+   ===================================================================== */
+[data-theme="dark"]{
+  --pt-top:#F7F9FB; --pt-mid:#DDE1E5; --pt-low:#A9B0B7; --pt-edge:rgba(207,227,245,.55); --pt-core:#FFFFFF;
+  --gd-top:#F5E9C4; --gd-mid:#D7B86E; --gd-low:#A8833F; --gd-edge:rgba(255,236,180,.45); --gd-core:#FFF6D8}
+[data-theme="light"]{
+  --pt-top:#3B3F43; --pt-mid:#1C1E20; --pt-low:#0C0D0E; --pt-edge:rgba(120,128,136,.5); --pt-core:#8A9299;
+  --gd-top:#B8913F; --gd-mid:#8F6D34; --gd-low:#6B4F22; --gd-edge:rgba(214,170,80,.5); --gd-core:#E8C877}
+:root{
+  --pt-base:linear-gradient(180deg,var(--pt-top) 0%,var(--pt-mid) 52%,var(--pt-low) 100%);
+  --pt-sweep:linear-gradient(100deg,transparent 41%,var(--pt-edge) 46%,var(--pt-core) 50%,var(--pt-edge) 54%,transparent 59%);
+  --gd-base:linear-gradient(180deg,var(--gd-top) 0%,var(--gd-mid) 50%,var(--gd-low) 100%);
+  --gd-sweep:linear-gradient(100deg,transparent 41%,var(--gd-edge) 46%,var(--gd-core) 50%,var(--gd-edge) 54%,transparent 59%);
+  --lux-ease:cubic-bezier(.2,.8,.2,1)}
+
+/* --- chữ vàng: kim loại nhiều sắc độ + vệt sáng chậm có sẵn --- */
+em,em .wi{background-image:var(--gd-sweep),var(--gd-base);background-size:260% 100%,100% 100%;background-position:0% 0,0 0;background-repeat:no-repeat}
+
+/* --- chữ trắng: bạch kim (nền bạc dọc + vệt sáng pha lê, lệch ra ngoài khi nghỉ) --- */
+.split > .w > .wi,
+h1:not(.split),.sec-head h2:not(.split),.big-quote:not(.split),.cn-h:not(.split),.fs-quote:not(.split),
+.fs-big,.fs-ch-head h3,.fs-cta h3,.cred h3,.tl-c h3,.mt-card h3,.card h3,.pillars h3{
+  background-image:var(--pt-sweep),var(--pt-base);background-size:260% 100%,100% 100%;background-position:140% 0,0 0;background-repeat:no-repeat;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+/* vào tầm nhìn: vệt sáng lướt qua một lần, lần lượt theo từ (một chiều, không lặp lại) */
+.split > .w > .wi{transition-property:transform,background-position;transition-duration:var(--d3,.9s),1.8s;transition-timing-function:var(--ease),var(--lux-ease);
+  transition-delay:calc(var(--i,0) * var(--stagger,.06s) + var(--base,0s)),calc(.5s + var(--i,0) * .06s + var(--base,0s))}
+.split.go > .w > .wi{background-position:-40% 0,0 0}
+.split.instant > .w > .wi{transition:none}
+/* quote/tiêu đề dòng đơn không tách từ: giữ nền bạch kim tĩnh, vệt sáng chỉ khi rê chuột */
+@keyframes ptSweep{from{background-position:140% 0,0 0}to{background-position:-40% 0,0 0}}
+
+@media(hover:hover) and (pointer:fine){
+  .split:hover > .w > .wi{animation:ptSweep 1.5s var(--lux-ease) calc(var(--i,0) * .035s) 1 both}
+  h1:not(.split):hover,.sec-head h2:not(.split):hover,.big-quote:not(.split):hover,.cn-h:not(.split):hover,.fs-quote:not(.split):hover,
+  .fs-big:hover,.fs-ch-head h3:hover,.fs-cta h3:hover,.glass:hover h3,.pillars li:hover h3,.card:hover h3{animation:ptSweep 1.5s var(--lux-ease) 1 both}
+
+  /* thẻ: phóng to nhẹ + nâng; dùng thuộc tính scale riêng để không xung đột với nghiêng/tịnh tiến sẵn có */
+  .glass,.glass.tilt{transition:transform .35s var(--lux-ease),scale .35s var(--lux-ease),border-color .35s var(--lux-ease),box-shadow .45s var(--lux-ease),background-color .35s var(--lux-ease)}
+  .glass:not(.chip):hover{scale:1.02}
+  .glass.chip:hover{scale:1}
+  /* nút */
+  .btn:hover,.btn:focus-visible{scale:1.025}
+  .btn:active{scale:.985}
+  /* menu: hover ≠ active (hover: vàng nhạt + gạch ngắn; active: sáng + gạch đầy) */
+  .menu a:not(.active):hover{color:var(--accent-strong)}
+  .menu a:not(.active):hover::after{transform:scaleX(.5)}
+  /* ảnh: phóng 1.05, sáng và tương phản nhẹ, luôn nằm trong khung (overflow hidden) */
+  .portrait,.ap-media{overflow:hidden}
+  .js .reveal-img.in:hover img{transform:scale(1.045);filter:brightness(1.06) contrast(1.04)}
+  .achv-fig img{transition:transform .6s var(--lux-ease),filter .4s var(--lux-ease)}
+  .achv-card:hover .achv-fig img{transform:scale(1.04);filter:brightness(1.05) contrast(1.03)}
+}
+@media(max-width:900px){.mt-card:hover{scale:1}}
+@media(prefers-reduced-motion:reduce){
+  .split > .w > .wi{transition:none}
+  .glass:hover,.btn:hover{scale:1}
+  .split:hover > .w > .wi,h1:hover,h2:hover,.glass:hover h3{animation:none}
+}
+
+/* nút: thêm chuyển động scale vào danh sách transition sẵn có (giữ nguyên các thuộc tính cũ) */
+.btn-primary{transition:background-position var(--t-fill) var(--ease-io),color .5s var(--ease-io) .3s,border-color var(--t-fill) var(--ease-io),box-shadow var(--t-fill) var(--ease-io),transform var(--t-lift) var(--ease),scale .35s var(--lux-ease)}
+.btn-ghost{transition:background-size var(--t-fill) var(--ease-io),color .5s var(--ease-io) .3s,border-color var(--t-fill) var(--ease-io),box-shadow var(--t-fill) var(--ease-io),transform var(--t-lift) var(--ease),scale .35s var(--lux-ease)}
+.btn.mag{transition:transform .35s var(--ease),scale .35s var(--lux-ease),background-color .3s,border-color .3s,color .3s}
