@@ -909,8 +909,6 @@ em .wi{animation-delay:calc(var(--i,0) * .18s)}
   animation:beamSway calc(24s*var(--spd,1)) ease-in-out infinite alternate;will-change:transform}
 @keyframes beamSway{from{transform:rotate(13deg)}to{transform:rotate(25deg)}}
 .hero.paused .hero-beam{animation-play-state:paused}
-.portrait::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
-  background:radial-gradient(420px circle at calc(50% + var(--px,0) * 46%) calc(46% + var(--py,0) * 46%),rgba(255,255,255,.075),transparent 62%)}
 
 /* --- 3D spatial depth: các lớp hero có độ sâu khác nhau, phản ứng với con trỏ (desktop) --- */
 @media(min-width:768px){
