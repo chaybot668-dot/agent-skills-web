@@ -1683,3 +1683,69 @@ h1:not(.split),.sec-head h2:not(.split),.big-quote:not(.split),.cn-h:not(.split)
   .ph-fig::before,.achv-fig::before{animation:none!important}
   .ph-fig .ph-sheen,.achv-fig .ph-sheen{display:none}
 }
+
+/* =====================================================================
+   HERO COMPASS — ánh sáng phản chiếu kiểu ánh kim: một vệt sáng lướt chéo qua la bàn (mix-blend-mode: overlay nên chỉ làm sáng thêm các nét la bàn, nền tối không bị ảnh hưởng), cùng viền vàng ánh kim chạy quanh khung và quầng vàng rất nhẹ phía sau.
+   Chỉ dùng transform/opacity; viền xoay (@property) chỉ chạy trên thiết bị có chuột.
+   ===================================================================== */
+.portrait-in .pt-sheen{position:absolute;inset:-12% -30%;pointer-events:none;mix-blend-mode:overlay;transform:translateX(-110%);
+  background:linear-gradient(104deg,transparent 43%,rgba(255,236,190,.55) 48%,rgba(255,252,240,1) 50%,rgba(255,236,190,.55) 52%,transparent 57%);
+  animation:ptSheen calc(7s*var(--spd,1)) cubic-bezier(.45,.05,.3,1) calc(1s*var(--spd,1)) infinite;will-change:transform}
+@keyframes ptSheen{0%{transform:translateX(-110%)}32%,100%{transform:translateX(110%)}}
+/* quầng vàng rất nhẹ phía sau khung */
+.hero-visual::before{content:"";position:absolute;inset:2% -8%;z-index:0;pointer-events:none;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(248,217,139,.2),rgba(230,182,92,.06) 55%,transparent 74%);animation:ptBreath calc(7s*var(--spd,1)) ease-in-out infinite}
+@keyframes ptBreath{0%,100%{opacity:.65}50%{opacity:1}}
+[data-theme="light"] .hero-visual::before{background:radial-gradient(closest-side,rgba(184,121,50,.16),rgba(201,149,61,.05) 55%,transparent 74%)}
+.hero-visual .portrait{z-index:1;box-shadow:var(--portrait-shadow),0 0 56px -16px rgba(248,217,139,.22)}
+[data-theme="light"] .hero-visual .portrait{box-shadow:var(--portrait-shadow),0 0 56px -18px rgba(184,121,50,.25)}
+/* viền vàng ánh kim chạy quanh khung (dùng lại @property --pa và keyframes phRing) */
+.hero-visual .portrait::before{display:block!important;inset:0;z-index:3;border-radius:inherit;padding:2.5px;
+  background:conic-gradient(from var(--pa),transparent 0 32%,#B87932 42%,#F8D98B 52%,#FFF0C2 58%,#F8D98B 66%,#B87932 76%,transparent 90% 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
+  animation:phRing calc(9s*var(--spd,1)) linear infinite;pointer-events:none}
+[data-theme="light"] .hero-visual .portrait::before{background:conic-gradient(from var(--pa),transparent 0 32%,#8A5A22 42%,#C9953D 52%,#F0D890 58%,#C9953D 66%,#8A5A22 76%,transparent 90% 100%)}
+@media(hover:none){.hero-visual .portrait::before{animation:none;--pa:215deg}}
+.hero.paused .pt-sheen,.hero.paused .hero-visual::before,.hero.paused .hero-visual .portrait::before{animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){
+  .portrait-in .pt-sheen{display:none}
+  .hero-visual::before,.hero-visual .portrait::before{animation:none}
+  .hero-visual .portrait::before{background:linear-gradient(135deg,#B87932,#FFF0C2,#B87932)}
+}
+
+/* =====================================================================
+   HERO CHIPS — "Futures · CFDs" và "5 prop firms" lấp lánh
+   Chữ ánh kim bạch kim có vệt sáng vàng lướt qua theo chu kỳ, quầng vàng quanh chữ và viền thẻ; 5 điểm lóe kim cương/thẻ nhấp nháy xen kẽ;
+   một chùm lóe mở đầu khi vào trang. Chỉ dùng transform/opacity/background-position.
+   ===================================================================== */
+.chip{box-shadow:0 0 0 1px rgba(248,217,139,.3),0 0 26px -6px rgba(248,217,139,.55),var(--shadow)}
+[data-theme="light"] .chip{box-shadow:0 0 0 1px rgba(201,149,61,.4),0 0 24px -6px rgba(184,121,50,.5),var(--shadow)}
+.chip b{background-image:linear-gradient(100deg,transparent 40%,var(--gd-edge) 45%,var(--gd-core) 50%,var(--gd-edge) 55%,transparent 60%),var(--pt-base);
+  background-size:240% 100%,100% 100%;background-position:140% 0,0 0;background-repeat:no-repeat;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+  filter:drop-shadow(0 0 5px rgba(248,217,139,.4));
+  animation:chipShine calc(3.6s*var(--spd,1)) ease-in-out calc(1.1s*var(--spd,1)) infinite}
+[data-theme="light"] .chip b{filter:drop-shadow(0 0 4px rgba(184,121,50,.25))}
+.chip-b b{animation-delay:calc(2.3s*var(--spd,1))}
+@keyframes chipShine{0%{background-position:140% 0,0 0}34%,100%{background-position:-40% 0,0 0}}
+/* điểm lóe kim cương (sao bốn cánh) */
+.chip .spk{position:absolute;width:14px;height:14px;pointer-events:none;opacity:0;transform:scale(0);background:linear-gradient(135deg,#fff,#FFF0C2 55%,#F8D98B);
+  clip-path:polygon(50% 0,58% 42%,100% 50%,58% 58%,50% 100%,42% 58%,0 50%,42% 42%);filter:drop-shadow(0 0 3px rgba(255,236,170,.95));
+  animation:chipBurst calc(1.1s*var(--spd,1)) cubic-bezier(.2,.8,.2,1) calc(var(--bd,.6s)*var(--spd,1)) 1 both,chipTwinkle calc(var(--tw,3.4s)*var(--spd,1)) ease-in-out calc(2.2s*var(--spd,1) + var(--td,0s)) infinite}
+.chip .spk1{right:12px;top:6px;--tw:3.2s;--td:0s;--bd:.5s}
+.chip .spk2{right:46px;bottom:7px;width:10px;height:10px;--tw:3.9s;--td:1.1s;--bd:.75s}
+.chip .spk3{left:46%;top:5px;width:9px;height:9px;--tw:2.9s;--td:1.9s;--bd:.65s}
+.chip .spk4{left:10px;bottom:8px;width:12px;height:12px;--tw:3.6s;--td:.6s;--bd:.9s}
+.chip .spk5{right:78px;top:12px;width:8px;height:8px;--tw:3.1s;--td:2.4s;--bd:.85s}
+.chip-b .spk1{--td:.7s}.chip-b .spk2{--td:2s}.chip-b .spk3{--td:.2s}.chip-b .spk4{--td:1.5s}.chip-b .spk5{--td:.4s}
+@keyframes chipBurst{0%{opacity:0;transform:scale(0) rotate(0)}30%{opacity:1;transform:scale(1.9) rotate(45deg)}100%{opacity:0;transform:scale(0) rotate(100deg)}}
+@keyframes chipTwinkle{0%,55%{opacity:0;transform:scale(0) rotate(0)}66%{opacity:1;transform:scale(1.15) rotate(30deg)}80%{opacity:.85;transform:scale(.8) rotate(60deg)}92%,100%{opacity:0;transform:scale(0) rotate(90deg)}}
+[data-theme="light"] .chip .spk{background:linear-gradient(135deg,#F0D890,#D6A24C 55%,#B87932);filter:drop-shadow(0 0 3px rgba(214,162,76,.9))}
+.hero.paused .chip b,.hero.paused .chip .spk{animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){
+  .chip b{animation:none;background-image:var(--pt-base);background-size:100% 100%;background-position:0 0;filter:none}
+  .chip .spk{display:none}
+}
+
+/* La bàn căn giữa khung: tâm la bàn nằm ở ~57% chiều cao ảnh gốc → nâng ảnh lên 7% để tâm trùng tâm khung (ảnh gốc viền #0a0a0a nên phần hở phía dưới hòa vào nền) */
+.portrait-in .peak{translate:0 -7%;-webkit-mask-image:linear-gradient(#000 88%,transparent 100%);mask-image:linear-gradient(#000 88%,transparent 100%)}
+@media(max-width:767px){.portrait-in .peak{translate:none;object-position:50% 87%;-webkit-mask-image:none;mask-image:none}}

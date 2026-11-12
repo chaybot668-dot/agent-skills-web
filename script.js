@@ -85,8 +85,17 @@ const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 /* Hệ số tốc độ animation theo thiết bị: cùng biến --spd với CSS (desktop 1, tablet .93, mobile .82). `fast` = không phải desktop: kích hoạt sớm hơn khi cuộn. */
 const SPD = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--spd")) || 1;
 const FAST = SPD < 1;
-/* Hệ số tốc độ chạy ngang của các dải ảnh (chứng nhận, triết lý): desktop 1, tablet 1.45, điện thoại 2.4. Đọc lại mỗi lần dựng/đổi cỡ màn hình. */
-const stripSpeed = (kind) => innerWidth <= 767 ? (kind === "phil" ? 4.2 : 2.4) : innerWidth <= 1100 ? (kind === "phil" ? 2.4 : 1.45) : 1;   // dải Triết lý có ảnh to nên cần nhanh hơn để cảm giác tương đương dải chứng nhận
+/* Tốc độ dải ảnh chạy ngang (chứng nhận, triết lý). Thời lượng GỐC (--dur = chiều dài / 45px/s hoặc 40px/s) KHÔNG đổi; tốc độ chỉ là hệ số phát:
+   desktop/tablet (≥768px) ×1.5, điện thoại (≤767px) ×2. Hai mức cùng tính từ thời lượng gốc, không nhân chồng. Một breakpoint duy nhất, không chồng chéo. */
+const STRIP_MQ = matchMedia("(max-width: 767px)");
+const stripRate = () => STRIP_MQ.matches ? 2 : 1.5;
+const applyStripRate = track => {
+  if (!track || !track.getAnimations) return;
+  const r = stripRate();
+  track.getAnimations().forEach(a => { if (a.animationName === "achvRun" && a.playbackRate !== r) a.updatePlaybackRate(r); });   // đổi tốc độ mượt, giữ nguyên vị trí hiện tại
+};
+const onStripBreakpoint = () => $$(".achv-track.run").forEach(applyStripRate);
+STRIP_MQ.addEventListener ? STRIP_MQ.addEventListener("change", onStripBreakpoint) : STRIP_MQ.addListener(onStripBreakpoint);
 const hoverOk = matchMedia("(hover: hover)").matches;
 const store = {
   get(k) { try { return localStorage.getItem(k); } catch { return null; } },
@@ -436,9 +445,9 @@ if (hoverOk && !reduce) {
       $$("button", g2).forEach(b => { b.tabIndex = -1; });
       track.appendChild(g2);
       track.style.setProperty("--w", w + "px");
-      const f = stripSpeed();                                  // điện thoại chạy nhanh hơn nhiều so với desktop
-      track.style.setProperty("--dur", Math.max(w / (45 * f), 24 / f).toFixed(1) + "s");
+      track.style.setProperty("--dur", Math.max(w / 45, 24).toFixed(1) + "s");   // thời lượng gốc
       track.classList.add("run");
+      applyStripRate(track);
     });
   });
   builders.forEach(b => b());
@@ -941,7 +950,8 @@ if ("serviceWorker" in navigator && (location.protocol === "https:" || location.
   const orig = [...box.children];
   orig.forEach(f => { const s = document.createElement("span"); s.className = "ph-sheen"; s.setAttribute("aria-hidden", "true"); f.insertBefore(s, f.querySelector("figcaption")); $("img", f).loading = "eager"; f.classList.add("in"); });
   const build = () => {
-    box.innerHTML = ""; box.className = "achv phil-run";
+    const wasOff = box.classList.contains("off");   // giữ trạng thái "ngoài màn hình → tạm dừng" khi dựng lại dải
+    box.innerHTML = ""; box.className = "achv phil-run"; if (wasOff) box.classList.add("off");
     const track = document.createElement("div"); track.className = "achv-track";
     const g = document.createElement("div"); g.className = "achv-group"; track.appendChild(g); box.appendChild(track);
     orig.forEach(f => g.appendChild(f));
@@ -950,9 +960,9 @@ if ("serviceWorker" in navigator && (location.protocol === "https:" || location.
     const w = g.getBoundingClientRect().width, g2 = g.cloneNode(true);
     g2.setAttribute("aria-hidden", "true"); track.appendChild(g2);
     track.style.setProperty("--w", w + "px");
-    const f = stripSpeed("phil");
-    track.style.setProperty("--dur", Math.max(w / (40 * f), 28 / f).toFixed(1) + "s");
+    track.style.setProperty("--dur", Math.max(w / 40, 28).toFixed(1) + "s");   // thời lượng gốc
     track.classList.add("run");
+    applyStripRate(track);
   };
   build();
   let t, lastW = innerWidth;
@@ -962,7 +972,7 @@ if ("serviceWorker" in navigator && (location.protocol === "https:" || location.
 /* dừng dải chứng nhận khi ngoài màn hình (tiết kiệm pin) */
 (function achvIdle() {
   if (!("IntersectionObserver" in window)) return;
-  const io = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle("off", !e.isIntersecting)));
+  const io = new IntersectionObserver(es => es.forEach(e => { e.target.classList.toggle("off", !e.isIntersecting); if (e.isIntersecting) applyStripRate($(".achv-track.run", e.target)); }));
   $$(".achv").forEach(a => io.observe(a));
 })();
 
