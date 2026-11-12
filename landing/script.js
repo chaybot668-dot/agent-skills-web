@@ -424,7 +424,7 @@ if (hoverOk && !reduce) {
   const card = c => {
     const alt = `Certificate: ${c.title} — ${c.firm}`;
     const ver = /^https?:\/\//i.test(c.verify || "") ? ` · <a href="${esc(c.verify)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Verify</a>` : "";
-    return `<button class="achv-card" type="button"><span class="achv-fig"><img src="${esc(c.src)}" alt="${esc(alt)}" width="${+c.w}" height="${+c.h}" loading="lazy" decoding="async"><span class="ph-sheen" aria-hidden="true"></span></span><span class="achv-cap"><b>${esc(c.firm)}</b> · ${esc(c.title)}${ver}</span></button>`;
+    return `<div class="achv-card"><span class="achv-fig"><img src="${esc(c.src)}" alt="${esc(alt)}" width="${+c.w}" height="${+c.h}" loading="lazy" decoding="async"><span class="ph-sheen" aria-hidden="true"></span></span><span class="achv-cap"><b>${esc(c.firm)}</b> · ${esc(c.title)}${ver}</span></div>`;
   };
   const builders = [];
   $$(".achv-track[data-certs]").forEach(track => {
@@ -457,17 +457,7 @@ if (hoverOk && !reduce) {
     t = setTimeout(() => { if (Math.abs(innerWidth - lastW) > 40) { lastW = innerWidth; builders.forEach(b => b()); } }, 250);
   });
 
-  const lb = $("#lightbox"), img = $("#lbImg");
-  const close = () => { lb.hidden = true; };
-  document.addEventListener("click", e => {
-    const c = e.target.closest(".achv-track .achv-card");
-    if (!c) return;
-    const im = $("img", c);
-    img.src = im.currentSrc || im.src; img.alt = im.alt; lb.hidden = false;
-  });
-  lb.addEventListener("click", close);
-  $("#lbClose").addEventListener("click", close);
-  addEventListener("keydown", e => { if (e.key === "Escape") close(); });
+  // Ảnh chỉ để xem: không mở ảnh phóng to khi bấm, dải không dừng khi trỏ chuột.
 })();
 
 
