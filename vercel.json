@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": "site/.vitepress/dist",
-  "installCommand": "npm install"
+  "installCommand": "echo skip",
+  "buildCommand": "echo skip",
+  "outputDirectory": "mysite"
 }
