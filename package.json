@@ -1,0 +1,14 @@
+{
+  "name": "agent-skills-web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prepare-site": "node scripts/build-site.js",
+    "dev": "npm run prepare-site && vitepress dev site",
+    "build": "npm run prepare-site && vitepress build site",
+    "preview": "vitepress preview site"
+  },
+  "devDependencies": {
+    "vitepress": "1.6.3"
+  }
+}
