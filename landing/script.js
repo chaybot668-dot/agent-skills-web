@@ -424,14 +424,14 @@ if (hoverOk && !reduce) {
     const ver = /^https?:\/\//i.test(c.verify || "") ? ` · <a href="${esc(c.verify)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Verify</a>` : "";
     return `<div class="achv-card"><span class="achv-fig"><img src="${esc(c.src)}" alt="${esc(alt)}" width="${+c.w}" height="${+c.h}" loading="lazy" decoding="async"><span class="ph-sheen" aria-hidden="true"></span></span><span class="achv-cap"><b>${esc(c.firm)}</b> · ${esc(c.title)}${ver}</span></div>`;
   };
-  const builders = [];
+  const builders = [], bad = new Set();
   $$(".achv-track[data-certs]").forEach(track => {
     const list = SITE.certificates[track.dataset.certs] || [];
     const wrap = track.closest("[data-proof]");
     if (!list.length) { wrap.hidden = true; return; }
     wrap.hidden = false;
-    const items = list.map(card).join("");
     builders.push(() => {
+      const items = list.filter(c => !bad.has(c.src)).map(card).join("");   // bỏ ảnh không tải được: không để lại thẻ ảnh vỡ
       track.innerHTML = "";
       const g = document.createElement("div"); g.className = "achv-group"; track.appendChild(g);
       let guard = 0;
@@ -448,7 +448,10 @@ if (hoverOk && !reduce) {
       applyStripRate(track);
     });
   });
-  builders.forEach(b => b());
+  // kiểm tra ảnh trước khi dựng dải (tối đa 4 giây); ảnh lỗi/đã gỡ sẽ bị loại khỏi dải
+  const srcs = [...new Set(Object.values(SITE.certificates).flat().map(c => c.src))];
+  const probe = src => new Promise(res => { const i = new Image(); i.onload = () => res(); i.onerror = () => { bad.add(src); res(); }; i.src = src; });
+  Promise.race([Promise.all(srcs.map(probe)), new Promise(r => setTimeout(r, 4000))]).then(() => builders.forEach(b => b()));
   let t, lastW = innerWidth;
   addEventListener("resize", () => {
     clearTimeout(t);
