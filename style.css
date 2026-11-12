@@ -359,10 +359,9 @@ h1:hover em,h2:hover em,.big-quote:hover em{background-position:100% 0}
 .achv{position:relative;padding:20px 0;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
 .achv-track{display:flex;width:max-content;animation:achv var(--dur,40s) linear infinite;will-change:transform}
 .achv.rev .achv-track{animation-direction:reverse}
-.achv:hover .achv-track,.achv:focus-within .achv-track{animation-play-state:paused}
 .achv-group{display:flex;gap:28px;padding-right:28px}
 @keyframes achv{to{transform:translateX(calc(var(--w,1000px) * -1))}}
-.achv-card{flex:none;display:flex;flex-direction:column;align-items:center;gap:14px;cursor:zoom-in;transition:transform calc(.45s*var(--spd,1)) var(--ease)}
+.achv-card{flex:none;display:flex;flex-direction:column;align-items:center;gap:14px;cursor:default;transition:transform calc(.45s*var(--spd,1)) var(--ease)}
 .achv-card img{height:300px;width:auto;border-radius:14px;border:1px solid var(--media-line);box-shadow:var(--media-shadow);transition:box-shadow calc(.4s*var(--spd,1)),border-color calc(.4s*var(--spd,1))}
 .achv-card:hover,.achv-card:focus-visible{transform:translateY(-8px) scale(1.02)}
 .achv-card:hover img{border-color:var(--line-hi);box-shadow:var(--media-shadow-hi)}
@@ -1010,7 +1009,7 @@ span.soc-card .soc-cta{color:var(--text-4);font-weight:500}
 .achv-track.run{margin:0;width:max-content;animation:achvRun var(--dur,40s) linear infinite;will-change:transform}
 .achv.rev .achv-track.run{animation-direction:reverse}
 .achv-track.run .achv-group{padding-right:28px}
-.achv:hover .achv-track.run,.achv:focus-within .achv-track.run,.achv.off .achv-track.run{animation-play-state:paused}
+.achv.off .achv-track.run{animation-play-state:paused}
 @keyframes achvRun{to{transform:translateX(calc(var(--w,1000px) * -1))}}
 
 
@@ -1670,7 +1669,6 @@ h1:not(.split),.sec-head h2:not(.split),.big-quote:not(.split),.cn-h:not(.split)
 
 /* màn hình cảm ứng: chạm hay đóng ảnh phóng to KHÔNG được làm dải ảnh dừng (":hover"/focus bị kẹt sau khi chạm). Chỉ dừng khi ngoài màn hình. */
 @media(hover:none){
-  .achv:hover .achv-track.run,.achv:focus-within .achv-track.run{animation-play-state:running}
   .achv.off .achv-track.run{animation-play-state:paused}
 }
 
