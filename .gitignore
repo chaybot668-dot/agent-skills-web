@@ -13,3 +13,4 @@ site/docs/
 site/skills.json
 site/.vitepress/dist/
 site/.vitepress/cache/
+.vercel
