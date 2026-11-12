@@ -1685,48 +1685,33 @@ h1:not(.split),.sec-head h2:not(.split),.big-quote:not(.split),.cn-h:not(.split)
 }
 
 /* =====================================================================
-   HERO COMPASS — la bàn rực rỡ: tia sáng vàng quay chậm từ tâm, sóng ping như radar, vệt sáng quét,
-   quầng vàng "thở" phía sau và viền vàng ánh kim chạy quanh khung. Tâm la bàn ≈ (50%, 57.3%) của ảnh.
-   Chỉ dùng transform/opacity (nhẹ cho GPU); viền xoay (@property) chỉ chạy trên thiết bị có chuột.
+   HERO COMPASS — ánh sáng phản chiếu kiểu ánh kim: một vệt sáng lướt chéo qua la bàn (mix-blend-mode: overlay nên chỉ làm sáng thêm các nét la bàn, nền tối không bị ảnh hưởng), cùng viền vàng ánh kim chạy quanh khung và quầng vàng rất nhẹ phía sau.
+   Chỉ dùng transform/opacity; viền xoay (@property) chỉ chạy trên thiết bị có chuột.
    ===================================================================== */
-.portrait-in .pt-rays,.portrait-in .pt-ping,.portrait-in .pt-sheen{position:absolute;pointer-events:none}
-/* tia sáng: 12 tia mảnh từ tâm, mờ dần ra ngoài, quay một vòng/70s */
-.portrait-in .pt-rays{left:50%;top:57.3%;width:170%;aspect-ratio:1;margin:-85% 0 0 -85%;opacity:.85;
-  background:radial-gradient(circle at 50% 50%,rgba(255,226,150,.5) 0,rgba(248,217,139,.16) 7%,transparent 14%),repeating-conic-gradient(from 0deg,rgba(255,236,170,.55) 0 2.6deg,transparent 2.6deg 30deg),repeating-conic-gradient(from 10deg,rgba(248,217,139,.28) 0 .8deg,transparent .8deg 10deg);
-  -webkit-mask-image:radial-gradient(circle at 50% 50%,#000 0,#000 10%,transparent 44%);mask-image:radial-gradient(circle at 50% 50%,#000 0,#000 10%,transparent 44%);
-  animation:ptSpin calc(70s*var(--spd,1)) linear infinite;will-change:transform}
-@keyframes ptSpin{to{transform:rotate(360deg)}}
-/* sóng ping lan từ tâm la bàn */
-.portrait-in .pt-ping{left:50%;top:57.3%;width:76%;aspect-ratio:1;margin:-38% 0 0 -38%;border-radius:50%;border:1.5px solid rgba(248,217,139,.7);opacity:0;
-  box-shadow:0 0 18px rgba(248,217,139,.35),inset 0 0 18px rgba(248,217,139,.18);transform:scale(.25);animation:ptPing calc(5.2s*var(--spd,1)) cubic-bezier(.2,.8,.2,1) infinite}
-@keyframes ptPing{0%{transform:scale(.25);opacity:0}8%{opacity:.75}70%,100%{transform:scale(1.05);opacity:0}}
-/* vệt sáng vàng quét qua mặt ảnh */
-.portrait-in .pt-sheen{inset:0;background:linear-gradient(112deg,transparent 40%,rgba(255,240,194,.2) 50%,transparent 60%);transform:translateX(-130%);animation:ptSheen calc(8s*var(--spd,1)) var(--ease-io,ease-in-out) infinite}
-@keyframes ptSheen{0%,55%{transform:translateX(-130%)}85%,100%{transform:translateX(130%)}}
-/* quầng vàng phía sau khung, thở chậm */
+.portrait-in .pt-sheen{position:absolute;inset:-12% -30%;pointer-events:none;mix-blend-mode:overlay;transform:translateX(-110%);
+  background:linear-gradient(104deg,transparent 43%,rgba(255,236,190,.55) 48%,rgba(255,252,240,1) 50%,rgba(255,236,190,.55) 52%,transparent 57%);
+  animation:ptSheen calc(7s*var(--spd,1)) cubic-bezier(.45,.05,.3,1) calc(1s*var(--spd,1)) infinite;will-change:transform}
+@keyframes ptSheen{0%{transform:translateX(-110%)}32%,100%{transform:translateX(110%)}}
+/* quầng vàng rất nhẹ phía sau khung */
 .hero-visual::before{content:"";position:absolute;inset:2% -8%;z-index:0;pointer-events:none;border-radius:50%;
-  background:radial-gradient(closest-side,rgba(248,217,139,.5),rgba(230,182,92,.16) 55%,transparent 74%);animation:ptBreath calc(6.5s*var(--spd,1)) ease-in-out infinite}
-@keyframes ptBreath{0%,100%{opacity:.55;transform:scale(.96)}50%{opacity:1;transform:scale(1.04)}}
-[data-theme="light"] .hero-visual::before{background:radial-gradient(closest-side,rgba(184,121,50,.26),rgba(201,149,61,.08) 55%,transparent 74%)}
-.hero-visual .portrait{z-index:1}
+  background:radial-gradient(closest-side,rgba(248,217,139,.2),rgba(230,182,92,.06) 55%,transparent 74%);animation:ptBreath calc(7s*var(--spd,1)) ease-in-out infinite}
+@keyframes ptBreath{0%,100%{opacity:.65}50%{opacity:1}}
+[data-theme="light"] .hero-visual::before{background:radial-gradient(closest-side,rgba(184,121,50,.16),rgba(201,149,61,.05) 55%,transparent 74%)}
+.hero-visual .portrait{z-index:1;box-shadow:var(--portrait-shadow),0 0 56px -16px rgba(248,217,139,.22)}
+[data-theme="light"] .hero-visual .portrait{box-shadow:var(--portrait-shadow),0 0 56px -18px rgba(184,121,50,.25)}
 /* viền vàng ánh kim chạy quanh khung (dùng lại @property --pa và keyframes phRing) */
-.hero-visual .portrait::before{display:block!important;inset:0;z-index:3;border-radius:inherit;padding:3px;
-  background:conic-gradient(from var(--pa),transparent 0 30%,#B87932 40%,#F8D98B 52%,#FFF0C2 60%,#F8D98B 70%,#B87932 80%,transparent 92% 100%);
+.hero-visual .portrait::before{display:block!important;inset:0;z-index:3;border-radius:inherit;padding:2.5px;
+  background:conic-gradient(from var(--pa),transparent 0 32%,#B87932 42%,#F8D98B 52%,#FFF0C2 58%,#F8D98B 66%,#B87932 76%,transparent 90% 100%);
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
-  animation:phRing calc(7s*var(--spd,1)) linear infinite;pointer-events:none}
-[data-theme="light"] .hero-visual .portrait::before{background:conic-gradient(from var(--pa),transparent 0 30%,#8A5A22 40%,#C9953D 52%,#F0D890 60%,#C9953D 70%,#8A5A22 80%,transparent 92% 100%)}
-/* cảm ứng: bỏ viền xoay (vẽ lại từng khung hình) — viền vàng giữ nguyên, đứng yên */
+  animation:phRing calc(9s*var(--spd,1)) linear infinite;pointer-events:none}
+[data-theme="light"] .hero-visual .portrait::before{background:conic-gradient(from var(--pa),transparent 0 32%,#8A5A22 42%,#C9953D 52%,#F0D890 58%,#C9953D 66%,#8A5A22 76%,transparent 90% 100%)}
 @media(hover:none){.hero-visual .portrait::before{animation:none;--pa:215deg}}
-/* tạm dừng khi hero ra khỏi màn hình (cơ chế .hero.paused có sẵn) */
-.hero.paused .pt-rays,.hero.paused .pt-ping,.hero.paused .pt-sheen,.hero.paused .hero-visual::before,.hero.paused .hero-visual .portrait::before{animation-play-state:paused}
+.hero.paused .pt-sheen,.hero.paused .hero-visual::before,.hero.paused .hero-visual .portrait::before{animation-play-state:paused}
 @media(prefers-reduced-motion:reduce){
-  .portrait-in .pt-rays,.portrait-in .pt-ping,.portrait-in .pt-sheen,.hero-visual::before,.hero-visual .portrait::before{animation:none}
-  .portrait-in .pt-ping,.portrait-in .pt-sheen{display:none}
+  .portrait-in .pt-sheen{display:none}
+  .hero-visual::before,.hero-visual .portrait::before{animation:none}
   .hero-visual .portrait::before{background:linear-gradient(135deg,#B87932,#FFF0C2,#B87932)}
 }
-
-.hero-visual .portrait{box-shadow:var(--portrait-shadow),0 0 70px -12px rgba(248,217,139,.45)}
-[data-theme="light"] .hero-visual .portrait{box-shadow:var(--portrait-shadow),0 0 70px -14px rgba(184,121,50,.5)}
 
 /* =====================================================================
    HERO CHIPS — "Futures · CFDs" và "5 prop firms" lấp lánh
