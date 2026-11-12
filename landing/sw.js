@@ -1,6 +1,6 @@
 /* Service worker: HTML/CSS/JS ưu tiên mạng (luôn nhận bản mới), ảnh dùng cache trước; có trang offline dự phòng.
    Khi đổi tệp tĩnh, tăng V để dọn cache cũ. */
-const V = "lavient-v4";
+const V = "lavient-v5";
 const SHELL = ["./", "index.html", "style.css", "script.js", "offline.html", "manifest.webmanifest", "img/icon-192.png"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(V).then(c => c.addAll(SHELL)).then(() => self.skipWaiting())); });
 self.addEventListener("activate", e => {
