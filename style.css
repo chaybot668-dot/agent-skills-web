@@ -1688,12 +1688,21 @@ h1:not(.split),.sec-head h2:not(.split),.big-quote:not(.split),.cn-h:not(.split)
    HERO COMPASS — ánh sáng phản chiếu kiểu ánh kim: một vệt sáng lướt chéo qua la bàn (mix-blend-mode: overlay nên chỉ làm sáng thêm các nét la bàn, nền tối không bị ảnh hưởng), cùng viền vàng ánh kim chạy quanh khung và quầng vàng rất nhẹ phía sau.
    Chỉ dùng transform/opacity; viền xoay (@property) chỉ chạy trên thiết bị có chuột.
    ===================================================================== */
-.portrait-in .pt-sheen{position:absolute;inset:-12% -30%;pointer-events:none;mix-blend-mode:overlay;transform:translateX(-110%);
-  background:linear-gradient(104deg,transparent 43%,rgba(255,236,190,.55) 48%,rgba(255,252,240,1) 50%,rgba(255,236,190,.55) 52%,transparent 57%);
-  animation:ptSheen calc(7s*var(--spd,1)) cubic-bezier(.45,.05,.3,1) calc(1s*var(--spd,1)) infinite;will-change:transform}
-@keyframes ptSheen{0%{transform:translateX(-110%)}32%,100%{transform:translateX(110%)}}
+.pt-globe{position:absolute;inset:0;animation:ptGlobe calc(18s*var(--spd,1)) ease-in-out infinite;will-change:transform}
+@keyframes ptGlobe{0%,100%{transform:perspective(1100px) rotateY(-10deg) scale(1.1)}50%{transform:perspective(1100px) rotateY(10deg) scale(1.1)}}
+/* luồng sáng ánh kim: bản sao la bàn sáng hơn, chỉ hiện trong một dải mặt nạ lướt qua — không dùng mix-blend-mode (lỗi khi khung nghiêng 3D lúc hover) */
+.portrait-in .pt-sheen{position:absolute;inset:0;pointer-events:none;background:url(img/hero-peak.webp) 50% 50%/cover no-repeat;translate:0 -7%;
+  filter:brightness(2.1) sepia(1) saturate(2.4) hue-rotate(-6deg);
+  -webkit-mask:linear-gradient(104deg,transparent 40%,rgba(0,0,0,.55) 47%,#000 50%,rgba(0,0,0,.55) 53%,transparent 60%) 90% 0/300% 100% no-repeat;
+  mask:linear-gradient(104deg,transparent 40%,rgba(0,0,0,.55) 47%,#000 50%,rgba(0,0,0,.55) 53%,transparent 60%) 90% 0/300% 100% no-repeat;
+  animation:ptSheen calc(7s*var(--spd,1)) cubic-bezier(.45,.05,.3,1) calc(1s*var(--spd,1)) infinite}
+@keyframes ptSheen{0%{-webkit-mask-position:90% 0;mask-position:90% 0}32%,100%{-webkit-mask-position:10% 0;mask-position:10% 0}}
+@media(max-width:767px){.portrait-in .pt-sheen{translate:none;background-position:50% 87%}}
+.js .reveal-img .pt-sheen{transform:scale(1.14);transition:transform calc(1.4s*var(--spd,1)) var(--ease)}
+.js .reveal-img.in .pt-sheen{transform:scale(1)}
+@media(hover:hover) and (min-width:768px){.js .reveal-img.in:hover .pt-sheen{transform:scale(1.045)}}
 /* quầng vàng rất nhẹ phía sau khung */
-.hero-visual::before{content:"";position:absolute;inset:2% -8%;z-index:0;pointer-events:none;border-radius:50%;
+.hero-visual::before{content:"";position:absolute;inset:2% -8%;z-index:0;transform:translateZ(-400px) scale(1.36);pointer-events:none;border-radius:50%;
   background:radial-gradient(closest-side,rgba(248,217,139,.2),rgba(230,182,92,.06) 55%,transparent 74%);animation:ptBreath calc(7s*var(--spd,1)) ease-in-out infinite}
 @keyframes ptBreath{0%,100%{opacity:.65}50%{opacity:1}}
 [data-theme="light"] .hero-visual::before{background:radial-gradient(closest-side,rgba(184,121,50,.16),rgba(201,149,61,.05) 55%,transparent 74%)}
@@ -1706,9 +1715,10 @@ h1:not(.split),.sec-head h2:not(.split),.big-quote:not(.split),.cn-h:not(.split)
   animation:phRing calc(9s*var(--spd,1)) linear infinite;pointer-events:none}
 [data-theme="light"] .hero-visual .portrait::before{background:conic-gradient(from var(--pa),transparent 0 32%,#8A5A22 42%,#C9953D 52%,#F0D890 58%,#C9953D 66%,#8A5A22 76%,transparent 90% 100%)}
 @media(hover:none){.hero-visual .portrait::before{animation:none;--pa:215deg}}
-.hero.paused .pt-sheen,.hero.paused .hero-visual::before,.hero.paused .hero-visual .portrait::before{animation-play-state:paused}
+.hero.paused .pt-sheen,.hero.paused .pt-globe,.hero.paused .hero-visual::before,.hero.paused .hero-visual .portrait::before{animation-play-state:paused}
 @media(prefers-reduced-motion:reduce){
   .portrait-in .pt-sheen{display:none}
+  .pt-globe{animation:none}
   .hero-visual::before,.hero-visual .portrait::before{animation:none}
   .hero-visual .portrait::before{background:linear-gradient(135deg,#B87932,#FFF0C2,#B87932)}
 }
